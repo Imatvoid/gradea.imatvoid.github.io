@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Maven -- 第一个插件 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561469493932">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561469493932" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/gridea/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Maven -- 第一个插件</h2>
+            <div class="post-date">2018-05-08</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="新建项目">新建项目</h2>
+<p>在idea中新建一个插件项目<br>
+<img src="https://imatvoid.github.io/gridea//post-images/1561467714031.png" alt="">
+注意这里要保证maven的镜像配好,网络畅通,不然idea自动生成项目架构会有问题.</p>
+<h2 id="说明">说明</h2>
+<p>可以在src包下找到MyMojo类,它继承了AbstractMojo,我们只需要实现execute方法就可以实现一个简单的插件.<br>
+idea默认已经为我们生成了一个demo<br>
+它的作用是在项目输出目录创建一个touch文件.</p>
+<pre><code class="language-java">/**
+* Goal which touches a timestamp file.
+*
+* @goal touch
+* @phase process-sources
+*/
+public class MyMojo
+       extends AbstractMojo {
+   /**
+    * Location of the file.
+    *
+    * @parameter expression=&quot;${project.build.directory}&quot;
+    * @required
+    */
+   private File outputDirectory;
+
+   public void execute()
+           throws MojoExecutionException {
+       File f = outputDirectory;
+
+       if (!f.exists()) {
+           f.mkdirs();
+       省略...
+   }
+}
+</code></pre>
+<p>注意 @goal touch和@phase process-sources 实际是使用注释的方式指定的插件的一个goal(目标)和绑定的周期. 并不推荐这种方式  我们可以使用注解的方式.引入如下依赖:</p>
+<pre><code class="language-xml"> &lt;dependency&gt;
+      &lt;groupId&gt;org.apache.maven.plugin-tools&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-plugin-annotations&lt;/artifactId&gt;
+      &lt;version&gt;3.4&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
+<p>替换代码如下:</p>
+<pre><code class="language-java">/**
+ * Goal which touches a timestamp file.
+ */
+@Mojo(name = &quot;touch&quot;, defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+public class MyMojo
+        extends AbstractMojo {
+
+    /**
+     * Location of the output directory.
+     **/
+    @Parameter( property = &quot;project.build.directory&quot;)
+    private File outputDirectory;
+
+    public void execute()
+            throws MojoExecutionException {
+        File f = outputDirectory;
+
+        System.out.println(&quot;make a touch file&quot;);
+				
+				省略
+    }
+}
+</code></pre>
+<h2 id="在其他项目中测试">在其他项目中测试</h2>
+<p>在自己的插件项目中install一下,安装到本地仓库<br>
+在另一个测试项目的POM中引入插件,配置goal和绑定周期.</p>
+<pre><code class="language-xml"> &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.atvoid.maven.plugin&lt;/groupId&gt;
+                &lt;artifactId&gt;check-maven-conf&lt;/artifactId&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;touch&lt;/id&gt;
+                        &lt;phase&gt;process-sources&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;touch&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+</code></pre>
+<p>然后可以在idea右侧的maven列表选项里找到我们的插件
+<img src="https://imatvoid.github.io/gridea//post-images/1561468487635.png" alt="">
+双击一下就会发现实现了在输出文件夹中生成一个touch文件的效果.
+<img src="https://imatvoid.github.io/gridea//post-images/1561469166113.png" alt=""></p>
+<p>后续进阶我们可以实现一个校验配置文件的插件.</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/KUMZwPCyy" class="tag">
+                    maven
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
+                  <h3 class="post-title">
+                    Maven 踩坑 -- java.lang.OutOfMemoryError
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
