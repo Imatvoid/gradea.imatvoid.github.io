@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561469493932">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561646422022">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
 
@@ -31,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
-        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561469493932" class="site-logo">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561646422022" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -98,7 +98,11 @@
             <div class="post-date">2018-05-08</div>
             
             <div class="post-content">
-              <!-- more -->
+              <blockquote>
+<p>A Mojo is really just a goal in Maven, and plug-ins consist of any number of goals (Mojos).</p>
+</blockquote>
+<!-- more -->
+<p>如果对maven已经有了了解,并且英文不错的话请直接阅读<a href="https://maven.apache.org/guides/plugin/guide-java-plugin-development.html">maven文档</a></p>
 <h2 id="新建项目">新建项目</h2>
 <p>在idea中新建一个插件项目<br>
 <img src="https://imatvoid.github.io/gridea//post-images/1561467714031.png" alt="">
@@ -190,6 +194,8 @@ public class MyMojo
 双击一下就会发现实现了在输出文件夹中生成一个touch文件的效果.
 <img src="https://imatvoid.github.io/gridea//post-images/1561469166113.png" alt=""></p>
 <p>后续进阶我们可以实现一个校验配置文件的插件.</p>
+<h2 id="参考">参考</h2>
+<p>https://maven.apache.org/guides/plugin/guide-java-plugin-development.html</p>
 
             </div>
             
