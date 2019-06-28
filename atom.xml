@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://imatvoid.github.io/gridea/</id>
+    <id>/home/atvoid/文档/我的坚果云/Gridea/output</id>
     <title>Imatvoid </title>
-    <updated>2019-06-27T14:42:15.683Z</updated>
+    <updated>2019-06-28T15:47:24.419Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://imatvoid.github.io/gridea/"/>
-    <link rel="self" href="https://imatvoid.github.io/gridea//atom.xml"/>
+    <link rel="alternate" href="/home/atvoid/文档/我的坚果云/Gridea/output"/>
+    <link rel="self" href="/home/atvoid/文档/我的坚果云/Gridea/output/atom.xml"/>
     <subtitle>未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 </subtitle>
-    <logo>https://imatvoid.github.io/gridea//images/avatar.png</logo>
-    <icon>https://imatvoid.github.io/gridea//favicon.ico</icon>
+    <logo>/home/atvoid/文档/我的坚果云/Gridea/output/images/avatar.png</logo>
+    <icon>/home/atvoid/文档/我的坚果云/Gridea/output/favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
     <entry>
         <title type="html"><![CDATA[Maven -- 第一个插件]]></title>
-        <id>https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian</id>
-        <link href="https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian">
+        <id>/home/atvoid/文档/我的坚果云/Gridea/output/post/maven-di-yi-ge-cha-jian/index.html</id>
+        <link href="/home/atvoid/文档/我的坚果云/Gridea/output/post/maven-di-yi-ge-cha-jian/index.html">
         </link>
         <updated>2018-05-08T12:58:33.000Z</updated>
         <summary type="html"><![CDATA[<blockquote>
@@ -27,9 +27,20 @@
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[设计模式 -- 装饰者模式]]></title>
+        <id>/home/atvoid/文档/我的坚果云/Gridea/output/post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi/index.html</id>
+        <link href="/home/atvoid/文档/我的坚果云/Gridea/output/post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi/index.html">
+        </link>
+        <updated>2017-06-28T03:16:19.000Z</updated>
+        <summary type="html"><![CDATA[<p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Maven 踩坑 -- java.lang.OutOfMemoryError]]></title>
-        <id>https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space</id>
-        <link href="https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
+        <id>/home/atvoid/文档/我的坚果云/Gridea/output/post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space/index.html</id>
+        <link href="/home/atvoid/文档/我的坚果云/Gridea/output/post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space/index.html">
         </link>
         <updated>2016-02-18T04:41:45.000Z</updated>
         <summary type="html"><![CDATA[<p>java.lang.OutOfMemoryError: Java heap space</p>

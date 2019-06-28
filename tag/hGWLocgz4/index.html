@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Maven 踩坑 -- java.lang.OutOfMemoryError | Imatvoid </title>
+<title>设计模式 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -93,44 +93,29 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h2>
-            <div class="post-date">2016-02-18</div>
-            
-            <div class="post-content">
-              <p>java.lang.OutOfMemoryError: Java heap space</p>
-<!-- more -->
-<p>maven使用的堆内存溢出了,调大它的值即可.</p>
-<h2 id="在idea中">在idea中</h2>
-<p>file-&gt;setting-&gt;Build,Execution,Deployment-&gt;Maven-&gt;Runner<br>
-VM option栏设置jvm参数:-Xms1024m -Xmx1024m -Xss1m<br>
-<img src="/home/atvoid/%E6%96%87%E6%A1%A3/%E6%88%91%E7%9A%84%E5%9D%9A%E6%9E%9C%E4%BA%91/Gridea/output/post-images/1561351651144.png" alt="maven jvm 参数设置"></p>
-<h2 id="使用命令行">使用命令行</h2>
-<p>在环境变量中加上<br>
-<code>export MAVEN_OPTS=&quot;-Xms1024m -Xmx1024m -Xss1m&quot;</code><br>
-linux下比如在~/.bash_profile中加入,然后新开个shell.</p>
-<h2 id="附录">附录</h2>
-<p>再比如解决自动热部署时java.lang.OutOfMemoryError: PermGen space问题<br>
-需要增大PermGen区，默认为 64m，设置方法为：<br>
-<code>-XX:MaxPermSize=128M</code><br>
-jdk8+后移除了PermGen,使用元数据区实现,对应的设置项为:<br>
-<code>-XX:MaxMetaspaceSize=128m</code></p>
+          <h2 class="current-tag">标签: 设计模式</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="/home/atvoid/文档/我的坚果云/Gridea/output/post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi/index.html">
+                  <h2 class="post-title">设计模式 -- 装饰者模式</h2>
+                </a>
+                <div class="post-date">
+                  2017-06-28
+                </div>
+                <div class="post-abstract">
+                  <p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="/home/atvoid/文档/我的坚果云/Gridea/output/tag/KUMZwPCyy/index.html" class="tag">
-                    maven
-                  </a>
-                
+                </div>
               </div>
-            
-            
+              
+            </article>
+          
 
-            
-
-          </div>
+          <div class="pagination-container">
+  
+  
+</div>
 
         </div>
       </div>
