@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式 -- 工厂模式 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式 -- 工厂模式</h2>
+            <div class="post-date">2018-01-28</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="简单工厂模式">简单工厂模式</h2>
+<blockquote>
+<p>简单工厂模式其实并不算是一种设计模式，更多的时候是一种编程习惯。</p>
+</blockquote>
+<h3 id="写法">写法</h3>
+<p>使用一个统一的工厂类,以鼠标为例子,有戴尔鼠标,有惠普鼠标
+<img src="https://imatvoid.github.io/gridea//post-images/1561873543463.png" alt=""></p>
+<pre><code class="language-java">public class MouseFactory {
+          public static final String TAG = &quot;MouseFactory&quot;;
+          public static Mouse getMouse(String type) {
+              Mouse mouse = null;
+              if (type.equalsIgnoreCase(&quot;dell&quot;)) {
+                  mouse = new DellMouse();
+              } else if (type.equalsIgnoreCase(&quot;hp&quot;)) {
+                  mouse = new HpMouse();
+              } 
+              return mouse;
+          }
+   }
+</code></pre>
+<h3 id="优点">优点</h3>
+<p>是对一些业务代码的简单优化(简单不一定就不好)</p>
+<h3 id="缺点">缺点</h3>
+<ul>
+<li>工厂类集中了所有实例（产品）的创建逻辑，一旦这个工厂不能正常工作，整个系统都会受到影响；</li>
+<li>违背“开放 - 关闭原则”，一旦添加新产品就不得不修改工厂类的逻辑，这样就会造成工厂逻辑过于复杂。</li>
+<li>static 静态方法不能被继承和重写，会造成工厂角色无法形成基于继承的等级结构</li>
+</ul>
+<h2 id="工厂方法模式最常用">工厂方法模式(最常用)</h2>
+<blockquote>
+<p>工厂方法模式把具体产品的创建推迟到工厂类的子类（具体工厂）中，此时工厂类不再负责所有产品的创建，而只是给出具体工厂必须实现的接口</p>
+</blockquote>
+<p><img src="https://imatvoid.github.io/gridea//post-images/1561704396251.png" alt=""></p>
+<h3 id="写法-2">写法</h3>
+<p>工厂模式也就是鼠标工厂是个父类，有生产鼠标这个接口。<br>
+戴尔鼠标工厂，惠普鼠标工厂继承它，可以分别生产戴尔鼠标，惠普鼠标。<br>
+生产哪种鼠标不再由参数决定，而是创建鼠标工厂时，由戴尔鼠标工厂创建。<br>
+<img src="https://imatvoid.github.io/gridea//post-images/1561873918940.png" alt=""></p>
+<p>产品的公共接口</p>
+<pre><code class="language-java">public interface Mouse {
+    void move();
+}
+</code></pre>
+<p>具体实现类</p>
+<pre><code class="language-java">public class DellMouse implements Mouse {
+    @Override
+    public void move() {
+        System.out.print(&quot;dell move&quot;);
+    }
+}
+public class HpMouse implements Mouse {
+    @Override
+    public void move() {
+        System.out.print(&quot;hp move&quot;);
+    }
+}
+</code></pre>
+<p>抽象的工厂接口MouseFactory</p>
+<pre><code class="language-java">public interface MouseFactory {
+    Mouse getMouse();
+}
+</code></pre>
+<p>具体工厂</p>
+<pre><code class="language-java">public class DellMouseFactory implements MouseFactory {
+    @Override
+    public Mouse getMouse() {
+        return new DellMouse();
+    }
+}
+
+public class HpMouseFactory implements MouseFactory {
+    @Override
+    public Mouse getMouse() {
+        return new HpMouse();
+    }
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="language-java">// 戴尔鼠标
+MouseFactory factory=new DellMouseFactory();
+Mouse  mouse=factory.getMouse();
+mouse.move();
+// 惠普鼠标
+MouseFactory factory=new HpMouseFactory();
+Mouse  mouse=factory.getMouse();
+mouse.move();
+</code></pre>
+<h3 id="优点-2">优点</h3>
+<ul>
+<li>更符合开-闭原则
+新增一种产品时，只需要增加相应的具体产品类和相应的工厂子类即可</li>
+<li>符合单一职责原则
+每个具体工厂类只负责创建对应的产品</li>
+</ul>
+<h3 id="缺点-2">缺点</h3>
+<ul>
+<li><strong>一个具体工厂只能创建一种具体产品</strong></li>
+<li>添加新产品时，除了增加新产品类外，还要提供与之对应的具体工厂类，系统类的个数将成对增加
+如果没有更复杂的需要,工厂方法模式就够了.</li>
+</ul>
+<h2 id="抽象工厂模式">抽象工厂模式</h2>
+<blockquote>
+<p>一个工厂往往需要生产多类产品</p>
+</blockquote>
+<p>值得注意的是,这时的工厂就不仅仅是鼠标工厂那种单一的概念了,它是更多的是一种&quot;平台&quot;,比如linux/win,
+或者品牌,华硕/戴尔/惠普工厂.</p>
+<h3 id="写法-3">写法</h3>
+<p>抽象工厂模式也就是不仅生产鼠标，同时生产键盘。<br>
+也就是 PC 厂商是个父类，有生产鼠标，生产键盘两个接口。<br>
+戴尔工厂，惠普工厂继承它，可以分别生产戴尔鼠标+戴尔键盘，和惠普鼠标+惠普键盘。<br>
+创建工厂时，由戴尔工厂创建。<br>
+后续工厂.生产鼠标()则生产戴尔鼠标，工厂.生产键盘()则生产戴尔键盘。</p>
+<p><img src="https://imatvoid.github.io/gridea//post-images/1561874218901.png" alt=""></p>
+<p>这里的代码不继续给了,只是在抽象的工厂接口中,定义多个产品.</p>
+<h3 id="在抽象工厂模式中假设我们需要增加一个工厂">在抽象工厂模式中，假设我们需要增加一个工厂</h3>
+<p>假设我们增加华硕工厂，则我们需要增加华硕工厂，和戴尔工厂一样，继承 PC 厂商。<br>
+之后创建华硕鼠标，继承鼠标类。创建华硕键盘，继承键盘类即可。
+<img src="https://imatvoid.github.io/gridea//post-images/1561874714750.png" alt=""></p>
+<h3 id="在抽象工厂模式中假设我们需要增加一个产品">在抽象工厂模式中，假设我们需要增加一个产品</h3>
+<p>假设我们增加耳麦这个产品，则首先我们需要增加耳麦这个父类，再加上戴尔耳麦，惠普耳麦这两个子类。<br>
+之后在PC厂商这个父类中，增加生产耳麦的接口。最后在戴尔工厂，惠普工厂这两个类中，分别实现生产戴尔耳麦，惠普耳麦的功能。 以上。<br>
+<img src="https://imatvoid.github.io/gridea//post-images/1561874854908.png" alt=""></p>
+<h3 id="优点-3">优点</h3>
+<p>其实是对于产品族(多种产品由于业务原因有内在聚合性,比如都是戴尔家的)情况下,工厂方法模式的拓展.</p>
+<h3 id="缺点-3">缺点</h3>
+<p>抽象工厂模式支持出现新的产品族,比如再来个华硕.<br>
+抽象工厂模式很难支持新种类产品的变化.比如本来制造鼠标和键盘,现在多了耳麦。<br>
+这是因为抽象工厂接口中已经确定了可以被创建的产品集合，如果需要添加新产品，此时就必须去修改抽象工厂的接口，这样就涉及到抽象工厂类的以及所有子类的改变，这样也就违背了“开放封闭”原则。<br>
+<strong>但是这並非无法解决,比如java8以后接口可以使用默认方法,这样一个具体的工厂不必实现抽象工厂所有的创建产品方法</strong></p>
+<blockquote>
+<p>对于新的产品族符合开-闭原则；对于新的产品种类不符合开-闭原则，这一特性称为开-闭原则的倾斜性。</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p>http://www.runoob.com/design-pattern/abstract-factory-pattern.html
+https://www.jianshu.com/p/7deb64f902db
+https://juejin.im/entry/58f5e080b123db2fa2b3c4c6
+https://java-design-patterns.com/patterns/factory-method/</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hGWLocgz4" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi">
+                  <h3 class="post-title">
+                    设计模式 -- 代理模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

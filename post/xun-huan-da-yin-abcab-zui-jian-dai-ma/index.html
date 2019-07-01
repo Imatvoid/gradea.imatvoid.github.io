@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>循环打印ABC/AB最简代码 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">循环打印ABC/AB最简代码</h2>
+            <div class="post-date">2018-12-01</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="信号量的方式">信号量的方式</h2>
+<p>这是比较推荐的一种方式,不用控制线程启动的顺序.
+思路简单,直接上代码,如果需要增加打印次数也很方便.</p>
+<pre><code class="language-java">
+    static class PrintSemaphore implements Runnable {
+        String printValue;
+
+        Semaphore selfSemaphore;
+
+        Semaphore nextSemaphore;
+
+        public void setSelfSemaphore(Semaphore selfSemaphore) {
+            this.selfSemaphore = selfSemaphore;
+        }
+
+        public void setNextSemaphore(Semaphore nextSemaphore) {
+            this.nextSemaphore = nextSemaphore;
+        }
+
+        public PrintSemaphore(String printValue) {
+            this.printValue = printValue;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    selfSemaphore.acquire();//获取信号量，s - 1
+                    System.out.println(printValue);
+                    nextSemaphore.release();//释放信号量，s + 1
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+      public static void main(String[] args) {
+        //信号量，用于控制同时容许访问的线程数量
+        Semaphore sA = new Semaphore(1);
+        Semaphore sB = new Semaphore(0);
+        Semaphore sC = new Semaphore(0);
+
+        PrintSemaphore printSemaphoreA = new PrintSemaphore(&quot;A&quot;);
+        PrintSemaphore printSemaphoreB = new PrintSemaphore(&quot;B&quot;);
+        PrintSemaphore printSemaphoreC = new PrintSemaphore(&quot;C&quot;);
+
+        printSemaphoreA.setSelfSemaphore(sA);
+        printSemaphoreA.setNextSemaphore(sB);
+
+        printSemaphoreB.setSelfSemaphore(sB);
+        printSemaphoreB.setNextSemaphore(sC);
+
+        printSemaphoreC.setSelfSemaphore(sC);
+        printSemaphoreC.setNextSemaphore(sA);
+
+
+        ExecutorService exe = Executors.newCachedThreadPool();
+        exe.execute(printSemaphoreB);
+        exe.execute(printSemaphoreC);
+        exe.execute(printSemaphoreA);
+
+
+    }
+</code></pre>
+<h2 id="使用synchronized">使用synchronized</h2>
+<h3 id="分析">分析</h3>
+<p>看一个序列CABC,可以得出:<br>
+CA, 打印A需要拿到前面C的锁(代表C已经执行完),以及它自己的锁.<br>
+AB,打印B需要拿到前面A的锁(代表A已经执行完),以及它自己的锁.<br>
+BC,打印A需要拿到前面B的锁(代表B已经执行完),以及它自己的锁.<br>
+只要打印ABC的线程,按顺序启动,即B启动时A已经执行完一次,C启动时B已经执行完一次.那么序列的顺序就是可以保证的.</p>
+<h3 id="模拟">模拟</h3>
+<p>打印A线程先启动,拿到C+A锁,执行完后,释放A锁,并notifyAll.然后在C锁上等待.<br>
+在间隔时间段后,打印B线程启动,它请求A锁并拿到,然后 拿到自己的B锁,打印B.<br>
+,释放B锁,并notifyAll.然后在A锁上等待.<br>
+<strong>注意此时:打印A线程 wait C,打印B线程 wait A</strong><br>
+在间隔时间段后,打印C线程启动,它请求B锁并拿到,然后 拿到自己的C锁,打印C.<br>
+,释放C锁,并notifyAll.然后在B锁上等待.<br>
+这时我们发现打印A线程的条件满足了,它可以得到C锁和自己的A锁.继续循环<br>
+<strong>注意此时:打印B线程 wait A,打印C线程 wait B</strong><br>
+打印ABC</p>
+<pre><code class="language-java">class PrintThreadSyn implements Runnable {
+    // 打印值
+    String value;
+    // 前面的锁
+    Object preLock;
+
+    public void setPreLock(Runnable runnable) {
+        preLock = runnable;
+    }
+
+    public PrintThreadSyn(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public void run() {
+
+        synchronized (preLock) {
+            while (true) {
+                synchronized (this) {
+                    System.out.println(value);
+                    this.notifyAll();
+                }
+                try {
+                    preLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+
+public static void main(String[] args) throws InterruptedException {
+        // ------------------------------synchronized--ABC-----------------------------
+        //  循环打印ABC
+        PrintThreadSyn threadA = new PrintThreadSyn(&quot;A&quot;);
+        PrintThreadSyn threadB = new PrintThreadSyn(&quot;B&quot;);
+        PrintThreadSyn threadC = new PrintThreadSyn(&quot;C&quot;);
+
+        threadA.setPreLock(threadC);
+        threadB.setPreLock(threadA);
+        threadC.setPreLock(threadB);
+
+        new Thread(threadA).start();
+        Thread.sleep(500);
+        new Thread(threadB).start();
+        Thread.sleep(500);
+        new Thread(threadC).start();
+}
+</code></pre>
+<p>打印AB  只需要简化代码,对类无改动</p>
+<pre><code class="language-java">        //  循环打印AB
+        PrintThreadSyn threadA = new PrintThreadSyn(&quot;A&quot;);
+        PrintThreadSyn threadB = new PrintThreadSyn(&quot;B&quot;);
+
+       threadA.setPreLock(threadB);
+       threadB.setPreLock(threadA);
+			 
+       new Thread(threadA).start();
+			 Thread.sleep(500);
+       new Thread(threadB).start();
+</code></pre>
+<h2 id="reentrantlock">ReentrantLock</h2>
+<p>思路是一样的,用ReentrantLock+Condition代替syn+notify+wait.</p>
+<pre><code class="language-java"> class PrintThreadReentrantLock implements Runnable {
+        String value;
+        ReentrantLock lock;
+        Condition preCondition;
+        Condition selfCondition;
+
+        public void setLock(ReentrantLock lock) {
+            this.lock = lock;
+        }
+
+        public void setPreCondition(Condition condition) {
+            this.preCondition = condition;
+        }
+
+        public void setSelfCondition(Condition condition) {
+            this.selfCondition = condition;
+        }
+
+        public PrintThreadReentrantLock(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public void run() {
+
+            lock.lock();
+            while (true) {
+
+                System.out.println(value);
+                selfCondition.signalAll();
+                try {
+                    preCondition.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            //lock.unlock();
+        }
+    }
+public static void main(String[] args) throws InterruptedException {
+
+		    PrintThreadReentrantLock threadA = new PrintThreadReentrantLock(&quot;A&quot;);
+        PrintThreadReentrantLock threadB = new PrintThreadReentrantLock(&quot;B&quot;);
+        PrintThreadReentrantLock threadC = new PrintThreadReentrantLock(&quot;C&quot;);
+
+        ReentrantLock reentrantLock = new ReentrantLock();
+        threadA.setLock(reentrantLock);
+        threadB.setLock(reentrantLock);
+        threadC.setLock(reentrantLock);
+
+
+        Condition conditionA = reentrantLock.newCondition();
+        Condition conditionB = reentrantLock.newCondition();
+        Condition conditionC = reentrantLock.newCondition();
+        threadA.setSelfCondition(conditionA);
+        threadB.setSelfCondition(conditionB);
+        threadC.setSelfCondition(conditionC);
+
+        threadA.setPreCondition(conditionC);
+        threadB.setPreCondition(conditionA);
+        threadC.setPreCondition(conditionB);
+
+        new Thread(threadA).start();
+        Thread.sleep(500);
+        new Thread(threadB).start();
+        Thread.sleep(500);
+        new Thread(threadC).start();
+	}			
+</code></pre>
+<p>打印AB  只需要简化代码,对类无改动</p>
+<pre><code class="language-java">        PrintThreadReentrantLock threadA = new PrintThreadReentrantLock(&quot;A&quot;);
+        PrintThreadReentrantLock threadB = new PrintThreadReentrantLock(&quot;B&quot;);
+
+        ReentrantLock reentrantLock = new ReentrantLock();
+        threadA.setLock(reentrantLock);
+        threadB.setLock(reentrantLock);
+
+        Condition conditionA = reentrantLock.newCondition();
+        Condition conditionB = reentrantLock.newCondition();
+        threadA.setSelfCondition(conditionA);
+        threadB.setSelfCondition(conditionB);
+
+        threadA.setPreCondition(conditionB);
+        threadB.setPreCondition(conditionA);
+
+        new Thread(threadA).start();
+        Thread.sleep(500);
+        new Thread(threadB).start();
+</code></pre>
+<h2 id=""></h2>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/e8EfKntpt" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hcAr2mEWi" class="tag">
+                    alibaba
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/5pBSGnoY5" class="tag">
+                    java并发
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian">
+                  <h3 class="post-title">
+                    Maven -- 第一个插件
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

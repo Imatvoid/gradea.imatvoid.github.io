@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/gridea/</id>
     <title>Imatvoid </title>
-    <updated>2019-06-28T15:52:25.105Z</updated>
+    <updated>2019-07-01T10:20:23.199Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/gridea/"/>
     <link rel="self" href="https://imatvoid.github.io/gridea//atom.xml"/>
@@ -11,6 +11,74 @@
     <logo>https://imatvoid.github.io/gridea//images/avatar.png</logo>
     <icon>https://imatvoid.github.io/gridea//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[请评估一下程序的执行结果?]]></title>
+        <id>https://imatvoid.github.io/gridea//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo</id>
+        <link href="https://imatvoid.github.io/gridea//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
+        </link>
+        <updated>2019-04-06T11:30:43.000Z</updated>
+        <summary type="html"><![CDATA[<pre><code class="language-java"> public class SynchronousQueueQuiz {
+        public static void main(String[] args) throws Exception {
+            BlockingQueue&lt;Integer&gt; queue = new
+                    SynchronousQueue&lt;&gt;();
+            System.out.print(queue.offer(1) + &quot; &quot;);
+            System.out.print(queue.offer(2) + &quot; &quot;);
+            System.out.print(queue.offer(3) + &quot; &quot;);
+            System.out.print(queue.take() + &quot; &quot;);
+            System.out.println(queue.size());
+        }
+    }
+</code></pre>
+]]></summary>
+        <content type="html"><![CDATA[<pre><code class="language-java"> public class SynchronousQueueQuiz {
+        public static void main(String[] args) throws Exception {
+            BlockingQueue&lt;Integer&gt; queue = new
+                    SynchronousQueue&lt;&gt;();
+            System.out.print(queue.offer(1) + &quot; &quot;);
+            System.out.print(queue.offer(2) + &quot; &quot;);
+            System.out.print(queue.offer(3) + &quot; &quot;);
+            System.out.print(queue.take() + &quot; &quot;);
+            System.out.println(queue.size());
+        }
+    }
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LRU 缓存机制]]></title>
+        <id>https://imatvoid.github.io/gridea//post/lru-huan-cun-ji-zhi</id>
+        <link href="https://imatvoid.github.io/gridea//post/lru-huan-cun-ji-zhi">
+        </link>
+        <updated>2019-04-04T09:31:43.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[给定一个二叉搜索树(BST)，找到树中第 K 小的节点。]]></title>
+        <id>https://imatvoid.github.io/gridea//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian</id>
+        <link href="https://imatvoid.github.io/gridea//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian">
+        </link>
+        <updated>2019-04-03T09:15:57.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位]]></title>
+        <id>https://imatvoid.github.io/gridea//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei</id>
+        <link href="https://imatvoid.github.io/gridea//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
+        </link>
+        <updated>2019-04-02T08:15:24.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何实现一个高效的单向链表逆序输出?]]></title>
+        <id>https://imatvoid.github.io/gridea//post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu</id>
+        <link href="https://imatvoid.github.io/gridea//post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu">
+        </link>
+        <updated>2019-04-01T07:50:49.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[循环打印ABC/AB最简代码]]></title>
+        <id>https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma</id>
+        <link href="https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
+        </link>
+        <updated>2018-12-01T07:39:53.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Maven -- 第一个插件]]></title>
         <id>https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian</id>
@@ -27,25 +95,38 @@
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[设计模式 -- 装饰者模式]]></title>
-        <id>https://imatvoid.github.io/gridea//post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi</id>
-        <link href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi">
+        <title type="html"><![CDATA[浅析java注解底层原理]]></title>
+        <id>https://imatvoid.github.io/gridea//post/qian-xi-java-zhu-jie-di-ceng-yuan-li</id>
+        <link href="https://imatvoid.github.io/gridea//post/qian-xi-java-zhu-jie-di-ceng-yuan-li">
         </link>
-        <updated>2017-06-28T03:16:19.000Z</updated>
-        <summary type="html"><![CDATA[<p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
+        <updated>2018-03-21T01:48:53.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>注解是一种附加信息/标识信息,如果没有对应的处理器,那没有任何作用.</p>
+</blockquote>
 ]]></summary>
-        <content type="html"><![CDATA[<p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
+        <content type="html"><![CDATA[<blockquote>
+<p>注解是一种附加信息/标识信息,如果没有对应的处理器,那没有任何作用.</p>
+</blockquote>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Maven 踩坑 -- java.lang.OutOfMemoryError]]></title>
-        <id>https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space</id>
-        <link href="https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
+        <title type="html"><![CDATA[设计模式 -- 工厂模式]]></title>
+        <id>https://imatvoid.github.io/gridea//post/she-ji-mo-shi-gong-han-mo-shi</id>
+        <link href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-gong-han-mo-shi">
         </link>
-        <updated>2016-02-18T04:41:45.000Z</updated>
-        <summary type="html"><![CDATA[<p>java.lang.OutOfMemoryError: Java heap space</p>
+        <updated>2018-01-28T03:55:19.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[设计模式 -- 代理模式]]></title>
+        <id>https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi</id>
+        <link href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi">
+        </link>
+        <updated>2017-08-01T09:16:41.000Z</updated>
+        <summary type="html"><![CDATA[<p>代理模式使用代理对象完成用户请求，屏蔽用户对真实对象的访问。现实世界的代理人被授权执行当事人的一些事宜，无需当事人出面，从第三方的角度看，似乎当事人并不存在，因为他只和代理人通信。而事实上代理人是要有当事人的授权，并且在核心问题上还需要请示当事人。</p>
+<p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>java.lang.OutOfMemoryError: Java heap space</p>
+        <content type="html"><![CDATA[<p>代理模式使用代理对象完成用户请求，屏蔽用户对真实对象的访问。现实世界的代理人被授权执行当事人的一些事宜，无需当事人出面，从第三方的角度看，似乎当事人并不存在，因为他只和代理人通信。而事实上代理人是要有当事人的授权，并且在核心问题上还需要请示当事人。</p>
+<p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
 ]]></content>
     </entry>
 </feed>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>maven | Imatvoid </title>
+<title>如何实现一个高效的单向链表逆序输出? | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -93,47 +93,78 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: maven</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian">
-                  <h2 class="post-title">Maven -- 第一个插件</h2>
-                </a>
-                <div class="post-date">
-                  2018-05-08
-                </div>
-                <div class="post-abstract">
-                  <blockquote>
-<p>A Mojo is really just a goal in Maven, and plug-ins consist of any number of goals (Mojos).</p>
-</blockquote>
+          <div class="post-detail">
+            <h2 class="post-title">如何实现一个高效的单向链表逆序输出?</h2>
+            <div class="post-date">2019-04-01</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="问题如何实现一个高效的单向链表逆序输出">问题：如何实现一个高效的单向链表逆序输出？</h2>
+<h2 id="出题人阿里巴巴出题专家昀龙阿里云弹性人工智能负责人">出题人：阿里巴巴出题专家：昀龙／阿里云弹性人工智能负责人</h2>
+<h2 id="解法">解法</h2>
+<h3 id="先倒转链表然后输出">先倒转链表,然后输出</h3>
+<pre><code class="language-java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
 
-                </div>
+    
+     public ListNode reverseList(ListNode head) {
+        ListNode newHead = null;
+         while(head != null){
+           ListNode  t = head.next;
+             head.next = newHead;
+             newHead = head;
+             head = t;
+         }
+         return newHead;
+       
+    }
+   
+}
+</code></pre>
+<h3 id="递归">递归</h3>
+<pre><code class="language-java"> public void printReverseList(ListNode head) {
+        if (head != null) {
+            printReverseList(head.next);
+            System.out.println(head.val);
+        }
+    }
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/e8EfKntpt" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hcAr2mEWi" class="tag">
+                    alibaba
+                  </a>
+                
               </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
-                  <h2 class="post-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h2>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
+                  <h3 class="post-title">
+                    循环打印ABC/AB最简代码
+                  </h3>
                 </a>
-                <div class="post-date">
-                  2016-02-18
-                </div>
-                <div class="post-abstract">
-                  <p>java.lang.OutOfMemoryError: Java heap space</p>
-
-                </div>
               </div>
-              
-            </article>
-          
+            
 
-          <div class="pagination-container">
-  
-  
-</div>
+            
+
+          </div>
 
         </div>
       </div>

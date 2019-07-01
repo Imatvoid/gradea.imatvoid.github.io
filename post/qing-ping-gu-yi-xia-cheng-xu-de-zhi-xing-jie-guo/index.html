@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>请评估一下程序的执行结果? | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">请评估一下程序的执行结果?</h2>
+            <div class="post-date">2019-04-06</div>
+            
+            <div class="post-content">
+              <pre><code class="language-java"> public class SynchronousQueueQuiz {
+        public static void main(String[] args) throws Exception {
+            BlockingQueue&lt;Integer&gt; queue = new
+                    SynchronousQueue&lt;&gt;();
+            System.out.print(queue.offer(1) + &quot; &quot;);
+            System.out.print(queue.offer(2) + &quot; &quot;);
+            System.out.print(queue.offer(3) + &quot; &quot;);
+            System.out.print(queue.take() + &quot; &quot;);
+            System.out.println(queue.size());
+        }
+    }
+</code></pre>
+<!-- more -->
+<p>A. true true true 1 3<br>
+B. true true true (阻塞)<br>
+C. false false false null 0<br>
+D. false false false (阻塞)</p>
+<h2 id="解释">解释</h2>
+<p>SynchronousQueue，实际上它不是一个真正的队列，因为它不会为队列中元素维护存储空间。与其他队列不同的是，它维护一组线程，这些线程在等待着把元素加入或移出队列。<br>
+Java 6的并发编程包中的SynchronousQueue是一个没有数据缓冲的BlockingQueue，生产者线程对其的插入操作put必须等待消费者的移除操作take，反过来也一样。<br>
+take() &amp; put() //这是阻塞的，会阻塞操作线程<br>
+poll() &amp; offer() //这是非阻塞的（在不设置超时时间的前提下），当操作不能达成的时候会立马返回 boolean</p>
+<p><strong>答案</strong>  D</p>
+<p>这里给一个SynchronousQueue的使用例子</p>
+<pre><code class="language-java">
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+
+public class SynchronousQueueExample {
+
+    static class SynchronousQueueProducer implements Runnable {
+
+        protected BlockingQueue&lt;String&gt; blockingQueue;
+        final Random random = new Random();
+
+        public SynchronousQueueProducer(BlockingQueue&lt;String&gt; queue) {
+            this.blockingQueue = queue;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    String data = UUID.randomUUID().toString();
+                    System.out.println(Thread.currentThread().getName() + &quot; Put: &quot; + data);
+                    blockingQueue.put(data);
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    static class SynchronousQueueConsumer implements Runnable {
+
+        protected BlockingQueue&lt;String&gt; blockingQueue;
+
+        public SynchronousQueueConsumer(BlockingQueue&lt;String&gt; queue) {
+            this.blockingQueue = queue;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    String data = blockingQueue.take();
+                    System.out.println(Thread.currentThread().getName()
+                            + &quot; take(): &quot; + data);
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        final BlockingQueue&lt;String&gt; synchronousQueue = new SynchronousQueue&lt;String&gt;();
+
+        SynchronousQueueProducer queueProducer = new SynchronousQueueProducer(
+                synchronousQueue);
+        new Thread(queueProducer).start();
+
+        SynchronousQueueConsumer queueConsumer1 = new SynchronousQueueConsumer(
+                synchronousQueue);
+        new Thread(queueConsumer1).start();
+
+        SynchronousQueueConsumer queueConsumer2 = new SynchronousQueueConsumer(
+                synchronousQueue);
+        new Thread(queueConsumer2).start();
+
+    }
+}
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/e8EfKntpt" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hcAr2mEWi" class="tag">
+                    alibaba
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/lru-huan-cun-ji-zhi">
+                  <h3 class="post-title">
+                    LRU 缓存机制
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

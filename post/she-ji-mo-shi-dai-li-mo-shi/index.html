@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>设计模式 -- 装饰者模式 | Imatvoid </title>
+<title>设计模式 -- 代理模式 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -94,31 +94,89 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">设计模式 -- 装饰者模式</h2>
-            <div class="post-date">2017-06-28</div>
+            <h2 class="post-title">设计模式 -- 代理模式</h2>
+            <div class="post-date">2017-08-01</div>
             
             <div class="post-content">
-              <p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
+              <p>代理模式使用代理对象完成用户请求，屏蔽用户对真实对象的访问。现实世界的代理人被授权执行当事人的一些事宜，无需当事人出面，从第三方的角度看，似乎当事人并不存在，因为他只和代理人通信。而事实上代理人是要有当事人的授权，并且在核心问题上还需要请示当事人。</p>
+<p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
 <!-- more -->
-<p><img src="https://imatvoid.github.io/gridea//post-images/she-ji-mo-shi-zhuang-shi-zhe-mo-shi.png" alt=""></p>
-<h2 id="涉及的原则">涉及的原则</h2>
-<ol>
-<li>开闭原则:对拓展开放,对修改关闭</li>
-<li>组合优于继承
-<a href="https://juejin.im/post/5becce876fb9a049d2359d01">link</a></li>
-</ol>
-<h2 id="装饰者模式">装饰者模式</h2>
-<p>没什么好写的,已经写的很详尽了.看完下边的几个博客就行.</p>
-<p><a href="https://www.cnblogs.com/god_bless_you/archive/2010/06/10/1755212.html">开头</a></p>
-<p><a href="https://www.cnblogs.com/java-my-life/archive/2012/04/20/2455726.html">这篇还额外讲了实际中常见的半透明的装饰者模式</a></p>
-<p><a href="https://java-design-patterns.com/patterns/decorator/">这个是git项目设计模式的网站,例子挺有趣的.  </a></p>
-<h2 id="维基百科">维基百科</h2>
-<p>通过使用装饰者模式，可以在运行时扩充一个类的功能。原理是：增加一个修饰类包裹原来的类，包裹的方式一般是通过在将原来的对象作为修饰类的构造函数的参数。装饰类实现新的功能，但是，在不需要用到新功能的地方，它可以直接调用原来的类中的方法。修饰类必须和原来的类有相同的接口(纯粹的装饰者模式)。</p>
-<p>修饰模式是类继承的另外一种选择。类继承在编译时候增加行为，而装饰模式是在运行时增加行为。</p>
-<p>当有几个相互独立的功能需要扩充时，这个区别就变得很重要。在有些面向对象的编程语言中，类不能在运行时被创建，通常在设计的时候也不能预测到有哪几种功能组合。这就意味着要为每一种组合创建一个新类。相反，修饰模式是面向运行时候的对象实例的,这样就可以在运行时根据需要进行组合。一个修饰模式的示例是JAVA里的Java I/O Streams的实现。</p>
-<h2 id="经典样例">经典样例</h2>
-<p>Java I/O Streams   ,可以好好研究下</p>
-<p><img src="https://imatvoid.github.io/gridea//post-images/1561693209235.png" alt=""></p>
+<h2 id="写法">写法</h2>
+<p>没有什么可写的,就是用一个代理类继承/实现接口从而内部包含真实对象.在客户端使用代理类.
+需要注意的是我们通常使用接口,实现具体被代理对象和代理类以及客户端的解耦:<br>
+代理模式角色分为 4 种：<br>
+主题接口：定义代理类和真实主题的公共对外方法；<br>
+真实主题：真正实现业务逻辑的类；<br>
+代理类：用来代理和封装真实主题；<br>
+客户端:  使用代理类和<strong>主题接口</strong>完成一些工作。</p>
+<h2 id="使用场景">使用场景</h2>
+<p>代理模式的重点是你可以通过代理实现什么.</p>
+<h3 id="延迟加载">延迟加载</h3>
+<p>假设系统启动时需要加载一个很大的资源,启动时间很长,这时我们把可以把实际加载资源的操作封进代理类,  由代理类实现延迟加载(不用不加载),外部客户端调用统一使用代理类.<br>
+比如一个例子:</p>
+<pre><code class="language-java">public interface Image {
+   void display();
+}
+
+public class RealImage implements Image {
+ 
+   private String fileName;
+ 
+   public RealImage(String fileName){
+      this.fileName = fileName;
+      loadFromDisk(fileName);
+   }
+ 
+   @Override
+   public void display() {
+      System.out.println(&quot;Displaying &quot; + fileName);
+   }
+ 
+   private void loadFromDisk(String fileName){
+      System.out.println(&quot;Loading &quot; + fileName);
+   }
+}
+public class ProxyImage implements Image{
+ 
+   private RealImage realImage;
+   private String fileName;
+ 
+   public ProxyImage(String fileName){
+      this.fileName = fileName;
+   }
+ 
+   @Override
+   public void display() {
+      if(realImage == null){
+         realImage = new RealImage(fileName);
+      }
+      realImage.display();
+   }
+}
+
+
+public class ProxyPatternDemo {
+   
+   public static void main(String[] args) {
+      Image image = new ProxyImage(&quot;test_10mb.jpg&quot;);
+ 
+      // 图像将从磁盘加载
+      image.display(); 
+      System.out.println(&quot;&quot;);
+      // 图像不需要从磁盘加载
+      image.display();  
+   }
+}
+</code></pre>
+<h3 id="附加处理">附加处理</h3>
+<p>当调用真实的对象时，代理处理另外一些事。比如打印日志.</p>
+<h3 id="远程调用">远程调用</h3>
+<p>RPC远程调用</p>
+<h3 id="安全代理">安全代理</h3>
+<p>用来控制真实对象访问时的权限。一般用于对象应该有不同的访问权限的时候</p>
+<h2 id="动态代理">动态代理</h2>
+<p>上面我们主要演示了手写代码实现的静态代理,<br>
+实际java支持基于JDK/cglib的动态代理,两者有不同的特点.</p>
 
             </div>
             
@@ -133,9 +191,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dan-li-mo-shi">
+                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi">
                   <h3 class="post-title">
-                    设计模式 -- 单例模式
+                    设计模式 -- 装饰者模式
                   </h3>
                 </a>
               </div>

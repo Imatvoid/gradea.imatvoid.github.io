@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>设计模式 -- 装饰者模式 | Imatvoid </title>
+<title>给定一个二叉搜索树(BST)，找到树中第 K 小的节点。 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -94,38 +94,119 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">设计模式 -- 装饰者模式</h2>
-            <div class="post-date">2017-06-28</div>
+            <h2 class="post-title">给定一个二叉搜索树(BST)，找到树中第 K 小的节点。</h2>
+            <div class="post-date">2019-04-03</div>
             
             <div class="post-content">
-              <p>装饰模式又名包装(Wrapper)模式。装饰模式以对客户端透明的方式扩展对象的功能，是继承关系的一个替代方案。</p>
-<!-- more -->
-<p><img src="https://imatvoid.github.io/gridea//post-images/she-ji-mo-shi-zhuang-shi-zhe-mo-shi.png" alt=""></p>
-<h2 id="涉及的原则">涉及的原则</h2>
+              <!-- more -->
+<h2 id="题目">题目</h2>
+<p>示例</p>
+<pre><code>       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+ 
+</code></pre>
+<p>说明：保证输入的 K 满足 1&lt;=K&lt;=(节点数目）
+K=3,输出3</p>
+<h2 id="出题人">出题人</h2>
+<p>阿里巴巴出题专家：文景／阿里云 CDN 资深技术专家</p>
+<h2 id="考察点">考察点</h2>
 <ol>
-<li>开闭原则:对拓展开放,对修改关闭</li>
-<li>组合优于继承
-<a href="https://juejin.im/post/5becce876fb9a049d2359d01">link</a></li>
+<li>基础数据结构的理解和编码能力</li>
+<li>递归使用</li>
 </ol>
-<h2 id="装饰者模式">装饰者模式</h2>
-<p>没什么好写的,已经写的很详尽了.看完下边的几个博客就行.</p>
-<p><a href="https://www.cnblogs.com/god_bless_you/archive/2010/06/10/1755212.html">开头</a></p>
-<p><a href="https://www.cnblogs.com/java-my-life/archive/2012/04/20/2455726.html">这篇还额外讲了实际中常见的半透明的装饰者模式</a></p>
-<p><a href="https://java-design-patterns.com/patterns/decorator/">这个是git项目设计模式的网站,例子挺有趣的.  </a></p>
-<h2 id="维基百科">维基百科</h2>
-<p>通过使用装饰者模式，可以在运行时扩充一个类的功能。原理是：增加一个修饰类包裹原来的类，包裹的方式一般是通过在将原来的对象作为修饰类的构造函数的参数。装饰类实现新的功能，但是，在不需要用到新功能的地方，它可以直接调用原来的类中的方法。修饰类必须和原来的类有相同的接口(纯粹的装饰者模式)。</p>
-<p>修饰模式是类继承的另外一种选择。类继承在编译时候增加行为，而装饰模式是在运行时增加行为。</p>
-<p>当有几个相互独立的功能需要扩充时，这个区别就变得很重要。在有些面向对象的编程语言中，类不能在运行时被创建，通常在设计的时候也不能预测到有哪几种功能组合。这就意味着要为每一种组合创建一个新类。相反，修饰模式是面向运行时候的对象实例的,这样就可以在运行时根据需要进行组合。一个修饰模式的示例是JAVA里的Java I/O Streams的实现。</p>
-<h2 id="经典样例">经典样例</h2>
-<p>Java I/O Streams   ,可以好好研究下</p>
-<p><img src="https://imatvoid.github.io/gridea//post-images/1561693209235.png" alt=""></p>
+<h2 id="解法">解法</h2>
+<pre><code class="language-java">public class TreeNode {
+    public  int val;
+    public  TreeNode left;
+     public TreeNode right;
+     public  TreeNode(int x) { val = x; }
+}
+
+</code></pre>
+<h3 id="递归">递归</h3>
+<p>树的题目,第一反应用递归.
+这其实就是二叉搜索树的中序遍历.</p>
+<pre><code class="language-java">    int res;
+    int count;
+
+    public int kthSmallest(TreeNode root, int k) {
+        count = k;
+        inOrder(root);
+        return res;
+
+    }
+
+    void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        inOrder(root.left);
+        count--;
+        if (count == 0) {
+            res = root.val;
+            return;
+        }
+        inOrder(root.right);
+    }
+</code></pre>
+<h3 id="非递归">非递归</h3>
+<pre><code class="language-java"> /**
+     * 中序列非递归
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthSmallest2(TreeNode root, int k) {
+        int count = k;
+
+        if(root == null){
+            return -1;
+        }
+
+        LinkedList&lt;TreeNode&gt; stack = new LinkedList&lt;TreeNode&gt;();
+        stack.add(root);
+        while(!stack.isEmpty()){
+            TreeNode cur = stack.pop();
+            // 一直走到最左端，直到left为null
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+
+            cur = stack.poll();
+            count--;
+            if (cur != null) {
+                if(count ==0){
+                    return cur.val;
+                }
+
+                stack.push(cur.right);
+            }
+        }
+
+        return -1;
+
+    }
+</code></pre>
+<h2 id="原链接">原链接</h2>
+<p>leetcode 230题</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io/gridea//tag/hGWLocgz4" class="tag">
-                    设计模式
+                  <a href="https://imatvoid.github.io/gridea//tag/e8EfKntpt" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hcAr2mEWi" class="tag">
+                    alibaba
                   </a>
                 
               </div>
@@ -133,9 +214,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dan-li-mo-shi">
+                <a href="https://imatvoid.github.io/gridea//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
                   <h3 class="post-title">
-                    设计模式 -- 单例模式
+                    已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位
                   </h3>
                 </a>
               </div>

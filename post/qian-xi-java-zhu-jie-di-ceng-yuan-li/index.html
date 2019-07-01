@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>maven | Imatvoid </title>
+<title>浅析java注解底层原理 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -93,47 +93,81 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: maven</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://imatvoid.github.io/gridea//post/maven-di-yi-ge-cha-jian">
-                  <h2 class="post-title">Maven -- 第一个插件</h2>
-                </a>
-                <div class="post-date">
-                  2018-05-08
-                </div>
-                <div class="post-abstract">
-                  <blockquote>
-<p>A Mojo is really just a goal in Maven, and plug-ins consist of any number of goals (Mojos).</p>
+          <div class="post-detail">
+            <h2 class="post-title">浅析java注解底层原理</h2>
+            <div class="post-date">2018-03-21</div>
+            
+            <div class="post-content">
+              <blockquote>
+<p>注解是一种附加信息/标识信息,如果没有对应的处理器,那没有任何作用.</p>
 </blockquote>
+<!-- more -->
+<h2 id="注解概述">注解概述</h2>
+<h3 id="元注解">元注解</h3>
+<h4 id="retention">@Retention</h4>
+<p>注解留存的时间节点:</p>
+<ul>
+<li>RetentionPolicy.SOURCE：当前注解编译期可见,不会写入 class 文件,常见的注解为@Override,   @SuppressWarnings</li>
+<li>RetentionPolicy.CLASS：会写入 class 文件,在类加载后丢弃,可以定义对字节码的操作</li>
+<li>RetentionPolicy.RUNTIME：永久保存，可以反射获取</li>
+</ul>
+<h4 id="target">@Target</h4>
+<p>注解作用的范围:</p>
+<ul>
+<li>ElementType.TYPE：允许被修饰的注解作用在类、接口和枚举上</li>
+<li>ElementType.FIELD：允许作用在属性字段上</li>
+<li>ElementType.METHOD：允许作用在方法上</li>
+<li>ElementType.PARAMETER：允许作用在方法参数上</li>
+<li>ElementType.CONSTRUCTOR：允许作用在构造器上</li>
+<li>ElementType.LOCAL_VARIABLE：允许作用在本地局部变量上</li>
+<li>ElementType.ANNOTATION_TYPE：允许作用在注解上</li>
+<li>ElementType.PACKAGE：允许作用在包上</li>
+</ul>
+<h4 id="inherited">@Inherited</h4>
+<p>是否允许子类继承该注解,注意,<strong>这不是说注解允许继承,而是如果你用注解标注了一个父类,是否允许这个父类的子类也自动拥有这个注解.</strong></p>
+<h4 id="documented">@Documented</h4>
+<p>注解是否应当被包含在 JavaDoc 文档中</p>
+<h3 id="编译器注解java内置">编译器注解(java内置)</h3>
+<ul>
+<li>@Deprecated
+表示弃用,编译这样的类/方法等编译器会给警告.它直接可以标注的东西很多,可以点进去看下@Target.
+注意配合javadoc注释,告诉别人新的在哪里.</li>
+</ul>
+<pre><code class="language-java">/**
+  @deprecated This class is full of bugs. Use MyNewComponent instead.
+*/
+</code></pre>
+<ul>
+<li>@Override
+表示父类进行重写的方法</li>
+<li>@SuppressWarnings
+用来抑制编译器生成警告信息。</li>
+</ul>
 
-                </div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/E3CtpWrEV" class="tag">
+                    java
+                  </a>
+                
               </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://imatvoid.github.io/gridea//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
-                  <h2 class="post-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h2>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-gong-han-mo-shi">
+                  <h3 class="post-title">
+                    设计模式 -- 工厂模式
+                  </h3>
                 </a>
-                <div class="post-date">
-                  2016-02-18
-                </div>
-                <div class="post-abstract">
-                  <p>java.lang.OutOfMemoryError: Java heap space</p>
-
-                </div>
               </div>
-              
-            </article>
-          
+            
 
-          <div class="pagination-container">
-  
-  
-</div>
+            
+
+          </div>
 
         </div>
       </div>

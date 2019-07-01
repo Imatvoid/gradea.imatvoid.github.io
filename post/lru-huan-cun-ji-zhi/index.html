@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>LRU 缓存机制 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">LRU 缓存机制</h2>
+            <div class="post-date">2019-04-04</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="题目">题目</h2>
+<p>设计和实现一个 LRU(最近最少使用)缓存数据结构,使它应该支
+持一下操作:get 和 put。
+get(key) - 如果 key 存在于缓存中,则获取 key 的 value(总是正
+数),否则返回 -1。
+put(key,value) - 如果 key 不存在,请设置或插入 value。当缓存
+达到其容量时,它应该在插入新项目之前使最近最少使用的项目作
+废。</p>
+<h2 id="出题人">出题人</h2>
+<p>阿里巴巴出题专家:文景/阿里云 CDN 资深技术专家</p>
+<h2 id="解法">解法</h2>
+<h3 id="hashmap双向链表">HashMap+双向链表</h3>
+<p><img src="https://imatvoid.github.io/gridea//post-images/1561892223803.png" alt=""></p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">public class LRUCache {
+    private ListNode head;
+    private ListNode tail;
+    int capacity;
+    Map&lt;Integer, ListNode&gt; cache;
+
+    public LRUCache(int capacity) {
+        cache = new HashMap&lt;&gt;();
+        head = new ListNode(0, 0);
+        tail = new ListNode(0, 0);
+        head.next = tail;
+        tail.prev = head;
+        this.capacity = capacity;
+    }
+
+    public int get(int key) {
+        if (!cache.containsKey(key)) {
+            return -1;
+        } else {
+            ListNode node = cache.get(key);
+            remove(node);
+            addToHead(node);
+            return node.val;
+        }
+    }
+
+    public void put(int key, int value) {
+        if (!cache.containsKey(key)) {
+            if (cache.size() &gt;= capacity) {
+                ListNode toRemove = tail.prev;
+                remove(toRemove);
+                cache.remove(toRemove.key);
+            }
+            ListNode newNode = new ListNode(key, value);
+            addToHead(newNode);
+            cache.put(key, newNode);
+        } else {
+            ListNode node = cache.get(key);
+            node.val = value;
+            remove(node);
+            addToHead(node);
+        }
+    }
+
+
+
+    private void addToHead(ListNode node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next = node;
+        node.next.prev = node;
+    }
+
+    private void remove(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        node.prev = node.next = null;
+    }
+
+    private class ListNode {
+        int key;
+        int val;
+        ListNode prev;
+        ListNode next;
+
+        ListNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+            prev = next = null;
+        }
+    }
+}
+</code></pre>
+<h3 id="其实就是linkedhashmap">其实就是LinkedHashMap</h3>
+<pre><code class="language-java">ublic class LRUCache {
+    private int capacity;
+    private Map&lt;Integer, Integer&gt; cache;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+			  //第三个构造函数参数默认是false，迭代时输出的顺序是插入节点的顺序。若为true，则输出的顺序是按照访问节点的顺序。
+        this.cache = new java.util.LinkedHashMap&lt;Integer, Integer&gt; (capacity, 0.75f, true) {
+            // 定义put后的移除规则，大于容量就删除eldest
+            protected boolean removeEldestEntry(Map.Entry&lt;Integer, Integer&gt; eldest) {
+                return size() &gt; capacity;
+            }
+        };
+    }
+    public int get(int key) {
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        } else
+            return -1;
+    }
+    public void set(int key, int value) {
+        cache.put(key, value);
+    }
+}
+</code></pre>
+<h2 id="出处">出处</h2>
+<p>leetcode 146. LRU Cache</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/e8EfKntpt" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hcAr2mEWi" class="tag">
+                    alibaba
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian">
+                  <h3 class="post-title">
+                    给定一个二叉搜索树(BST)，找到树中第 K 小的节点。
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
