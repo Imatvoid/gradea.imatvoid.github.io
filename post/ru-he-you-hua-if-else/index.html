@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>如何优化IF ELSE | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562416554138">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562416554138" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">如何优化IF ELSE</h2>
+            <div class="post-date">2018-12-04</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h2 id="为什么要优化">为什么要优化</h2>
+<p>太复杂地嵌套if else 会导致难以阅读,以及扩展性极差,违反了单一职责原则和开闭原则.</p>
+<h2 id="if-else-嵌套过深的问题">IF ELSE 嵌套过深的问题</h2>
+<h3 id="适当地抽取方法">适当地抽取方法</h3>
+<p>比如下边这个<a href="https://refactoring.com/catalog/extractFunction.html">例子</a></p>
+<p>一个方法不该做太多事情,它应当专注于自己.极端情况下就像是函数式编程的纯函数.</p>
+<h3 id="卫语句-漏斗式的代码">卫语句 -  漏斗式的代码</h3>
+<p>优化前</p>
+<pre><code class="language-JAVA">double getPayAmount(){
+    double result;
+    if(_isDead) {
+        result = deadAmount();
+    }else{
+        if(_isSeparated){
+            result = separatedAmount();
+        }
+        else{
+            if(_isRetired){
+                result = retiredAmount();
+            else{
+                result = normalPayAmount();
+            }
+        }
+    }
+    return result;
+ }
+</code></pre>
+<p>优化后</p>
+<pre><code class="language-java">double getPayAmount(){
+    if(_isDead) 
+        return deadAmount();
+
+    if(_isSeparated)
+        return separatedAmount();
+
+    if(_isRetired)
+        return retiredAmount();
+
+    return normalPayAmount();
+}
+</code></pre>
+<p>整个方法就像是漏斗一样,只有真正满足条件的请求,能够走下去.逻辑清晰了很多</p>
+<h3 id="尝试jdk8的optional">尝试JDK8的Optional</h3>
+<p>举一个简单的例子</p>
+<pre><code class="language-JAVA">String str = &quot;Hello World!&quot;;
+if (str != null) {
+   System.out.println(str);
+} else {
+   System.out.println(&quot;Null&quot;);
+}
+</code></pre>
+<p>优化后</p>
+<pre><code class="language-java">Optional&lt;String&gt; strOptional = Optional.of(&quot;Hello World!&quot;);
+strOptional.ifPresentOrElse(System.out::println, () -&gt; System.out.println(&quot;Null&quot;));
+</code></pre>
+<p>这里的例子比较简单,你可能看不出Optional的威力.</p>
+<p>再来个复杂的.</p>
+<pre><code class="language-java">public class Test {
+
+
+    public static void main(String[] args) {
+
+        // creepy initialization step, dont worry
+        Employee employee = new Employee();
+
+        // 优化前
+        if(employee != null){
+            Salary salary = employee.getSalary();
+            if(salary !=null){
+                Unit unit = salary.getUnit();
+                if(unit != null){
+                    System.out.println(&quot;I discovered the variable finally &quot; + unit);
+                }
+            }
+        }
+        // 优化后
+        Optional.ofNullable(employee)
+                .map(Employee::getSalary)
+                .map(Salary::getUnit)
+                .map(Unit::getPrecision)
+                .ifPresent(e -&gt; System.out.println(&quot;I discovered the variable finally &quot; + e));
+
+
+    }
+
+
+    static class Employee {
+
+        Salary salary;
+
+        public Salary getSalary() {
+            return salary;
+        }
+
+        public void setSalary(Salary salary) {
+            this.salary = salary;
+        }
+    }
+
+    class Salary {
+        // 单位
+        Unit unit;
+
+        public Unit getUnit() {
+            return unit;
+        }
+
+        public void setUnit(Unit unit) {
+            this.unit = unit;
+        }
+    }
+
+    class Unit {
+        // 精度
+        Integer precision;
+
+        public Integer getPrecision() {
+            return precision;
+        }
+
+        public void setPrecision(Integer precision) {
+            this.precision = precision;
+        }
+    }
+
+}
+</code></pre>
+<h2 id="if-else-数量过多的问题">IF ELSE 数量过多的问题</h2>
+<h3 id="表驱动法if-判断条件单一">表驱动法(IF 判断条件单一)</h3>
+<blockquote>
+<p>表驱动法是一种编程模式，它的本质是，从表里查询信息来代替逻辑语句(if,case)。</p>
+</blockquote>
+<p>举个简单的例子</p>
+<pre><code class="language-java">/**
+ * 表驱动法
+ */
+public class TableDrivenApproach {
+    //private static Map&lt;?, Function&lt;?,?&gt; &gt; actionsMap =new HashMap&lt;&gt;();
+    // private static Map&lt;Integer, Function&lt;Integer, Integer&gt;&gt; actionsMap = new HashMap&lt;&gt;();
+    private static HashMap&lt;Integer, Function&lt;Integer, Integer&gt;&gt; actionsMap = new HashMap&lt;&gt;();
+
+    static {
+        actionsMap.put(1, e -&gt; e + 1);
+        actionsMap.put(2, e -&gt; e + 2);
+        actionsMap.put(3, e -&gt; e + 3);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(actionsMap.get(1).apply(0));
+        System.out.println(actionsMap.get(2).apply(0));
+        System.out.println(actionsMap.get(3).apply(0));
+
+    }
+}
+</code></pre>
+<h3 id="责任链">责任链</h3>
+<p>if else 的本质是分支判断,找到一个符合条件的分支然后执行其内部逻辑.<br>
+那么我们其实可以把一个一个分支拆成handler,使用责任链模式.</p>
+<pre><code class="language-java"> static abstract class Handler {
+
+        /**
+         * 持有后继的责任对象
+         */
+        protected Handler successor;
+
+        /**
+         * 示意处理请求的方法，虽然这个示意方法是没有传入参数的
+         * 但实际是可以传入参数的，根据具体需要来选择是否传递参数
+         */
+        public abstract void handleRequest();
+
+        /**
+         * 取值方法
+         */
+        public Handler getSuccessor() {
+            return successor;
+        }
+
+        /**
+         * 赋值方法，设置后继的责任对象
+         */
+        public void setSuccessor(Handler successor) {
+            this.successor = successor;
+        }
+
+    }
+
+    static class ConcreteHandler extends Handler {
+        /**
+         * 处理方法，调用此方法处理请求
+         */
+        @Override
+        public void handleRequest() {
+            /**
+             * 判断是否有后继的责任对象
+             * 如果有，就转发请求给后继的责任对象
+             * 如果没有，则处理请求
+             */
+            if (getSuccessor() != null) {
+                System.out.println(&quot;放过请求&quot;);
+                getSuccessor().handleRequest();
+            } else {
+                System.out.println(&quot;处理请求&quot;);
+            }
+        }
+
+    }
+</code></pre>
+<h3 id="注解驱动">注解驱动</h3>
+<p>通过 Java 注解（或其它语言的类似机制）定义执行某个方法/类的条件。<br>
+在程序执行时，通过对比入参与注解中定义的条件是否匹配，再决定是否调用此方法。具体实现时，可以采用表驱动或职责链的方式实现。</p>
+<h3 id="更复杂-状态机-规则引擎">更复杂: 状态机  / 规则引擎</h3>
+<p>可以给个轻量级的规则引擎的例子.
+<a href="https://github.com/j-easy/easy-rules">easyrules</a></p>
+<h2 id="参考">参考</h2>
+<p>http://cmsblogs.com/?p=2691</p>
+<p>https://blog.csdn.net/qq_35440678/article/details/77939999</p>
+<p>策略加工厂</p>
+<p>https://blog.csdn.net/u011507568/article/details/70238491</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
+                  <h3 class="post-title">
+                    循环打印ABC/AB最简代码
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

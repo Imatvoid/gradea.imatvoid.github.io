@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/gridea/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-01T10:20:23.199Z</updated>
+    <updated>2019-07-06T12:35:57.238Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/gridea/"/>
     <link rel="self" href="https://imatvoid.github.io/gridea//atom.xml"/>
@@ -73,6 +73,13 @@
         <updated>2019-04-01T07:50:49.000Z</updated>
     </entry>
     <entry>
+        <title type="html"><![CDATA[如何优化IF ELSE]]></title>
+        <id>https://imatvoid.github.io/gridea//post/ru-he-you-hua-if-else</id>
+        <link href="https://imatvoid.github.io/gridea//post/ru-he-you-hua-if-else">
+        </link>
+        <updated>2018-12-04T09:19:21.000Z</updated>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[循环打印ABC/AB最简代码]]></title>
         <id>https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma</id>
         <link href="https://imatvoid.github.io/gridea//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
@@ -115,18 +122,5 @@
         <link href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-gong-han-mo-shi">
         </link>
         <updated>2018-01-28T03:55:19.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[设计模式 -- 代理模式]]></title>
-        <id>https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi</id>
-        <link href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi">
-        </link>
-        <updated>2017-08-01T09:16:41.000Z</updated>
-        <summary type="html"><![CDATA[<p>代理模式使用代理对象完成用户请求，屏蔽用户对真实对象的访问。现实世界的代理人被授权执行当事人的一些事宜，无需当事人出面，从第三方的角度看，似乎当事人并不存在，因为他只和代理人通信。而事实上代理人是要有当事人的授权，并且在核心问题上还需要请示当事人。</p>
-<p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>代理模式使用代理对象完成用户请求，屏蔽用户对真实对象的访问。现实世界的代理人被授权执行当事人的一些事宜，无需当事人出面，从第三方的角度看，似乎当事人并不存在，因为他只和代理人通信。而事实上代理人是要有当事人的授权，并且在核心问题上还需要请示当事人。</p>
-<p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
-]]></content>
     </entry>
 </feed>

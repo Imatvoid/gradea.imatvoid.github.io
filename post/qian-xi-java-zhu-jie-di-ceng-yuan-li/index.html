@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562416554138">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
 
@@ -31,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
-        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562416554138" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -143,6 +143,194 @@
 <li>@SuppressWarnings
 用来抑制编译器生成警告信息。</li>
 </ul>
+<h2 id="注解底层原理">注解底层原理</h2>
+<h3 id="奇怪的变量定义方式">奇怪的变量定义方式</h3>
+<p>先看一个接口<code>public interface Annotation</code>,在它的doc描述中有一句<code>The common interface extended by all annotation types</code>,也就是所有注解都会继承这个接口.那么注解其实也是接口,它在运行时会有代理类,这也就解释了,为什么定义注解使用的变量看起来会有点奇怪,居然要定义个方法.</p>
+<pre><code class="language-java">@Target({ElementType.METHOD,ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Hello {
+    String helloKey() default &quot;helloValue&quot;;
+}
+</code></pre>
+<p>因为注解实际会有代理类,所以定义的属性确实是方法,只不过方法名字和属性名相同,属性值由方法return.
+这里可能有人会问,为什么不直接定义变量,因为java用接口实现注解,接口无法定义实例变量.</p>
+<h3 id="代理">代理</h3>
+<p>其实后面就是代理的事情了,默认是JDK的动态代理.<br>
+可以使用<code>System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;,&quot;true&quot;);</code>来在当前工程中保存JDK生成的动态代理类.<br>
+看一下代理类</p>
+<pre><code class="language-java">public final class $Proxy1 extends Proxy implements Hello {
+    // equals
+    private static Method m1;
+    // toString
+    private static Method m2;
+    // annotationType
+    private static Method m4;
+    // hashCode
+    private static Method m0;
+    // 注解定义的属性对应的方法
+    private static Method m3;
+		
+    static {
+        try {
+          m1 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;equals&quot;, Class.forName(&quot;java.lang.Object&quot;));
+            m2 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;toString&quot;);
+            m4 = Class.forName(&quot;com.learn.java.annotation.Hello&quot;).getMethod(&quot;annotationType&quot;);
+            m3 = Class.forName(&quot;com.learn.java.annotation.Hello&quot;).getMethod(&quot;helloKey&quot;);
+            m0 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;hashCode&quot;);
+        } catch (NoSuchMethodException var2) {
+            throw new NoSuchMethodError(var2.getMessage());
+        } catch (ClassNotFoundException var3) {
+            throw new NoClassDefFoundError(var3.getMessage());
+        }
+    }
+
+    public $Proxy1(InvocationHandler var1) throws  {
+        super(var1);
+    }
+
+    public final boolean equals(Object var1) throws  {
+        try {
+            return (Boolean)super.h.invoke(this, m1, new Object[]{var1});
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final String toString() throws  {
+        try {
+            return (String)super.h.invoke(this, m2, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final Class annotationType() throws  {
+        try {
+            return (Class)super.h.invoke(this, m4, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final int hashCode() throws  {
+        try {
+            return (Integer)super.h.invoke(this, m0, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final String helloKey() throws  {
+        try {
+            return (String)super.h.invoke(this, m3, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+}
+</code></pre>
+<p>可以看出,Proxy类的实际逻辑都是交给InvocationHandler h的invoke方法处理的,<br>
+invoke(this,方法Method对象,方法参数列表),这是JDK代理的通用逻辑,代理后的实际逻辑在对应的handler.
+对于注解,它的处理handler是<code>AnnotationInvocationHandler</code>.<br>
+同时,我们可以看到代理类Proxy对四个方法是有特殊处理的,这四个方法的实际逻辑也在对应的handler.如果没有这样操作的话,其实代理类会使用Object的实现或者找不到.</p>
+<ul>
+<li>private static Method m1;// equals</li>
+<li>private static Method m2;// toString</li>
+<li>private static Method m4;// annotationType</li>
+<li>private static Method m0;// hashCode</li>
+</ul>
+<p>AnnotationInvocationHandler的invoke方法.</p>
+<pre><code class="language-java">class AnnotationInvocationHandler implements InvocationHandler, Serializable {
+    private static final long serialVersionUID = 6182022883658399397L;
+    private final Class&lt;? extends Annotation&gt; type;
+    private final Map&lt;String, Object&gt; memberValues;
+    private transient volatile Method[] memberMethods = null;
+    // var1是Proxy$1代理类的this,var2是传进来的方法对象,var3是方法参数
+    // 我们只关注var2就好,别的没用到
+    public Object invoke(Object var1, Method var2, Object[] var3) {
+        // 方法名
+        String var4 = var2.getName();
+        // 方法参数
+        Class[] var5 = var2.getParameterTypes();
+        // equals特殊处理
+        if (var4.equals(&quot;equals&quot;) &amp;&amp; var5.length == 1 &amp;&amp; var5[0] == Object.class) {
+            return this.equalsImpl(var3[0]);
+        } else if (var5.length != 0) {
+            //这里说明注解的方法不允许有参数
+            throw new AssertionError(&quot;Too many parameters for an annotation method&quot;);
+        } else {
+            byte var7 = -1;
+            // 这里判断方法名的hashcode
+            switch (var4.hashCode()) {
+                case -1776922004:
+                    if (var4.equals(&quot;toString&quot;)) {
+                        var7 = 0;
+                    }
+                    break;
+                case 147696667:
+                    if (var4.equals(&quot;hashCode&quot;)) {
+                        var7 = 1;
+                    }
+                    break;
+                case 1444986633:
+                    if (var4.equals(&quot;annotationType&quot;)) {
+                        var7 = 2;
+                    }
+            }
+
+            switch (var7) {
+                case 0:
+                    return this.toStringImpl();
+                case 1:
+                    return this.hashCodeImpl();
+                case 2:
+                    return this.type;
+                default:
+                    Object var6 = this.memberValues.get(var4);
+                    if (var6 == null) {
+                        throw new IncompleteAnnotationException(this.type, var4);
+                    } else if (var6 instanceof ExceptionProxy) {
+                        throw ((ExceptionProxy) var6).generateException();
+                    } else {
+                        if (var6.getClass().isArray() &amp;&amp; Array.getLength(var6) != 0) {
+                            var6 = this.cloneArray(var6);
+                        }
+
+                        return var6;
+                    }
+            }
+        }
+    }
+}		
+
+</code></pre>
+<p>可以看到,如果是4种特殊方法,那么var7会被设成对应的值,直接调用invoker中复写的方法.  如果是equals在上边就直接判断了.<br>
+如果不是,说明方法是注解自定义的方法,其实也就是注解的参数.<br>
+会从memberValues中取得,它是一个Map&lt;String, Object&gt;,会存储当前注解的属性名(方法名)为Key,以及对应的值.</p>
+<p>举个例子</p>
+<pre><code class="language-java">@Target({ElementType.METHOD,ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Hello {
+    String helloKey() default &quot;helloValue&quot;;
+}
+</code></pre>
+<p>那么memberValues存放的值是
+<img src="https://imatvoid.github.io/gridea//post-images/1561987388266.png" alt="">
+当然,这是由于虚拟机读取到注解的Retention是Runtime.如果不是运行时的注解,那么不会有自己的AnnotationInvocationvandler.<br>
+注意,虚拟机会给每一个运行时注解生成一个AnnotationInvocationvandler类的实例,type属性是注解的类型.
+<img src="https://imatvoid.github.io/gridea//post-images/1561992374275.png" alt="">
+一个注解,多个地方使用也就是有多个实例,也会有多个AnnotationInvocationvandler类的实例
+<img src="https://imatvoid.github.io/gridea//post-images/1561993150000.png" alt=""></p>
 
             </div>
             

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式 -- 模版方法模式 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562416554138">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562416554138" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/gridea/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io/gridea//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式 -- 模版方法模式</h2>
+            <div class="post-date">2017-08-15</div>
+            
+            <div class="post-content">
+              <blockquote>
+<p>模板方法模式是类的行为模式。准备一个抽象类，将部分逻辑以具体方法以及具体构造函数的形式实现，然后声明一些抽象方法来迫使子类实现剩余的逻辑。不同的子类可以以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。这就是模板方法模式的用意.模版模式是基于继承的代码复用的基本技术。</p>
+</blockquote>
+<!-- more -->
+<p>转载自: https://www.cnblogs.com/java-my-life/archive/2012/05/14/2495235.html</p>
+<h2 id="简介">简介</h2>
+<p>模板方法模式是所有模式中最为常见的几个模式之一，是基于继承的代码复用的基本技术。</p>
+<p>模板方法模式需要开发抽象类和具体子类的设计师之间的协作。<br>
+一个设计师负责给出一个算法的轮廓和骨架，另一些设计师则负责给出这个算法的各个逻辑步骤。<br>
+代表这些具体逻辑步骤的方法称做基本方法(primitive method)；而将这些基本方法汇总起来的方法叫做模板方法(template method)，这个设计模式的名字就是从此而来。</p>
+<h2 id="uml">UML</h2>
+<p>模板方法所代表的行为称为顶级行为，其逻辑称为顶级逻辑。模板方法模式的静态结构图如下所示：
+<img src="https://imatvoid.github.io/gridea//post-images/1562229168193.png" alt=""></p>
+<p>这里涉及到两个角色：</p>
+<p>抽象模板(Abstract Template)角色有如下责任：</p>
+<ul>
+<li>定义了一个或多个抽象操作，以便让子类实现。这些抽象操作叫做基本操作，它们是一个顶级逻辑的组成步骤。</li>
+<li>定义并实现了一个模板方法。这个模板方法一般是一个具体方法，它给出了一个顶级逻辑的骨架，而逻辑的组成步骤在相应的抽象操作中，推迟到子类实现。顶级逻辑也有可能调用一些具体方法。</li>
+</ul>
+<p>具体模板(Concrete Template)角色又如下责任：</p>
+<ul>
+<li>实现父类所定义的一个或多个抽象方法，它们是一个顶级逻辑的组成步骤。</li>
+<li>每一个抽象模板角色都可以有任意多个具体模板角色与之对应，而每一个具体模板角色都可以给出这些抽象方法（也就是顶级逻辑的组成步骤）的不同实现，从而使得顶级逻辑的实现各不相同。</li>
+</ul>
+<h2 id="写法">写法</h2>
+<pre><code class="language-java">public abstract class AbstractTemplate {
+        /**
+         * 模板方法
+         */
+        public void templateMethod(){
+            //调用基本方法
+            abstractMethod();
+            hookMethod();
+            concreteMethod();
+        }
+        /**
+         * 基本方法的声明（由子类实现）
+         */
+        protected abstract void abstractMethod();
+        /**
+         * 基本方法(空方法)
+         */
+        protected void hookMethod(){}
+        /**
+         * 基本方法（已经实现）
+         */
+        private final void concreteMethod(){
+            //业务相关的代码
+        }
+    }
+</code></pre>
+<p>具体模板角色类，实现了父类所声明的基本方法，abstractMethod()方法所代表的就是强制子类实现的剩余逻辑，而hookMethod()方法是可选择实现的逻辑，不是必须实现的。</p>
+<pre><code class="language-java">public class ConcreteTemplate extends AbstractTemplate{
+    //基本方法的实现
+    @Override
+    public void abstractMethod() {
+        //业务相关的代码
+    }
+    //重写父类的方法
+    @Override
+    public void hookMethod() {
+        //业务相关的代码
+    }
+}
+</code></pre>
+<p>模板模式的关键是：子类可以置换掉父类的可变部分，但是子类却不可以改变模板方法所代表的顶级逻辑。<br>
+每当定义一个新的子类时，不要按照控制流程的思路去想，而应当按照“责任”的思路去想。换言之，应当考虑哪些操作是必须置换掉的，哪些操作是可以置换掉的，以及哪些操作是不可以置换掉的。使用模板模式可以使这些责任变得清晰。</p>
+<h2 id="模板方法模式中的方法">模板方法模式中的方法</h2>
+<p>模板方法中的方法可以分为两大类：模板方法和基本方法。</p>
+<h3 id="模板方法">模板方法</h3>
+<p>一个模板方法是定义在抽象类中的，把基本操作方法组合在一起形成一个总算法或一个总行为的方法。</p>
+<p>一个抽象类可以有任意多个模板方法，而不限于一个。每一个模板方法都可以调用任意多个具体方法。</p>
+<h3 id="基本方法">基本方法</h3>
+<p>基本方法又可以分为三种：抽象方法(Abstract Method)、具体方法(Concrete Method)和钩子方法(Hook Method)。</p>
+<ul>
+<li>抽象方法：一个抽象方法由抽象类声明，由具体子类实现。在Java语言里抽象方法以abstract关键字标示。</li>
+<li>具体方法：一个具体方法由抽象类声明并实现，而子类并不实现或置换。</li>
+<li>钩子方法：一个钩子方法由抽象类声明并实现，而子类会加以扩展。通常抽象类给出的实现是一个空实现，作为方法的默认实现。</li>
+</ul>
+<p>在上面的例子中，AbstractTemplate是一个抽象类，它带有三个方法。其中abstractMethod()是一个抽象方法，它由抽象类声明为抽象方法，并由子类实现；hookMethod()是一个钩子方法，它由抽象类声明并提供默认实现，并且由子类置换掉。concreteMethod()是一个具体方法，它由抽象类声明并实现。</p>
+<p>默认钩子方法<br>
+　　一个钩子方法常常由抽象类给出一个空实现作为此方法的默认实现。这种空的钩子方法叫做“Do Nothing Hook”。显然，这种默认钩子方法在缺省适配模式里面已经见过了，一个缺省适配模式讲的是一个类为一个接口提供一个默认的空实现，从而使得缺省适配类的子类不必像实现接口那样必须给出所有方法的实现，因为通常一个具体类并不需要所有的方法。</p>
+<h3 id="命名规则">命名规则</h3>
+<p>​       命名规则是设计师之间赖以沟通的管道之一，使用恰当的命名规则可以帮助不同设计师之间的沟通。</p>
+<p>钩子方法的名字应当以do开始，这是熟悉设计模式的Java开发人员的标准做法。在上面的例子中，钩子方法hookMethod()应当以do开头；在HttpServlet类中，也遵从这一命名规则，如doGet()、doPost()等方法。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io/gridea//tag/hGWLocgz4" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-dai-li-mo-shi">
+                  <h3 class="post-title">
+                    设计模式 -- 代理模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

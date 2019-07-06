@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1561976398836">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562416554138">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
 
@@ -31,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
-        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1561976398836" class="site-logo">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562416554138" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -138,7 +138,7 @@
 <pre><code class="language-java">public class Singleton {
     // 注意这里的volatile
     private static volatile Singleton singleton;
-
+    // 私有构造方法很重要
     private Singleton() {}
 
     public static Singleton getInstance() {
@@ -160,7 +160,7 @@
 <pre><code class="language-java">public class Singleton {
     // 去掉这里的volatile
     private static  Singleton singleton;
-
+  
     private Singleton() {}
 
     public static Singleton getInstance() {
