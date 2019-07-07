@@ -10,9 +10,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562483724319">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1562484561250">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
 
   
@@ -36,8 +36,8 @@
       <div class="sidebar" :class="{ 'full-height': menuVisible }">
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
-      <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
-        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562483724319" class="site-logo">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1562484561250" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -91,7 +91,7 @@
 自古英雄出炼狱，从来富贵入凡尘。 
     </div>
     <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io/gridea//atom.xml" target="_blank">RSS</a>
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
     </div>
   </div>
 </div>
@@ -111,7 +111,7 @@
 </blockquote>
 <h3 id="写法">写法</h3>
 <p>使用一个统一的工厂类,以鼠标为例子,有戴尔鼠标,有惠普鼠标
-<img src="https://imatvoid.github.io/gridea//post-images/1561873543463.png" alt=""></p>
+<img src="https://imatvoid.github.io//post-images/1561873543463.png" alt=""></p>
 <pre><code class="language-java">public class MouseFactory {
           public static final String TAG = &quot;MouseFactory&quot;;
           public static Mouse getMouse(String type) {
@@ -137,12 +137,12 @@
 <blockquote>
 <p>工厂方法模式把具体产品的创建推迟到工厂类的子类（具体工厂）中，此时工厂类不再负责所有产品的创建，而只是给出具体工厂必须实现的接口</p>
 </blockquote>
-<p><img src="https://imatvoid.github.io/gridea//post-images/1561704396251.png" alt=""></p>
+<p><img src="https://imatvoid.github.io//post-images/1561704396251.png" alt=""></p>
 <h3 id="写法-2">写法</h3>
 <p>工厂模式也就是鼠标工厂是个父类，有生产鼠标这个接口。<br>
 戴尔鼠标工厂，惠普鼠标工厂继承它，可以分别生产戴尔鼠标，惠普鼠标。<br>
 生产哪种鼠标不再由参数决定，而是创建鼠标工厂时，由戴尔鼠标工厂创建。<br>
-<img src="https://imatvoid.github.io/gridea//post-images/1561873918940.png" alt=""></p>
+<img src="https://imatvoid.github.io//post-images/1561873918940.png" alt=""></p>
 <p>产品的公共接口</p>
 <pre><code class="language-java">public interface Mouse {
     void move();
@@ -217,16 +217,16 @@ mouse.move();
 戴尔工厂，惠普工厂继承它，可以分别生产戴尔鼠标+戴尔键盘，和惠普鼠标+惠普键盘。<br>
 创建工厂时，由戴尔工厂创建。<br>
 后续工厂.生产鼠标()则生产戴尔鼠标，工厂.生产键盘()则生产戴尔键盘。</p>
-<p><img src="https://imatvoid.github.io/gridea//post-images/1561874218901.png" alt=""></p>
+<p><img src="https://imatvoid.github.io//post-images/1561874218901.png" alt=""></p>
 <p>这里的代码不继续给了,只是在抽象的工厂接口中,定义多个产品.</p>
 <h3 id="在抽象工厂模式中假设我们需要增加一个工厂">在抽象工厂模式中，假设我们需要增加一个工厂</h3>
 <p>假设我们增加华硕工厂，则我们需要增加华硕工厂，和戴尔工厂一样，继承 PC 厂商。<br>
 之后创建华硕鼠标，继承鼠标类。创建华硕键盘，继承键盘类即可。
-<img src="https://imatvoid.github.io/gridea//post-images/1561874714750.png" alt=""></p>
+<img src="https://imatvoid.github.io//post-images/1561874714750.png" alt=""></p>
 <h3 id="在抽象工厂模式中假设我们需要增加一个产品">在抽象工厂模式中，假设我们需要增加一个产品</h3>
 <p>假设我们增加耳麦这个产品，则首先我们需要增加耳麦这个父类，再加上戴尔耳麦，惠普耳麦这两个子类。<br>
 之后在PC厂商这个父类中，增加生产耳麦的接口。最后在戴尔工厂，惠普工厂这两个类中，分别实现生产戴尔耳麦，惠普耳麦的功能。 以上。<br>
-<img src="https://imatvoid.github.io/gridea//post-images/1561874854908.png" alt=""></p>
+<img src="https://imatvoid.github.io//post-images/1561874854908.png" alt=""></p>
 <h3 id="优点-3">优点</h3>
 <p>其实是对于产品族(多种产品由于业务原因有内在聚合性,比如都是戴尔家的)情况下,工厂方法模式的拓展.</p>
 <h3 id="缺点-3">缺点</h3>
@@ -247,7 +247,7 @@ https://java-design-patterns.com/patterns/factory-method/</p>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io/gridea//tag/hGWLocgz4" class="tag">
+                  <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="tag">
                     设计模式
                   </a>
                 
@@ -256,7 +256,7 @@ https://java-design-patterns.com/patterns/factory-method/</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io/gridea//post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi">
+                <a href="https://imatvoid.github.io//post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi">
                   <h3 class="post-title">
                     设计模式 -- 模版方法模式
                   </h3>
@@ -304,7 +304,7 @@ var app = new Vue({
       var gitalk = new Gitalk({
         clientID: 'd6f8edd37708580f1f7e',
         clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
-        repo: 'gridea',
+        repo: 'imatvoid.github.io',
         owner: 'Imatvoid',
         admin: ['Imatvoid'],
         id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
