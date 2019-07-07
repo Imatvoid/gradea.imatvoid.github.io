@@ -10,10 +10,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562416554138">
+<link rel="shortcut icon" href="https://imatvoid.github.io/gridea//favicon.ico?v=1562483079361">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io/gridea//styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -31,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/gridea/">
-        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562416554138" class="site-logo">
+        <img src="https://imatvoid.github.io/gridea//images/avatar.png?v=1562483079361" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -179,6 +185,12 @@ adapter的写法并不局限于上面的uml图,<strong>只要实现了转化,达
             
 
             
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
 
           </div>
 
@@ -202,6 +214,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'gittalk',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 
