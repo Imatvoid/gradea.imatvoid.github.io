@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-09T11:10:06.270Z</updated>
+    <updated>2019-07-13T04:48:42.310Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,13 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 938. Range Sum of BST]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst</id>
+        <link href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">
+        </link>
+        <updated>2019-07-12T05:41:15.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[请评估一下程序的执行结果?]]></title>
         <id>https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo</id>
@@ -87,40 +94,21 @@
         <updated>2018-12-01T07:39:53.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Maven -- 第一个插件]]></title>
-        <id>https://imatvoid.github.io//post/maven-di-yi-ge-cha-jian</id>
-        <link href="https://imatvoid.github.io//post/maven-di-yi-ge-cha-jian">
+        <title type="html"><![CDATA[自适应哈希索引(Adaptive Hash Index, AHI)]]></title>
+        <id>https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi</id>
+        <link href="https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi">
         </link>
-        <updated>2018-05-08T12:58:33.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>A Mojo is really just a goal in Maven, and plug-ins consist of any number of goals (Mojos).</p>
-</blockquote>
-]]></summary>
-        <content type="html"><![CDATA[<blockquote>
-<p>A Mojo is really just a goal in Maven, and plug-ins consist of any number of goals (Mojos).</p>
-</blockquote>
-]]></content>
+        <updated>2018-09-12T03:19:42.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[浅析java注解底层原理]]></title>
-        <id>https://imatvoid.github.io//post/qian-xi-java-zhu-jie-di-ceng-yuan-li</id>
-        <link href="https://imatvoid.github.io//post/qian-xi-java-zhu-jie-di-ceng-yuan-li">
+        <title type="html"><![CDATA[设计模式 -- 建造者模式]]></title>
+        <id>https://imatvoid.github.io//post/she-ji-mo-shi-jian-zao-zhe-mo-shi</id>
+        <link href="https://imatvoid.github.io//post/she-ji-mo-shi-jian-zao-zhe-mo-shi">
         </link>
-        <updated>2018-03-21T01:48:53.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>注解是一种附加信息/标识信息,如果没有对应的处理器,那没有任何作用.</p>
-</blockquote>
+        <updated>2018-06-11T14:50:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>一步一步流式地构建复杂对象.</p>
 ]]></summary>
-        <content type="html"><![CDATA[<blockquote>
-<p>注解是一种附加信息/标识信息,如果没有对应的处理器,那没有任何作用.</p>
-</blockquote>
+        <content type="html"><![CDATA[<p>一步一步流式地构建复杂对象.</p>
 ]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[设计模式 -- 工厂模式]]></title>
-        <id>https://imatvoid.github.io//post/she-ji-mo-shi-gong-han-mo-shi</id>
-        <link href="https://imatvoid.github.io//post/she-ji-mo-shi-gong-han-mo-shi">
-        </link>
-        <updated>2018-01-28T03:55:19.000Z</updated>
     </entry>
 </feed>

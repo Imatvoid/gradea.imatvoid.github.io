@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>分库分表 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1562911387685">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1562911387685" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">分库分表</h2>
+            <div class="post-date">2018-06-05</div>
+            
+            <div class="post-content">
+              <!-- more -->
+<h1 id="分库分表">分库分表</h1>
+<p>一般来讲,将库进行垂直拆分和水平拆分后,在将表进行合理的垂直拆分就够了.不建议对表进行水平拆分.</p>
+<h2 id="库拆分">库拆分</h2>
+<h3 id="垂直拆分">垂直拆分</h3>
+<p>按业务分库,比如order库,goods商品库</p>
+<h3 id="水平拆分">水平拆分</h3>
+<p>比如将order库再拆分,order1-order32个库,规则比如orderId字段(Long) 向右移动42位.即是在第几个库.</p>
+<p>比如4418858115632是在order1库.</p>
+<blockquote>
+<p>这里可以算一下,Long64,低42位代表实际id,2的42次方43980亿,就算一天1亿订单的话,43980/360=122</p>
+<p>可以使用100多年.如果单子类型不同,建议加不同的前缀,并且垂直分到不同数据库.</p>
+</blockquote>
+<h2 id="表拆分">表拆分</h2>
+<h3 id="垂直拆分-2">垂直拆分</h3>
+<p>垂直拆分是指数据表<strong>列的拆分</strong>，把一张列比较多的表拆分为多张表</p>
+<p><img src="https://imatvoid.github.io//post-images/1562675003241.png" alt=""></p>
+<p>通常我们按以下原则进行垂直拆分:</p>
+<ol>
+<li>把不常用的字段单独放在一张表;</li>
+<li>把text，blob等大字段拆分出来放在附表中;</li>
+<li>经常组合查询的列放在一张表中;</li>
+</ol>
+<blockquote>
+<p>垂直拆分更多时候就应该在数据表设计之初就执行的步骤，然后查询的时候用jion关键起来即可;</p>
+</blockquote>
+<h3 id="水平拆分-2">水平拆分</h3>
+<p>水平拆分是指数据表<strong>行的拆分</strong>，表的行数超过200万行时，就会变慢，这时可以把一张的表的数据拆成多张表来存放。
+<img src="https://imatvoid.github.io//post-images/1562675023592.png" alt=""></p>
+<h3 id="水平拆分的一些技巧">水平拆分的一些技巧</h3>
+<p><strong>1. 拆分原则</strong>
+通常情况下，我们使用取模的方式来进行表的拆分;比如一张有400W的用户表<code>users</code>，为提高其查询效率我们把其分成4张表<code>users1，users2，users3，users4</code>
+通过用ID取模的方法把数据分散到四张表内<code>Id%4+1 = [1,2,3,4]</code>
+然后查询,更新,删除也是通过取模的方法来查询</p>
+<pre><code class="language-sql">$_GET['id'] = 17,
+17%4 + 1 = 2,  
+$tableName = 'users'.'2'
+Select * from users2 where id = 17;
+</code></pre>
+<p>在insert时还需要一张临时表<code>uid_temp</code>来提供自增的ID,该表的唯一用处就是提供自增的ID;</p>
+<pre><code class="language-sql">insert into uid_temp values(null);
+</code></pre>
+<p>得到自增的ID后,又通过取模法进行分表插入;</p>
+<blockquote>
+<p>注意,进行水平拆分后的表,字段的列和类型和原表应该是相同的,但是要记得去掉auto_increment自增长</p>
+</blockquote>
+<p><strong>另外</strong></p>
+<ul>
+<li>部分业务逻辑也可以通过地区，年份等字段来进行归档拆分;</li>
+<li>进行拆分后的表，只能满足部分查询的高效查询需求，这时我们就要在产品策划上，从界面上约束用户查询行为。比如我们是按年来进行归档拆分的,这个时候在页面设计上就约束用户必须要先选择年,然后才能进行查询;</li>
+<li>在做分析或者统计时，由于是自己人的需求,多点等待其实是没关系的,并且并发很低,这个时候可以用union把所有表都组合成一张视图来进行查询,然后再进行查询;</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="tag">
+                    数据库
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/maven-di-yi-ge-cha-jian">
+                  <h3 class="post-title">
+                    Maven -- 第一个插件
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

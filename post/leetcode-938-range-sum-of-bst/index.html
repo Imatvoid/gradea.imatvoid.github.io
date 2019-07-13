@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>leetcode -- 938. Range Sum of BST | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1562911387685">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1562911387685" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">leetcode -- 938. Range Sum of BST</h2>
+            <div class="post-date">2019-07-12</div>
+            
+            <div class="post-content">
+              <blockquote>
+<p><a href="https://leetcode.com/problems/range-sum-of-bst/">原题链接</a></p>
+</blockquote>
+<h2 id="desc">Desc</h2>
+<p>Given the <code>root</code> node of a binary search tree, return the sum of values of all nodes with value between <code>L</code> and <code>R</code>(inclusive).</p>
+<p>The binary search tree is guaranteed to have unique values.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: root = [10,5,15,3,7,null,18], L = 7, R = 15
+Output: 32
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: root = [10,5,15,3,7,13,18,1,null,6], L = 6, R = 10
+Output: 23
+</code></pre>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The number of nodes in the tree is at most <code>10000</code>.</li>
+<li>The final answer is guaranteed to be less than <code>2^31</code>.</li>
+</ol>
+<h2 id="描述">描述</h2>
+<p>给定二叉搜索树的根结点 root，返回 L 和 R（含）之间的所有结点的值的和。</p>
+<p>二叉搜索树保证具有唯一的值。</p>
+<p>示例 1：</p>
+<pre><code>输入：root = [10,5,15,3,7,null,18], L = 7, R = 15
+输出：32
+</code></pre>
+<p>示例 2：</p>
+<pre><code>输入：root = [10,5,15,3,7,13,18,1,null,6], L = 6, R = 10
+输出：23
+</code></pre>
+<h2 id="理解">理解</h2>
+<p>以示例1为例
+<img src="https://imatvoid.github.io//post-images/1562911262572.png" alt=""></p>
+<p><img src="https://imatvoid.github.io//post-images/1562911283851.png" alt=""></p>
+<p>可以用递归理解一下,我拿到一个节点,如果这个节点的值在L-R之间,我就加到结果里,<br>
+如果这个值比L大,说明他的左子树里可能有我需要的,我去搜索左子树.<br>
+如果比R小,说明它的右子树里可能有我需要的,我去搜索右子树.<br>
+最后的基线条件/终止条件就是,拿到的节点为null</p>
+<pre><code class="language-java">package leetcode.tree.BST;
+
+import leetcode.tree.TreeNode;
+
+public class RangeSumOfBST {
+
+    int res = 0;
+    public int rangeSumBST(TreeNode root, int L, int R) {
+
+        search(root,L,R);
+        return res;
+
+    }
+
+    public void search(TreeNode root, int L, int R) {
+        if(root==null){
+            return;
+        }
+        if(root.val&gt;=L &amp;&amp; root.val&lt;=R ){
+            res+=root.val;
+        }
+
+        //如果这个值比L大,说明他的左子树里可能有我需要的,我去搜索左子树,
+        if(root.val &gt;L){
+            search(root.left,L,R);
+        }
+        //如果这个值比R小,说明他的右子树里可能有我需要的,我去搜索右子树,
+        if(root.val &lt;R){
+            search(root.right,L,R);
+        }
+
+    }
+}
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="tag">
+                    Binary Tree
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="tag">
+                    Binary Search Tree
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
+                  <h3 class="post-title">
+                    请评估一下程序的执行结果?
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

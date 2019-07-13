@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式 -- 建造者模式 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1562911387685">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1562911387685" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式 -- 建造者模式</h2>
+            <div class="post-date">2018-06-11</div>
+            
+            <div class="post-content">
+              <p>一步一步流式地构建复杂对象.</p>
+<!-- more -->
+<p>建造者模式（Builder Pattern）使用多个简单的对象一步一步构建成一个复杂的对象。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+<p>一个 Builder 类会一步一步构造最终的对象。该 Builder 类是独立于其他对象的。</p>
+<h2 id="写法">写法</h2>
+<h4 id="不使用建造者模式">不使用建造者模式</h4>
+<pre><code class="language-java">class Hero{
+  // 复杂的构造方法
+  public Hero(Profession profession, String name, HairType hairType, HairColor hairColor, Armor armor, Weapon weapon) {
+  }
+  
+}  
+</code></pre>
+<h4 id="使用builder模式">使用Builder模式</h4>
+<p>最终被构建的类.使用Builder作为构造方法参数</p>
+<pre><code class="language-java">public final class Hero {
+  private final Profession profession;
+  private final String name;
+  private final HairType hairType;
+  private final HairColor hairColor;
+  private final Armor armor;
+  private final Weapon weapon;
+
+  private Hero(Builder builder) {
+    this.profession = builder.profession;
+    this.name = builder.name;
+    this.hairColor = builder.hairColor;
+    this.hairType = builder.hairType;
+    this.weapon = builder.weapon;
+    this.armor = builder.armor;
+  }
+}
+</code></pre>
+<p>Builder类</p>
+<pre><code class="language-java">public static class Builder {
+    private final Profession profession;
+    private final String name;
+    private HairType hairType;
+    private HairColor hairColor;
+    private Armor armor;
+    private Weapon weapon;
+
+    public Builder(Profession profession, String name) {
+      if (profession == null || name == null) {
+        throw new IllegalArgumentException(&quot;profession and name can not be null&quot;);
+      }
+      this.profession = profession;
+      this.name = name;
+    }
+
+    public Builder withHairType(HairType hairType) {
+      this.hairType = hairType;
+      return this;
+    }
+
+    public Builder withHairColor(HairColor hairColor) {
+      this.hairColor = hairColor;
+      return this;
+    }
+
+    public Builder withArmor(Armor armor) {
+      this.armor = armor;
+      return this;
+    }
+
+    public Builder withWeapon(Weapon weapon) {
+      this.weapon = weapon;
+      return this;
+    }
+
+    public Hero build() {
+      return new Hero(this);
+    }
+  }
+</code></pre>
+<p>使用</p>
+<pre><code class="language-java">Hero mage = new Hero.Builder(Profession.MAGE,&quot;Riobard&quot;)
+  .withHairColor(HairColor.BLACK)
+  .withWeapon(Weapon.DAGGER)
+  .build();
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/fen-ku-fen-biao">
+                  <h3 class="post-title">
+                    分库分表
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
