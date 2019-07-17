@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>登陆shell,非登陆shell 以及交互shell和非交互shell | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">登陆shell,非登陆shell 以及交互shell和非交互shell</h2>
+            <div class="post-date">2018-02-15</div>
+            
+            <div class="post-content">
+              <p><img src="https://imatvoid.github.io//post-images/1563162717298.png" alt=""></p>
+<!-- more -->
+<p>Bash有几种不同的运行模式，login shell与non-login shell，interactive shell与non-interactive shell（比如执行shell脚本）。这两种分类方法是交叉的，也就是说一个login shell可能是一个interactive shell，也可能是个non-interactive shell</p>
+<h3 id="non-interactive-non-login-shell">non-interactive, non-login shell</h3>
+<blockquote>
+<p>When a shell runs a script or a command passed on its command line</p>
+</blockquote>
+<p>我们平时运行的shell脚本,一般是不和用户交互的,这就是一种非交互,非登陆shell.</p>
+<h3 id="interactive-non-login-shell">interactive, non-login shell</h3>
+<p>在系统已经登陆后,你打开一个终端,或者执行bash 命令新建一个终端窗口,这就是一种交互式的非登陆shell.</p>
+<p>login shell 是特殊的情况,我们单独说.</p>
+<h3 id="login-shell">login shell</h3>
+<blockquote>
+<p>A login shell is the first process that executes under your user ID when you log in for an interactive session.</p>
+</blockquote>
+<ol>
+<li>登录系统时获得的顶层shell，无论是通过本地终端登录，还是通过网络ssh登录。这种情况下获得的login shell是一个交互式shell。</li>
+<li>在终端下使用--login选项调用bash 命令，可以获得一个交互式login shell。</li>
+<li>在脚本中使用--login选项调用bash（比如在shell脚本第一行做如下指定：#!/bin/bash --login），此时得到一个非交互式的login shell。</li>
+<li>使用&quot;su -&quot;切换到指定用户时，获得此用户的login shell。如果不使用&quot;-&quot;，则获得non-login shell。</li>
+</ol>
+<h3 id="区别-读取的配置">区别 - 读取的配置</h3>
+<h4 id="login-shell-读取的配置">login shell 读取的配置</h4>
+<p>login shell与non-login shell的主要区别在于它们启动时会读取不同的配置文件，从而导致环境不一样。login shell（包括交互式登录shell和使用“--login”选项的非交互shell）启动时首先读取/etc/profile全局配置，然后依次查找~/.bash_profile、~/.bash_login、~/.profile三个配置文件，并且读取第一个找到的并且可读的文件。login shell退出时读取并执行~/.bash_logout中的命令。</p>
+<p><img src="https://imatvoid.github.io//post-images/1563162757668.png" alt=""></p>
+<ul>
+<li>inputrc 处理键盘映射</li>
+<li>/etc/profile.d 下面主要是sh脚本.</li>
+</ul>
+<p>这里谈一下/etc/profile和/etc/profile.d的区别</p>
+<ol>
+<li>两个文件都是设置环境变量文件的,/etc/profile是永久的环境变量，是全局变量，/etc/profile.d/是全局脚本,所有用户生效</li>
+<li>/etc/profile.d/ 比 /etc/profile好维护，不想要什么变动直接删除/etc/profile.d 下对应的shell脚本即可，不用像/etc/profile需要改动此文件</li>
+</ol>
+<pre><code class="language-shell"># 下面以jdk的安装为例
+vi  /etc/profile.d/java.sh
+#set java environment
+JAVA_HOME=/var/mysoft/jdk1.7.0_80 
+PATH=＄JAVA_HOME/bin:＄PATH
+export JAVA_HOME PATH
+#保存退出，然后给java.sh分配权限：
+chmod 755 /etc/profile.d/java.sh
+#使配置立即生效: 
+source /etc/profile.d/java.sh
+</code></pre>
+<h4 id="no-login-shell-读取的配置">no login shell 读取的配置</h4>
+<p><strong>在非登录shell里，只读取 ~/.bashrc （一般会在其中再去读取/etc/bash.bashrc、/etc/bashrc ）文件，不同的发行版里面可能有所不同</strong>，如RHEL6.3中非登录shell仅执行了“~/.bashrc”文件（没有执行/etc/bashrc），而KUbuntu10.04中却依次执行了/etc/bash.bashrc 和 ~/.bashrc 文件。
+对于这些规则，可以直接在相应的配置文件中加一些echo命令来验证其真实性。</p>
+<h4 id="区别这两种shell">区别这两种shell</h4>
+<p>我们可以用以下方式分别login shell 和 nologin shell:</p>
+<pre><code class="language-shell">&gt; echo $0
+-bash # &quot;-&quot; is the first character. Therefore, this is a login shell.
+
+&gt; echo $0
+bash # &quot;-&quot; is NOT the first character. This is NOT a login shell.
+</code></pre>
+<p>在bash中,你也可以</p>
+<pre><code class="language-bsh">&gt; shopt login_shell
+login_shell     off  # no login 
+</code></pre>
+<p>ssh 一定是个login shell. For Example:</p>
+<pre><code class="language-bsh">&gt; ssh user@localhost
+user@localhost's password:
+&gt; echo $0
+-bash
+</code></pre>
+<h3 id="参考">参考</h3>
+<p><a href="https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell/">https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell/</a></p>
+<p><a href="http://smilejay.com/2012/10/interactive-shell-login-shell/">http://smilejay.com/2012/10/interactive-shell-login-shell/</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="tag">
+                    shell
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/she-ji-mo-shi-gong-han-mo-shi">
+                  <h3 class="post-title">
+                    设计模式 -- 工厂模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

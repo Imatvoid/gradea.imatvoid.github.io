@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-13T04:48:42.310Z</updated>
+    <updated>2019-07-17T14:34:33.932Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,32 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 1114. Print in Order]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-1114-print-in-order</id>
+        <link href="https://imatvoid.github.io//post/leetcode-1114-print-in-order">
+        </link>
+        <updated>2019-07-17T14:30:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>按顺序打印one,two,three<br>
+<a href="https://leetcode.com/problems/print-in-order//">https://leetcode.com/problems/print-in-order//</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>按顺序打印one,two,three<br>
+<a href="https://leetcode.com/problems/print-in-order//">https://leetcode.com/problems/print-in-order//</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 1115. Print FooBar Alternately]]></title>
+        <id>https://imatvoid.github.io//post/1115-print-foobar-alternately</id>
+        <link href="https://imatvoid.github.io//post/1115-print-foobar-alternately">
+        </link>
+        <updated>2019-07-17T14:22:08.000Z</updated>
+        <summary type="html"><![CDATA[<p>交替打印Foo Bar<br>
+<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>交替打印Foo Bar<br>
+<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode -- 938. Range Sum of BST]]></title>
         <id>https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst</id>
@@ -92,23 +118,5 @@
         <link href="https://imatvoid.github.io//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
         </link>
         <updated>2018-12-01T07:39:53.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[自适应哈希索引(Adaptive Hash Index, AHI)]]></title>
-        <id>https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi</id>
-        <link href="https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi">
-        </link>
-        <updated>2018-09-12T03:19:42.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[设计模式 -- 建造者模式]]></title>
-        <id>https://imatvoid.github.io//post/she-ji-mo-shi-jian-zao-zhe-mo-shi</id>
-        <link href="https://imatvoid.github.io//post/she-ji-mo-shi-jian-zao-zhe-mo-shi">
-        </link>
-        <updated>2018-06-11T14:50:44.000Z</updated>
-        <summary type="html"><![CDATA[<p>一步一步流式地构建复杂对象.</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>一步一步流式地构建复杂对象.</p>
-]]></content>
     </entry>
 </feed>

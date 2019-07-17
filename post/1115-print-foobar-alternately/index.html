@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>leetcode -- 1115. Print FooBar Alternately | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">leetcode -- 1115. Print FooBar Alternately</h2>
+            <div class="post-date">2019-07-17</div>
+            
+            <div class="post-content">
+              <p>交替打印Foo Bar<br>
+<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+<!-- more -->
+<h2 id="desc">desc</h2>
+<p>Suppose you are given the following code:</p>
+<pre><code>class FooBar {
+  public void foo() {
+    for (int i = 0; i &lt; n; i++) {
+      print(&quot;foo&quot;);
+    }
+  }
+
+  public void bar() {
+    for (int i = 0; i &lt; n; i++) {
+      print(&quot;bar&quot;);
+    }
+  }
+}
+</code></pre>
+<p>The same instance of <code>FooBar</code> will be passed to two different threads. Thread A will call <code>foo()</code> while thread B will call <code>bar()</code>. Modify the given program to output &quot;foobar&quot; <em>n</em> times.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: n = 1
+Output: &quot;foobar&quot;
+Explanation: There are two threads being fired asynchronously. One of them calls foo(), while the other calls bar(). &quot;foobar&quot; is being output 1 time.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: n = 2
+Output: &quot;foobarfoobar&quot;
+Explanation: &quot;foobar&quot; is being output 2 times.
+</code></pre>
+<h2 id="描述">描述</h2>
+<p>两并发线程交替打印Foo Bar.启动顺序不保证.</p>
+<h2 id="思路">思路</h2>
+<p>这种交替打印的,没有比信号量更简单得了</p>
+<pre><code class="language-java">
+import java.util.concurrent.Semaphore;
+class FooBar {
+    private int n;
+    
+    Semaphore foo = new Semaphore(1);
+    Semaphore bar = new Semaphore(0);
+
+    public FooBar(int n) {
+        this.n = n;
+    }
+
+    public void foo(Runnable printFoo) throws InterruptedException {
+        
+        for (int i = 0; i &lt; n; i++) {
+            foo.acquire(); // foo - 1
+        	// printFoo.run() outputs &quot;foo&quot;. Do not change or remove this line.
+          	printFoo.run();
+            bar.release();  // bar + 1 
+        }
+    }
+
+    public void bar(Runnable printBar) throws InterruptedException {
+        
+        for (int i = 0; i &lt; n; i++) {
+             bar.acquire();  // bar + 1
+             // printBar.run() outputs &quot;bar&quot;. Do not change or remove this line.
+        	   printBar.run();
+             foo.release();  // foo - 1
+        }
+    }
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
+                    并发concurrency
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">
+                  <h3 class="post-title">
+                    leetcode -- 938. Range Sum of BST
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
