@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -76,6 +76,10 @@
     <div class="social-container">
       
         
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
         
       
@@ -108,7 +112,7 @@
 <p>在软件设计中，使用代理模式的意图也很多，比如因为安全原因需要屏蔽客户端直接访问真实对象，或者在远程调用中需要使用代理类处理远程方法调用的技术细节 (如 RMI)，也可能为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
 <!-- more -->
 <h2 id="写法">写法</h2>
-<p>没有什么可写的,就是用一个代理类继承/实现接口从而内部包含真实对象.在客户端使用代理类.
+<p>没有什么可写的,就是用一个代理类继承/实现接口从而内部包含真实对象.在客户端使用代理类.<br>
 需要注意的是我们通常使用接口,实现具体被代理对象和代理类以及客户端的解耦:<br>
 代理模式角色分为 4 种：<br>
 主题接口：定义代理类和真实主题的公共对外方法；<br>

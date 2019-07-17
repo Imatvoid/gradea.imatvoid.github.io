@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -76,6 +76,10 @@
     <div class="social-container">
       
         
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
         
       
@@ -108,7 +112,7 @@
 <!-- more -->
 <h2 id="懒加载">懒加载</h2>
 <h3 id="真的需要懒加载吗">真的需要懒加载吗</h3>
-<p>如果需要懒加载(需要时候才加载)那么就要有if xxx == null 的判断.这在多线程下可能是不安全的,
+<p>如果需要懒加载(需要时候才加载)那么就要有if xxx == null 的判断.这在多线程下可能是不安全的,<br>
 如果能接受程序启动就创建一个单例,放弃懒加载,那么有一种简便的方法,还能保证多线程状态下的安全.</p>
 <pre><code class="language-java">public class Singleton {
 
@@ -139,7 +143,7 @@
 }
 </code></pre>
 <h3 id="如果你真的很在乎性能">如果你真的很在乎性能</h3>
-<p>如果你真的很在乎性能,那么请你在任何地方都保持,在一整個项目里,不然其实效果不大.
+<p>如果你真的很在乎性能,那么请你在任何地方都保持,在一整個项目里,不然其实效果不大.<br>
 双重检查锁</p>
 <pre><code class="language-java">public class Singleton {
     // 注意这里的volatile
@@ -159,7 +163,7 @@
     }
 }
 </code></pre>
-<p>Double-Check概念对于多线程开发者来说不会陌生，如代码中所示，我们进行了两次if (singleton == null)检查，这样就可以保证线程安全了。这样，实例化代码只用执行一次，后面再次访问时，判断if (singleton == null)，直接return实例化对象。
+<p>Double-Check概念对于多线程开发者来说不会陌生，如代码中所示，我们进行了两次if (singleton == null)检查，这样就可以保证线程安全了。这样，实例化代码只用执行一次，后面再次访问时，判断if (singleton == null)，直接return实例化对象。<br>
 优点：线程安全；延迟加载；效率较高。</p>
 <h4 id="这里volatile的作用">这里volatile的作用</h4>
 <p>volatile可不只是可见性,还有禁止重排序,当然上面代码的可见性synchronized已经保证.</p>

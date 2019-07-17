@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,6 +75,10 @@
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
     <div class="social-container">
       
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
@@ -137,8 +141,8 @@ JVM负责跟踪对象被加锁的次数。如果一个对象被解锁，其计�
 </li>
 </ul>
 <h2 id="深入理解">深入理解</h2>
-<p>如果线程调用了对象的 wait()方法，那么线程便会释放锁进入该对象的等待池中，等待池中的线程不会去竞争该对象的锁。
-当有线程调用了对象的 notifyAll()方法（唤醒所有 wait 线程）或 notify()方法（只随机唤醒一个 wait 线程），被唤醒的的线程便会进入该对象的锁池中，锁池中的线程会去竞争该对象锁。
+<p>如果线程调用了对象的 wait()方法，那么线程便会释放锁进入该对象的等待池中，等待池中的线程不会去竞争该对象的锁。<br>
+当有线程调用了对象的 notifyAll()方法（唤醒所有 wait 线程）或 notify()方法（只随机唤醒一个 wait 线程），被唤醒的的线程便会进入该对象的锁池中，锁池中的线程会去竞争该对象锁。<br>
 优先级高的线程竞争到对象锁的概率大，假若某线程没有竞争到该对象锁，它还会留在锁池中，唯有线程再次调用 wait()方法，它才会重新回到等待池中。而竞争到对象锁的线程则继续往下执行，直到执行完了 synchronized 代码块，它会释放掉该对象锁，这时锁池中的线程会继续竞争该对象锁。</p>
 <p>注：wait() ,notifyAll(),notify() 三个方法都是Object类中的方法.</p>
 <h3 id="关于wait-notifyallnotify-三个方法">关于wait() ,notifyAll(),notify() 三个方法</h3>
@@ -150,7 +154,7 @@ JVM负责跟踪对象被加锁的次数。如果一个对象被解锁，其计�
 <p>该方法也要在同步方法或同步块中调用，即在调用前，线程也必须要获得该对象的对象级别锁，的如果调用 notify()时没有持有适当的锁，也会抛出 IllegalMonitorStateException。</p>
 <p>该方法用来通知那些可能等待该对象的对象锁的其他线程。如果有多个线程等待，则线程规划器任意挑选出其中一个 wait()状态的线程来发出通知，并使它等待获取该对象的对象锁.<br>
 这里有两个注意点:<br>
-1.<strong>notify 后，当前线程不会马上释放该对象锁，wait 所在的线程并不能马上获取该对象锁，要等到程序退出 synchronized 代码块后，当前线程才会释放锁，某一个wait所在的线程也才可以获取该对象锁
+1.<strong>notify 后，当前线程不会马上释放该对象锁，wait 所在的线程并不能马上获取该对象锁，要等到程序退出 synchronized 代码块后，当前线程才会释放锁，某一个wait所在的线程也才可以获取该对象锁<br>
 但不惊动其他同样在等待池中等待被notify的线程们。</strong><br>
 2.<strong>当第一个获得了该对象锁的 wait 线程运行完毕以后，它会释放掉该对象锁，此时如果该对象没有再次使用 notify 语句，则即便该对象已经空闲，其他 wait 状态等待的线程由于没有得到该对象的通知，会继续在等待池中,阻塞在 wait 状态，直到这个对象发出一个 notify 或 notifyAll。<br>
 这里需要注意：等待池中的线程们等待的是被 notify 或 notifyAll，暂时还不是锁。这与下面的 notifyAll()方法执行后的情况不同。</strong></p>

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,6 +75,10 @@
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
     <div class="social-container">
       
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
@@ -118,7 +122,7 @@
 <li>where a=xxx</li>
 <li>where a =xxx and b=xxx</li>
 </ol>
-<p>访问模式一样是指查询的条件是一样的，若交替进行上述两种查询，那么InnoDB存储引擎不会对该页构造AHI。
+<p>访问模式一样是指查询的条件是一样的，若交替进行上述两种查询，那么InnoDB存储引擎不会对该页构造AHI。<br>
 当然,访问模式一致,还必须达到一定的数量,比如页通过该模式访问了N次，其中N=页中记录*1/16.</p>
 <p>一些资料统计,启用AHI后，读取和写入速度可以提高2倍，辅助索引的连接操作性能可以提高5倍。</p>
 <p>AHI的设计思想是数据库自优化，不需要DBA对数据库进行手动调整,只能选择开启或者关闭。我们可以通过如下命令查看innodb AHI的使用情况.</p>

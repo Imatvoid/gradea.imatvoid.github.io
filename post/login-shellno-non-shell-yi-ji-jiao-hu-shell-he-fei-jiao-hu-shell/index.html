@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,6 +75,10 @@
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
     <div class="social-container">
       
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
@@ -127,7 +131,7 @@
 </ol>
 <h3 id="区别-读取的配置">区别 - 读取的配置</h3>
 <h4 id="login-shell-读取的配置">login shell 读取的配置</h4>
-<p>login shell与non-login shell的主要区别在于它们启动时会读取不同的配置文件，从而导致环境不一样。login shell（包括交互式登录shell和使用“--login”选项的非交互shell）启动时首先读取/etc/profile全局配置，然后依次查找~/.bash_profile、~/.bash_login、~/.profile三个配置文件，并且读取第一个找到的并且可读的文件。login shell退出时读取并执行~/.bash_logout中的命令。</p>
+<p>login shell与non-login shell的主要区别在于它们启动时会读取不同的配置文件，从而导致环境不一样。login shell（包括交互式登录shell和使用“--login”选项的非交互shell）启动时首先读取/etc/profile全局配置，然后依次查找<sub>/.bash_profile、</sub>/.bash_login、~/.profile三个配置文件，并且读取第一个找到的并且可读的文件。login shell退出时读取并执行~/.bash_logout中的命令。</p>
 <p><img src="https://imatvoid.github.io//post-images/1563162757668.png" alt=""></p>
 <ul>
 <li>inputrc 处理键盘映射</li>
@@ -150,7 +154,7 @@ chmod 755 /etc/profile.d/java.sh
 source /etc/profile.d/java.sh
 </code></pre>
 <h4 id="no-login-shell-读取的配置">no login shell 读取的配置</h4>
-<p><strong>在非登录shell里，只读取 ~/.bashrc （一般会在其中再去读取/etc/bash.bashrc、/etc/bashrc ）文件，不同的发行版里面可能有所不同</strong>，如RHEL6.3中非登录shell仅执行了“~/.bashrc”文件（没有执行/etc/bashrc），而KUbuntu10.04中却依次执行了/etc/bash.bashrc 和 ~/.bashrc 文件。
+<p><strong>在非登录shell里，只读取 ~/.bashrc （一般会在其中再去读取/etc/bash.bashrc、/etc/bashrc ）文件，不同的发行版里面可能有所不同</strong>，如RHEL6.3中非登录shell仅执行了“~/.bashrc”文件（没有执行/etc/bashrc），而KUbuntu10.04中却依次执行了/etc/bash.bashrc 和 ~/.bashrc 文件。<br>
 对于这些规则，可以直接在相应的配置文件中加一些echo命令来验证其真实性。</p>
 <h4 id="区别这两种shell">区别这两种shell</h4>
 <p>我们可以用以下方式分别login shell 和 nologin shell:</p>

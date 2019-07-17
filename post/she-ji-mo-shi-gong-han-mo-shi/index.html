@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -76,6 +76,10 @@
     <div class="social-container">
       
         
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
         
       
@@ -110,7 +114,7 @@
 <p>简单工厂模式其实并不算是一种设计模式，更多的时候是一种编程习惯。</p>
 </blockquote>
 <h3 id="写法">写法</h3>
-<p>使用一个统一的工厂类,以鼠标为例子,有戴尔鼠标,有惠普鼠标
+<p>使用一个统一的工厂类,以鼠标为例子,有戴尔鼠标,有惠普鼠标<br>
 <img src="https://imatvoid.github.io//post-images/1561873543463.png" alt=""></p>
 <pre><code class="language-java">public class MouseFactory {
           public static final String TAG = &quot;MouseFactory&quot;;
@@ -194,22 +198,22 @@ mouse.move();
 </code></pre>
 <h3 id="优点-2">优点</h3>
 <ul>
-<li>更符合开-闭原则
+<li>更符合开-闭原则<br>
 新增一种产品时，只需要增加相应的具体产品类和相应的工厂子类即可</li>
-<li>符合单一职责原则
+<li>符合单一职责原则<br>
 每个具体工厂类只负责创建对应的产品</li>
 </ul>
 <h3 id="缺点-2">缺点</h3>
 <ul>
 <li><strong>一个具体工厂只能创建一种具体产品</strong></li>
-<li>添加新产品时，除了增加新产品类外，还要提供与之对应的具体工厂类，系统类的个数将成对增加
+<li>添加新产品时，除了增加新产品类外，还要提供与之对应的具体工厂类，系统类的个数将成对增加<br>
 如果没有更复杂的需要,工厂方法模式就够了.</li>
 </ul>
 <h2 id="抽象工厂模式">抽象工厂模式</h2>
 <blockquote>
 <p>一个工厂往往需要生产多类产品</p>
 </blockquote>
-<p>值得注意的是,这时的工厂就不仅仅是鼠标工厂那种单一的概念了,它是更多的是一种&quot;平台&quot;,比如linux/win,
+<p>值得注意的是,这时的工厂就不仅仅是鼠标工厂那种单一的概念了,它是更多的是一种&quot;平台&quot;,比如linux/win,<br>
 或者品牌,华硕/戴尔/惠普工厂.</p>
 <h3 id="写法-3">写法</h3>
 <p>抽象工厂模式也就是不仅生产鼠标，同时生产键盘。<br>
@@ -221,7 +225,7 @@ mouse.move();
 <p>这里的代码不继续给了,只是在抽象的工厂接口中,定义多个产品.</p>
 <h3 id="在抽象工厂模式中假设我们需要增加一个工厂">在抽象工厂模式中，假设我们需要增加一个工厂</h3>
 <p>假设我们增加华硕工厂，则我们需要增加华硕工厂，和戴尔工厂一样，继承 PC 厂商。<br>
-之后创建华硕鼠标，继承鼠标类。创建华硕键盘，继承键盘类即可。
+之后创建华硕鼠标，继承鼠标类。创建华硕键盘，继承键盘类即可。<br>
 <img src="https://imatvoid.github.io//post-images/1561874714750.png" alt=""></p>
 <h3 id="在抽象工厂模式中假设我们需要增加一个产品">在抽象工厂模式中，假设我们需要增加一个产品</h3>
 <p>假设我们增加耳麦这个产品，则首先我们需要增加耳麦这个父类，再加上戴尔耳麦，惠普耳麦这两个子类。<br>
@@ -238,9 +242,9 @@ mouse.move();
 <p>对于新的产品族符合开-闭原则；对于新的产品种类不符合开-闭原则，这一特性称为开-闭原则的倾斜性。</p>
 </blockquote>
 <h2 id="参考">参考</h2>
-<p>http://www.runoob.com/design-pattern/abstract-factory-pattern.html
-https://www.jianshu.com/p/7deb64f902db
-https://juejin.im/entry/58f5e080b123db2fa2b3c4c6
+<p>http://www.runoob.com/design-pattern/abstract-factory-pattern.html<br>
+https://www.jianshu.com/p/7deb64f902db<br>
+https://juejin.im/entry/58f5e080b123db2fa2b3c4c6<br>
 https://java-design-patterns.com/patterns/factory-method/</p>
 
             </div>

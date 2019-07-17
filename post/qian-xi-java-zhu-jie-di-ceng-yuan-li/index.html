@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,6 +75,10 @@
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
     <div class="social-container">
       
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
@@ -135,8 +139,8 @@
 <p>注解是否应当被包含在 JavaDoc 文档中</p>
 <h3 id="编译器注解java内置">编译器注解(java内置)</h3>
 <ul>
-<li>@Deprecated
-表示弃用,编译这样的类/方法等编译器会给警告.它直接可以标注的东西很多,可以点进去看下@Target.
+<li>@Deprecated<br>
+表示弃用,编译这样的类/方法等编译器会给警告.它直接可以标注的东西很多,可以点进去看下@Target.<br>
 注意配合javadoc注释,告诉别人新的在哪里.</li>
 </ul>
 <pre><code class="language-java">/**
@@ -144,9 +148,9 @@
 */
 </code></pre>
 <ul>
-<li>@Override
+<li>@Override<br>
 表示父类进行重写的方法</li>
-<li>@SuppressWarnings
+<li>@SuppressWarnings<br>
 用来抑制编译器生成警告信息。</li>
 </ul>
 <h2 id="注解底层原理">注解底层原理</h2>
@@ -158,7 +162,7 @@ public @interface Hello {
     String helloKey() default &quot;helloValue&quot;;
 }
 </code></pre>
-<p>因为注解实际会有代理类,所以定义的属性确实是方法,只不过方法名字和属性名相同,属性值由方法return.
+<p>因为注解实际会有代理类,所以定义的属性确实是方法,只不过方法名字和属性名相同,属性值由方法return.<br>
 这里可能有人会问,为什么不直接定义变量,因为java用接口实现注解,接口无法定义实例变量.</p>
 <h3 id="代理">代理</h3>
 <p>其实后面就是代理的事情了,默认是JDK的动态代理.<br>
@@ -246,7 +250,7 @@ public @interface Hello {
 }
 </code></pre>
 <p>可以看出,Proxy类的实际逻辑都是交给InvocationHandler h的invoke方法处理的,<br>
-invoke(this,方法Method对象,方法参数列表),这是JDK代理的通用逻辑,代理后的实际逻辑在对应的handler.
+invoke(this,方法Method对象,方法参数列表),这是JDK代理的通用逻辑,代理后的实际逻辑在对应的handler.<br>
 对于注解,它的处理handler是<code>AnnotationInvocationHandler</code>.<br>
 同时,我们可以看到代理类Proxy对四个方法是有特殊处理的,这四个方法的实际逻辑也在对应的handler.如果没有这样操作的话,其实代理类会使用Object的实现或者找不到.</p>
 <ul>
@@ -330,12 +334,12 @@ public @interface Hello {
     String helloKey() default &quot;helloValue&quot;;
 }
 </code></pre>
-<p>那么memberValues存放的值是
-<img src="https://imatvoid.github.io//post-images/1561987388266.png" alt="">
+<p>那么memberValues存放的值是<br>
+<img src="https://imatvoid.github.io//post-images/1561987388266.png" alt=""><br>
 当然,这是由于虚拟机读取到注解的Retention是Runtime.如果不是运行时的注解,那么不会有自己的AnnotationInvocationvandler.<br>
-注意,虚拟机会给每一个运行时注解生成一个AnnotationInvocationvandler类的实例,type属性是注解的类型.
-<img src="https://imatvoid.github.io//post-images/1561992374275.png" alt="">
-一个注解,多个地方使用也就是有多个实例,也会有多个AnnotationInvocationvandler类的实例
+注意,虚拟机会给每一个运行时注解生成一个AnnotationInvocationvandler类的实例,type属性是注解的类型.<br>
+<img src="https://imatvoid.github.io//post-images/1561992374275.png" alt=""><br>
+一个注解,多个地方使用也就是有多个实例,也会有多个AnnotationInvocationvandler类的实例<br>
 <img src="https://imatvoid.github.io//post-images/1561993150000.png" alt=""></p>
 
             </div>

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -75,6 +75,10 @@
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
     <div class="social-container">
       
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
         
       
         
@@ -131,12 +135,12 @@
 <p>垂直拆分更多时候就应该在数据表设计之初就执行的步骤，然后查询的时候用jion关键起来即可;</p>
 </blockquote>
 <h3 id="水平拆分-2">水平拆分</h3>
-<p>水平拆分是指数据表<strong>行的拆分</strong>，表的行数超过200万行时，就会变慢，这时可以把一张的表的数据拆成多张表来存放。
+<p>水平拆分是指数据表<strong>行的拆分</strong>，表的行数超过200万行时，就会变慢，这时可以把一张的表的数据拆成多张表来存放。<br>
 <img src="https://imatvoid.github.io//post-images/1562675023592.png" alt=""></p>
 <h3 id="水平拆分的一些技巧">水平拆分的一些技巧</h3>
-<p><strong>1. 拆分原则</strong>
-通常情况下，我们使用取模的方式来进行表的拆分;比如一张有400W的用户表<code>users</code>，为提高其查询效率我们把其分成4张表<code>users1，users2，users3，users4</code>
-通过用ID取模的方法把数据分散到四张表内<code>Id%4+1 = [1,2,3,4]</code>
+<p><strong>1. 拆分原则</strong><br>
+通常情况下，我们使用取模的方式来进行表的拆分;比如一张有400W的用户表<code>users</code>，为提高其查询效率我们把其分成4张表<code>users1，users2，users3，users4</code><br>
+通过用ID取模的方法把数据分散到四张表内<code>Id%4+1 = [1,2,3,4]</code><br>
 然后查询,更新,删除也是通过取模的方法来查询</p>
 <pre><code class="language-sql">$_GET['id'] = 17,
 17%4 + 1 = 2,  

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -76,6 +76,10 @@
     <div class="social-container">
       
         
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
         
       
@@ -111,7 +115,7 @@
 <p>如果对maven已经有了了解,并且英文不错的话请直接阅读<a href="https://maven.apache.org/guides/plugin/guide-java-plugin-development.html">maven文档</a></p>
 <h2 id="新建项目">新建项目</h2>
 <p>在idea中新建一个插件项目<br>
-<img src="https://imatvoid.github.io//post-images/1561467714031.png" alt="">
+<img src="https://imatvoid.github.io//post-images/1561467714031.png" alt=""><br>
 注意这里要保证maven的镜像配好,网络畅通,不然idea自动生成项目架构会有问题.</p>
 <h2 id="说明">说明</h2>
 <p>可以在src包下找到MyMojo类,它继承了AbstractMojo,我们只需要实现execute方法就可以实现一个简单的插件.<br>
@@ -195,9 +199,9 @@ public class MyMojo
         &lt;/plugins&gt;
     &lt;/build&gt;
 </code></pre>
-<p>然后可以在idea右侧的maven列表选项里找到我们的插件
-<img src="https://imatvoid.github.io//post-images/1561468487635.png" alt="">
-双击一下就会发现实现了在输出文件夹中生成一个touch文件的效果.
+<p>然后可以在idea右侧的maven列表选项里找到我们的插件<br>
+<img src="https://imatvoid.github.io//post-images/1561468487635.png" alt=""><br>
+双击一下就会发现实现了在输出文件夹中生成一个touch文件的效果.<br>
 <img src="https://imatvoid.github.io//post-images/1561469166113.png" alt=""></p>
 <p>后续进阶我们可以实现一个校验配置文件的插件.</p>
 <h2 id="参考">参考</h2>

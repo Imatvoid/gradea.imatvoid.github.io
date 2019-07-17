@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563374071496">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563375331342">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563374071496" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563375331342" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -76,6 +76,10 @@
     <div class="social-container">
       
         
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
         
       
@@ -109,12 +113,12 @@
 </blockquote>
 <!-- more -->
 <h2 id="写法">写法</h2>
-<p><img src="https://imatvoid.github.io//post-images/1562038188418.png" alt="">
+<p><img src="https://imatvoid.github.io//post-images/1562038188418.png" alt=""><br>
 定义一个包装类，用于包装不兼容接口的对象</p>
 <ul>
 <li>target = 期望获得的能力(某个方法)</li>
 <li>包装类 = 适配器Adapter</li>
-<li>被包装对象 = Adaptee(拥有能力,但提供的接口不兼容)
+<li>被包装对象 = Adaptee(拥有能力,但提供的接口不兼容)<br>
 和装饰者模式似乎有点像,这个后面会提到区别.</li>
 </ul>
 <h3 id="类的适配器模式不建议使用">类的适配器模式(不建议使用)</h3>
@@ -150,16 +154,16 @@ adapter的写法并不局限于上面的uml图,<strong>只要实现了转化,达
 <li>灵活性高、低耦合</li>
 </ul>
 <h2 id="缺点">缺点</h2>
-<p>一旦一个系统中出现过多的adapter,读起来会令人十分困惑,我最终到底调用了什么?
+<p>一旦一个系统中出现过多的adapter,读起来会令人十分困惑,我最终到底调用了什么?<br>
 在这种情况下,可能你需要考虑重构了.</p>
 <h2 id="与装饰者模式的对比">与装饰者模式的对比</h2>
-<p><strong>装饰模式和适配器模式都是“包装模式(Wrapper Pattern)”，它们都是通过封装其他对象达到设计的目的的</strong>，但是它们的形态有很大区别。
+<p><strong>装饰模式和适配器模式都是“包装模式(Wrapper Pattern)”，它们都是通过封装其他对象达到设计的目的的</strong>，但是它们的形态有很大区别。<br>
 我们可以看一个感性的例子:</p>
 <p>星巴克咖啡,用奶油,巧克力包装过后,口味得到了增强.但它依旧是一个星巴克咖啡.这里“是”的概念很重要.这是装饰者模式.</p>
 <p>笔记本电脑充电器是三口插头,家里只有两口插座,一个转换器可以把三口转成两口,这是适配器模式,它强调的是转换,从不兼容转化为兼容.</p>
 <p>理想的装饰模式在对被装饰对象进行功能增强的同时，要求具体构件角色、装饰角色的接口与抽象构件角色的接口完全一致。而适配器模式则不然，一般而言，适配器模式并不要求对源对象的功能进行增强，但是会改变源对象的接口，以便和目标接口相符合。</p>
-<p>装饰模式有透明和半透明两种，这两种的区别就在于装饰角色的接口与抽象构件角色的接口是否完全一致。透明的装饰模式也就是理想的装饰模式，要求具体构件角色、装饰角色的接口与抽象构件角色的接口完全一致。相反，如果装饰角色的接口与抽象构件角色接口不一致，也就是说装饰角色的接口比抽象构件角色的接口宽的话，装饰角色实际上已经成了一个适配器角色，这种装饰模式也是可以接受的，称为“半透明”的装饰模式，如下图所示。
-<img src="https://imatvoid.github.io//post-images/1562045201985.png" alt="">
+<p>装饰模式有透明和半透明两种，这两种的区别就在于装饰角色的接口与抽象构件角色的接口是否完全一致。透明的装饰模式也就是理想的装饰模式，要求具体构件角色、装饰角色的接口与抽象构件角色的接口完全一致。相反，如果装饰角色的接口与抽象构件角色接口不一致，也就是说装饰角色的接口比抽象构件角色的接口宽的话，装饰角色实际上已经成了一个适配器角色，这种装饰模式也是可以接受的，称为“半透明”的装饰模式，如下图所示。<br>
+<img src="https://imatvoid.github.io//post-images/1562045201985.png" alt=""><br>
 在适配器模式里面，适配器类的接口通常会与目标类的接口重叠，但往往并不完全相同。换言之，适配器类的接口会比被装饰的目标类接口宽。</p>
 <p>显然，半透明的装饰模式实际上就是处于适配器模式与装饰模式之间的灰色地带。如果将装饰模式与适配器模式合并成为一个“包装模式”的话，那么半透明的装饰模式倒可以成为这种合并后的“包装模式”的代表。</p>
 
