@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-17T14:56:00.315Z</updated>
+    <updated>2019-07-18T15:52:48.858Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,19 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[1116. Print Zero Even Odd]]></title>
+        <id>https://imatvoid.github.io//post/1116-print-zero-even-odd</id>
+        <link href="https://imatvoid.github.io//post/1116-print-zero-even-odd">
+        </link>
+        <updated>2019-07-18T15:43:42.000Z</updated>
+        <summary type="html"><![CDATA[<p>打印zero odd zero even n次.<br>
+<a href="https://leetcode.com/problems/print-zero-even-odd/">https://leetcode.com/problems/print-zero-even-odd/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>打印zero odd zero even n次.<br>
+<a href="https://leetcode.com/problems/print-zero-even-odd/">https://leetcode.com/problems/print-zero-even-odd/</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode -- 1114. Print in Order]]></title>
         <id>https://imatvoid.github.io//post/leetcode-1114-print-in-order</id>
@@ -111,12 +124,5 @@
         <link href="https://imatvoid.github.io//post/ru-he-you-hua-if-else">
         </link>
         <updated>2018-12-04T09:19:21.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[循环打印ABC/AB最简代码]]></title>
-        <id>https://imatvoid.github.io//post/xun-huan-da-yin-abcab-zui-jian-dai-ma</id>
-        <link href="https://imatvoid.github.io//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
-        </link>
-        <updated>2018-12-01T07:39:53.000Z</updated>
     </entry>
 </feed>

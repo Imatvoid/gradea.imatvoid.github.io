@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode -- 1115. Print FooBar Alternately | Imatvoid </title>
+<title>1116. Print Zero Even Odd | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,73 +104,113 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">leetcode -- 1115. Print FooBar Alternately</h2>
-            <div class="post-date">2019-07-17</div>
+            <h2 class="post-title">1116. Print Zero Even Odd</h2>
+            <div class="post-date">2019-07-18</div>
             
             <div class="post-content">
-              <p>交替打印Foo Bar<br>
-<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+              <p>打印zero odd zero even n次.<br>
+<a href="https://leetcode.com/problems/print-zero-even-odd/">https://leetcode.com/problems/print-zero-even-odd/</a></p>
 <!-- more -->
-<h2 id="desc">desc</h2>
+<h2 id="desc">Desc</h2>
 <p>Suppose you are given the following code:</p>
-<pre><code>class FooBar {
-  public void foo() {
-    for (int i = 0; i &lt; n; i++) {
-      print(&quot;foo&quot;);
-    }
-  }
-
-  public void bar() {
-    for (int i = 0; i &lt; n; i++) {
-      print(&quot;bar&quot;);
-    }
-  }
+<pre><code>class ZeroEvenOdd {
+  public ZeroEvenOdd(int n) { ... }      // constructor
+  public void zero(printNumber) { ... }  // only output 0's
+  public void even(printNumber) { ... }  // only output even numbers
+  public void odd(printNumber) { ... }   // only output odd numbers
 }
 </code></pre>
-<p>The same instance of <code>FooBar</code> will be passed to two different threads. Thread A will call <code>foo()</code> while thread B will call <code>bar()</code>. Modify the given program to output &quot;foobar&quot; <em>n</em> times.</p>
+<p>The same instance of <code>ZeroEvenOdd</code> will be passed to three different threads:</p>
+<ol>
+<li>Thread A will call <code>zero()</code> which should only output 0's.</li>
+<li>Thread B will call <code>even()</code> which should only ouput even numbers.</li>
+<li>/Thread C will call <code>odd()</code> which should only output odd numbers.</li>
+</ol>
+<p>Each of the thread is given a <code>printNumber</code> method to output an integer. Modify the given program to output the series <code>010203040506</code>... where the length of the series must be 2<em>n</em>.</p>
 <p><strong>Example 1:</strong></p>
-<pre><code>Input: n = 1
-Output: &quot;foobar&quot;
-Explanation: There are two threads being fired asynchronously. One of them calls foo(), while the other calls bar(). &quot;foobar&quot; is being output 1 time.
+<pre><code>Input: n = 2
+Output: &quot;0102&quot;
+Explanation: There are three threads being fired asynchronously. One of them calls zero(), the other calls even(), and the last one calls odd(). &quot;0102&quot; is the correct output.
 </code></pre>
 <p><strong>Example 2:</strong></p>
-<pre><code>Input: n = 2
-Output: &quot;foobarfoobar&quot;
-Explanation: &quot;foobar&quot; is being output 2 times.
+<pre><code>Input: n = 5
+Output: &quot;0102030405&quot;
 </code></pre>
 <h2 id="描述">描述</h2>
-<p>两并发线程交替打印Foo Bar.启动顺序不保证.</p>
+<p>假设有这么一个类：</p>
+<pre><code>class ZeroEvenOdd {
+  public ZeroEvenOdd(int n) { ... }      // 构造函数
+  public void zero(printNumber) { ... }  // 仅打印出 0
+  public void even(printNumber) { ... }  // 仅打印出 偶数
+  public void odd(printNumber) { ... }   // 仅打印出 奇数
+}
+</code></pre>
+<p>相同的一个 ZeroEvenOdd 类实例将会传递给三个不同的线程：</p>
+<p>线程 A 将调用 zero()，它只输出 0 。<br>
+线程 B 将调用 even()，它只输出偶数。<br>
+线程 C 将调用 odd()，它只输出奇数。<br>
+每个线程都有一个 printNumber 方法来输出一个整数。请修改给/出的代码以输出整数序列 010203040506... ，其中序列的长度必须为 2n。</p>
+<p>示例 1：</p>
+<pre><code>输入：n = 2
+输出：&quot;0102&quot;
+</code></pre>
+<p>说明：三条线程异步执行，其中一个调用 zero()，另一个线程调用 even()，最后一个线程调用odd()。正确的输出为 &quot;0102&quot;。<br>
+示例 2：</p>
+<pre><code>输入：n = 5
+输出：&quot;0102030405&quot;
+</code></pre>
 <h2 id="思路">思路</h2>
-<p>这种交替打印的,没有比信号量更简单得了</p>
-<pre><code class="language-java">
-import java.util.concurrent.Semaphore;
-class FooBar {
+<p>信号量</p>
+<pre><code class="language-java">import java.util.concurrent.Semaphore;
+class ZeroEvenOdd {
     private int n;
-    
-    Semaphore foo = new Semaphore(1);
-    Semaphore bar = new Semaphore(0);
+    Semaphore zero = new Semaphore(1);
+    Semaphore odd = new Semaphore(0);
+    Semaphore even = new Semaphore(0);
+    //这是一个共享变量,一定要在临界区中操作.release后就继续执行了.有并发要小心
+    int count = 1;
 
-    public FooBar(int n) {
+
+    public ZeroEvenOdd(int n) {
         this.n = n;
     }
 
-    public void foo(Runnable printFoo) throws InterruptedException {
-        
-        for (int i = 0; i &lt; n; i++) {
-            foo.acquire(); // foo - 1
-        	// printFoo.run() outputs &quot;foo&quot;. Do not change or remove this line.
-          	printFoo.run();
-            bar.release();  // bar + 1 
+    // printNumber.accept(x) outputs &quot;x&quot;, where x is an integer.
+    public void zero(IntConsumer printNumber) throws InterruptedException {
+        while (true){
+            // 这里一定要在开头 
+            zero.acquire();
+            
+            if (count &gt; n) {
+                break;
+            }
+             
+            printNumber.accept(0);
+            if ((count &amp; 1) == 1) {  
+                odd.release();
+            } else {
+                even.release();
+            }
+          
+
+        }
+
+    }
+
+
+     public void even(IntConsumer printNumber) throws InterruptedException {
+        for (int i = 0; i &lt; n/2; i++) {
+            even.acquire();
+            printNumber.accept(count++);
+            zero.release();
         }
     }
 
-    public void bar(Runnable printBar) throws InterruptedException {
-        
-        for (int i = 0; i &lt; n; i++) {
-             bar.acquire();  // bar + 1
-             // printBar.run() outputs &quot;bar&quot;. Do not change or remove this line.
-        	   printBar.run();
-             foo.release();  // foo - 1
+    public void odd(IntConsumer printNumber) throws InterruptedException {
+        for (int i = 0; i &lt; n/2+n%2; i++) {
+            odd.acquire();
+            printNumber.accept(count++);
+            zero.release();
         }
     }
 }
@@ -193,9 +233,9 @@ class FooBar {
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">
+                <a href="https://imatvoid.github.io//post/leetcode-1114-print-in-order">
                   <h3 class="post-title">
-                    leetcode -- 938. Range Sum of BST
+                    leetcode -- 1114. Print in Order
                   </h3>
                 </a>
               </div>
