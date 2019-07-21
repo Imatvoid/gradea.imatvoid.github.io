@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563724866446">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563725553372">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563724866446" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563725553372" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,31 +111,6 @@
               <p>打印zero odd zero even n次.<br>
 <a href="https://leetcode.com/problems/print-zero-even-odd/">https://leetcode.com/problems/print-zero-even-odd/</a></p>
 <!-- more -->
-<h2 id="desc">Desc</h2>
-<p>Suppose you are given the following code:</p>
-<pre><code>class ZeroEvenOdd {
-  public ZeroEvenOdd(int n) { ... }      // constructor
-  public void zero(printNumber) { ... }  // only output 0's
-  public void even(printNumber) { ... }  // only output even numbers
-  public void odd(printNumber) { ... }   // only output odd numbers
-}
-</code></pre>
-<p>The same instance of <code>ZeroEvenOdd</code> will be passed to three different threads:</p>
-<ol>
-<li>Thread A will call <code>zero()</code> which should only output 0's.</li>
-<li>Thread B will call <code>even()</code> which should only ouput even numbers.</li>
-<li>/Thread C will call <code>odd()</code> which should only output odd numbers.</li>
-</ol>
-<p>Each of the thread is given a <code>printNumber</code> method to output an integer. Modify the given program to output the series <code>010203040506</code>... where the length of the series must be 2<em>n</em>.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: n = 2
-Output: &quot;0102&quot;
-Explanation: There are three threads being fired asynchronously. One of them calls zero(), the other calls even(), and the last one calls odd(). &quot;0102&quot; is the correct output.
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: n = 5
-Output: &quot;0102030405&quot;
-</code></pre>
 <h2 id="描述">描述</h2>
 <p>假设有这么一个类：</p>
 <pre><code>class ZeroEvenOdd {

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563724866446">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563725553372">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563724866446" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563725553372" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -112,33 +112,6 @@
 <a href="https://leetcode.com/problems/print-foobar-alternately">https://leetcode.com/problems/print-foobar-alternately</a><br>
 <a href="https://leetcode-cn.com/problems/print-foobar-alternately">https://leetcode-cn.com/problems/print-foobar-alternately</a></p>
 <!-- more -->
-<h2 id="desc">Desc</h2>
-<p>Suppose you are given the following code:</p>
-<pre><code>class FooBar {
-  public void foo() {
-    for (int i = 0; i &lt; n; i++) {
-      print(&quot;foo&quot;);
-    }
-  }
-
-  public void bar() {
-    for (int i = 0; i &lt; n; i++) {
-      print(&quot;bar&quot;);
-    }
-  }
-}
-</code></pre>
-<p>The same instance of <code>FooBar</code> will be passed to two different threads. Thread A will call <code>foo()</code> while thread B will call <code>bar()</code>. Modify the given program to output &quot;foobar&quot; <em>n</em> times.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: n = 1
-Output: &quot;foobar&quot;
-Explanation: There are two threads being fired asynchronously. One of them calls foo(), while the other calls bar(). &quot;foobar&quot; is being output 1 time.
-</code></pre>
-<p><strong>Example 2:</strong></p>
-<pre><code>Input: n = 2
-Output: &quot;foobarfoobar&quot;
-Explanation: &quot;foobar&quot; is being output 2 times.
-</code></pre>
 <h2 id="描述">描述</h2>
 <p>两并发线程交替打印Foo Bar.启动顺序不保证.</p>
 <h2 id="思路">思路</h2>
