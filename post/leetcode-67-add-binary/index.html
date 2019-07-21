@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>ThreadLocal 辨析 | Imatvoid </title>
+<title>leetcode -- 67. Add Binary | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,33 +104,82 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">ThreadLocal 辨析</h2>
-            <div class="post-date">2017-03-29</div>
+            <h2 class="post-title">leetcode -- 67. Add Binary</h2>
+            <div class="post-date">2018-10-01</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="问题辨析">问题辨析</h2>
-<h3 id="为什么threadlocal通常被static修饰">为什么ThreadLocal通常被static修饰?</h3>
-<p>Java 中每个线程都有与之关联的Thread对象,Thread对象中有一个ThreadLocal.ThreadLocalMap类型的成员变量,该变量是一个Hash表.所以每个线程都单独维护这样一个Hash表.<br>
-当ThreadLocal类型对象调用set方法时,这个set方法会使用当前线程维护的Hash表,把自己作为key, set方法的参数作为value插入到Hash表中.由于每个线程维护的Hash表是独立的,因此在不同的Hash表中,key值即使相同也是没问题的.<br>
-<img src="https://imatvoid.github.io//post-images/1561821878071.png" alt=""></p>
-<p>https://blog.csdn.net/chicm/article/details/40894299<br>
-https://www.zhihu.com/question/35250439</p>
+              <p>原题链接:<br>
+<a href="https://leetcode-cn.com/problems/add-binary/">https://leetcode-cn.com/problems/add-binary/</a><br>
+<a href="https://leetcode.com/problems/add-binary/">https://leetcode.com/problems/add-binary/</a></p>
+<!-- more -->
+<h2 id="描述">描述</h2>
+<p>给两个2进制字符串,求和.<br>
+示例 1:</p>
+<pre><code>输入: a = &quot;11&quot;, b = &quot;1&quot;
+输出: &quot;100&quot;
+</code></pre>
+<p>示例 2:</p>
+<pre><code>输入: a = &quot;1010&quot;, b = &quot;1011&quot;
+输出: &quot;10101&quot;
+</code></pre>
+<h2 id="思路">思路</h2>
+<p>求和有两步操作:<br>
+1.对应位相加,%进制,取得余数<br>
+2.如果有进位,/进制,拿到进位.<br>
+后面不过是迭代这两步操作.<br>
+一个小trick是,在最后,可能你还有一个进位,别忘了.比如示例2.</p>
+<h2 id="代码">代码</h2>
+<p>给一种可以复用的模板方法.下面这种方法,只要把&quot;2&quot;换成&quot;10&quot;,也是可以使用的.</p>
+<pre><code class="language-java">public class AddBinary {
+
+    public String addBinary(String a, String b) {
+
+        int i =a.length()-1,j =b.length()-1;
+        StringBuffer sb =new StringBuffer();
+
+        int carry = 0;
+        while (i&gt;=0 || j&gt;=0){
+            int n1 = i&gt;=0? a.charAt(i--)-'0': 0;
+            int n2 = j&gt;=0? b.charAt(j--)-'0': 0;
+
+            sb.append((n1 + n2 +carry)%2);
+            carry = (n1 + n2 +carry)/2;
+
+        }
+        if(carry == 1){
+            sb.append(1);
+        }
+        return  sb.reverse().toString();
+
+    }
+}
+</code></pre>
+<h2 id="其他">其他</h2>
+<p>这一类的题目可以在leetcode-add 标签下找到</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
-                    并发concurrency
+                  <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="tag">
+                    leetcode-add
                   </a>
                 
-                  <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="tag">
-                    java
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi">
+                  <h3 class="post-title">
+                    自适应哈希索引(Adaptive Hash Index, AHI)
+                  </h3>
+                </a>
+              </div>
             
 
             

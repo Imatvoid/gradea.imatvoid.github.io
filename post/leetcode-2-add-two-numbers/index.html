@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>ThreadLocal 辨析 | Imatvoid </title>
+<title>leetcode -- 2. Add Two Numbers | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,33 +104,87 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">ThreadLocal 辨析</h2>
-            <div class="post-date">2017-03-29</div>
+            <h2 class="post-title">leetcode -- 2. Add Two Numbers</h2>
+            <div class="post-date">2018-10-01</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="问题辨析">问题辨析</h2>
-<h3 id="为什么threadlocal通常被static修饰">为什么ThreadLocal通常被static修饰?</h3>
-<p>Java 中每个线程都有与之关联的Thread对象,Thread对象中有一个ThreadLocal.ThreadLocalMap类型的成员变量,该变量是一个Hash表.所以每个线程都单独维护这样一个Hash表.<br>
-当ThreadLocal类型对象调用set方法时,这个set方法会使用当前线程维护的Hash表,把自己作为key, set方法的参数作为value插入到Hash表中.由于每个线程维护的Hash表是独立的,因此在不同的Hash表中,key值即使相同也是没问题的.<br>
-<img src="https://imatvoid.github.io//post-images/1561821878071.png" alt=""></p>
-<p>https://blog.csdn.net/chicm/article/details/40894299<br>
-https://www.zhihu.com/question/35250439</p>
+              <p>原题链接:<br>
+https://leetcode-cn.com/problems/add-two-numbers/<br>
+https://leetcode.com/problems/add-two-numbers/</p>
+<!-- more -->
+<h2 id="描述">描述</h2>
+<p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
+<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
+<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<h2 id="思路">思路</h2>
+<p>和普通的相加题是一样的,可以看leetcode-add的标签.<br>
+只不过换成了链表.</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-java">public class AddTwoNumbers {
+
+    public class ListNode {
+      int val;
+      ListNode next;
+      ListNode(int x) { val = x; }
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        ListNode temp = new ListNode(-1);
+        ListNode res = temp;
+
+
+        int over = 0;
+        while (l1!=null || l2!=null){
+            ListNode a = l1==null? new ListNode(0) :l1;
+            l1 = l1==null?null:l1.next;
+
+            ListNode b = l2==null? new ListNode(0) :l2;
+            l2 = l2==null?null:l2.next;
+            int sum = (a.val +b.val+over)%10;
+            over = (a.val +b.val+over)/10;
+            temp.next = new ListNode(sum);
+            temp =temp.next;
+
+        }
+        if(over == 1){
+            temp.next =new ListNode(1);
+        }
+        return  res.next;
+
+    }
+}
+</code></pre>
+<h2 id="其他">其他</h2>
+<p>类似可以看leetcode-add的标签.</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
-                    并发concurrency
+                  <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="tag">
+                    leetcode-linkedlist
                   </a>
                 
-                  <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="tag">
-                    java
+                  <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="tag">
+                    leetcode-add
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/leetcode-415-add-strings">
+                  <h3 class="post-title">
+                    leetcode -- 415. Add Strings
+                  </h3>
+                </a>
+              </div>
             
 
             

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>ThreadLocal 辨析 | Imatvoid </title>
+<title>leetcode -- 445. Add Two Numbers II | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,33 +104,101 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">ThreadLocal 辨析</h2>
-            <div class="post-date">2017-03-29</div>
+            <h2 class="post-title">leetcode -- 445. Add Two Numbers II</h2>
+            <div class="post-date">2018-10-01</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="问题辨析">问题辨析</h2>
-<h3 id="为什么threadlocal通常被static修饰">为什么ThreadLocal通常被static修饰?</h3>
-<p>Java 中每个线程都有与之关联的Thread对象,Thread对象中有一个ThreadLocal.ThreadLocalMap类型的成员变量,该变量是一个Hash表.所以每个线程都单独维护这样一个Hash表.<br>
-当ThreadLocal类型对象调用set方法时,这个set方法会使用当前线程维护的Hash表,把自己作为key, set方法的参数作为value插入到Hash表中.由于每个线程维护的Hash表是独立的,因此在不同的Hash表中,key值即使相同也是没问题的.<br>
-<img src="https://imatvoid.github.io//post-images/1561821878071.png" alt=""></p>
-<p>https://blog.csdn.net/chicm/article/details/40894299<br>
-https://www.zhihu.com/question/35250439</p>
+              <p>原文链接:<br>
+<a href="https://leetcode-cn.com/problems/add-two-numbers-ii/">https://leetcode-cn.com/problems/add-two-numbers-ii/</a><br>
+<a href="https://leetcode.com/problems/add-two-numbers-ii/">https://leetcode.com/problems/add-two-numbers-ii/</a></p>
+<!-- more -->
+<h2 id="描述">描述</h2>
+<p>给定两个非空链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储单个数字。将这两数相加会返回一个新的链表。</p>
+<p>你可以假设除了数字 0 之外，这两个数字都不会以零开头。</p>
+<p>进阶:<br>
+如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。</p>
+<p>示例:</p>
+<pre><code>输入: (7 -&gt; 2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)
+输出: 7 -&gt; 8 -&gt; 0 -&gt; 7
+</code></pre>
+<h2 id="思路">思路</h2>
+<p>这道题如果允许反转链表,那就和Add Two Numbers一样做法.<br>
+不允许反转也没关系.我们可以使用栈.</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-java"> /**
+     * 栈
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack&lt;ListNode&gt; s1 =new Stack&lt;ListNode&gt;();
+        Stack&lt;ListNode&gt; s2 =new Stack&lt;ListNode&gt;();
+        while (l1!=null){
+            s1.push(l1);
+            l1=l1.next;
+        }
+        while (l2!=null){
+            s2.push(l2);
+            l2=l2.next;
+        }
+
+        int over = 0;
+        ListNode temp =null;
+
+
+        while (!s1.isEmpty() || !s2.isEmpty()){
+            ListNode a = s1.isEmpty()?new ListNode(0):s1.pop();
+            ListNode b = s2.isEmpty()?new ListNode(0):s2.pop();
+            int sum = (a.val+b.val+over)%10;
+            over = (a.val+b.val+over)/10;
+
+            ListNode temp2 =  new ListNode(sum);
+            temp2.next = temp;
+            temp= temp2;
+
+
+        }
+
+        if(over == 1){
+            ListNode temp2 =  new ListNode(1);
+            temp2.next = temp;
+            temp= temp2;
+        }
+
+        return temp;
+    }
+</code></pre>
+<h2 id="其他">其他</h2>
+<p>其他类似题目可以在博客标签leetcode-add下查看.</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
-                    并发concurrency
+                  <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="tag">
+                    leetcode-linkedlist
                   </a>
                 
-                  <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="tag">
-                    java
+                  <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="tag">
+                    leetcode-add
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/leetcode-66-plus-one">
+                  <h3 class="post-title">
+                    leetcode -- 66. Plus One
+                  </h3>
+                </a>
+              </div>
             
 
             
