@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563465091854">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563719782690">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563465091854" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563719782690" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -109,9 +109,10 @@
             
             <div class="post-content">
               <p>交替打印Foo Bar<br>
-<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+<a href="https://leetcode.com/problems/print-foobar-alternately">https://leetcode.com/problems/print-foobar-alternately</a><br>
+<a href="https://leetcode-cn.com/problems/print-foobar-alternately">https://leetcode-cn.com/problems/print-foobar-alternately</a></p>
 <!-- more -->
-<h2 id="desc">desc</h2>
+<h2 id="desc">Desc</h2>
 <p>Suppose you are given the following code:</p>
 <pre><code>class FooBar {
   public void foo() {
@@ -142,11 +143,10 @@ Explanation: &quot;foobar&quot; is being output 2 times.
 <p>两并发线程交替打印Foo Bar.启动顺序不保证.</p>
 <h2 id="思路">思路</h2>
 <p>这种交替打印的,没有比信号量更简单得了</p>
-<pre><code class="language-java">
-import java.util.concurrent.Semaphore;
+<pre><code class="language-java">import java.util.concurrent.Semaphore;
 class FooBar {
     private int n;
-    
+
     Semaphore foo = new Semaphore(1);
     Semaphore bar = new Semaphore(0);
 
@@ -155,22 +155,22 @@ class FooBar {
     }
 
     public void foo(Runnable printFoo) throws InterruptedException {
-        
+
         for (int i = 0; i &lt; n; i++) {
             foo.acquire(); // foo - 1
-        	// printFoo.run() outputs &quot;foo&quot;. Do not change or remove this line.
-          	printFoo.run();
+            // printFoo.run() outputs &quot;foo&quot;. Do not change or remove this line.
+            printFoo.run();
             bar.release();  // bar + 1 
         }
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
-        
+
         for (int i = 0; i &lt; n; i++) {
-             bar.acquire();  // bar + 1
-             // printBar.run() outputs &quot;bar&quot;. Do not change or remove this line.
-        	   printBar.run();
-             foo.release();  // foo - 1
+            bar.acquire();  // bar + 1
+            // printBar.run() outputs &quot;bar&quot;. Do not change or remove this line.
+            printBar.run();
+            foo.release();  // foo - 1
         }
     }
 }
@@ -179,6 +179,10 @@ class FooBar {
             </div>
             
               <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="tag">
+                    leetcode-并发
+                  </a>
                 
                   <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
                     并发concurrency

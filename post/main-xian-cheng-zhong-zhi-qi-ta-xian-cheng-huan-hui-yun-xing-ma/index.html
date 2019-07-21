@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>给定一个二叉搜索树(BST)，找到树中第 K 小的节点。 | Imatvoid </title>
+<title>main线程终止,其他线程还会运行吗? | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,119 +104,73 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">给定一个二叉搜索树(BST)，找到树中第 K 小的节点。</h2>
-            <div class="post-date">2019-04-03</div>
+            <h2 class="post-title">main线程终止,其他线程还会运行吗?</h2>
+            <div class="post-date">2018-12-19</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="题目">题目</h2>
-<p>示例</p>
-<pre><code>       5
-      / \
-     3   6
-    / \
-   2   4
-  /
- 1
- 
-</code></pre>
-<p>说明：保证输入的 K 满足 1&lt;=K&lt;=(节点数目）<br>
-K=3,输出3</p>
-<h2 id="出题人">出题人</h2>
-<p>阿里巴巴出题专家：文景／阿里云 CDN 资深技术专家</p>
-<h2 id="考察点">考察点</h2>
-<ol>
-<li>基础数据结构的理解和编码能力</li>
-<li>递归使用</li>
-</ol>
-<h2 id="解法">解法</h2>
-<pre><code class="language-java">public class TreeNode {
-    public  int val;
-    public  TreeNode left;
-     public TreeNode right;
-     public  TreeNode(int x) { val = x; }
-}
-
-</code></pre>
-<h3 id="递归">递归</h3>
-<p>树的题目,第一反应用递归.<br>
-这其实就是二叉搜索树的中序遍历.</p>
-<pre><code class="language-java">    int res;
-    int count;
-
-    public int kthSmallest(TreeNode root, int k) {
-        count = k;
-        inOrder(root);
-        return res;
-
+              <p>这个问题也可以换个说法,main线程是最后退出的线程吗?</p>
+<!-- more -->
+<h2 id="理论分析">理论分析</h2>
+<p>当你启动一个Java Application的时候，这个时候系统创建一个进程,分配各项资源,然后这个进程启动了Main线程.<br>
+我们一般把Main线程说成主线程,因为其他线程一般是由main线程启动的.<br>
+但其实,在进程层面看起来,main其实也是一个普通的线程.只不过一些其他的线程都是由main启动的.<br>
+我们可以猜想一下:正常情况下，main线程启动了其他线程，他们各自执行，彼此不受影响.<br>
+猜想依据:因为操作系统分配资源的单位是进程,就算main线程退出了,进程也还在.资源还在.在进程看来,线程应该都是平级的,没有父子关系.</p>
+<h2 id="实践验证">实践验证</h2>
+<p>我们模拟一个线程池的例子,从main线程启动一个线程池,当发生异常,则让main线程抛出异常终止,看看线程池是否还继续运行.</p>
+<p>这里由于网上有些争论认为打印的方式无法判断main线程是否终止,所以我们的示例使用异常终止,并且使用jconsole工具进行验证.</p>
+<pre><code class="language-java">public class ThreadPoolException {
+    ExecutorService threadPool = Executors.newFixedThreadPool(5);
+    public static void main(String[] args) {
+        ThreadPoolException t = new ThreadPoolException();
+        t.futureGet();
     }
 
-    void inOrder(TreeNode root) {
-        if (root == null) {
-            return;
-        }
-
-        inOrder(root.left);
-        count--;
-        if (count == 0) {
-            res = root.val;
-            return;
-        }
-        inOrder(root.right);
-    }
-</code></pre>
-<h3 id="非递归">非递归</h3>
-<pre><code class="language-java"> /**
-     * 中序列非递归
-     * @param root
-     * @param k
-     * @return
-     */
-    public int kthSmallest2(TreeNode root, int k) {
-        int count = k;
-
-        if(root == null){
-            return -1;
-        }
-
-        LinkedList&lt;TreeNode&gt; stack = new LinkedList&lt;TreeNode&gt;();
-        stack.add(root);
-        while(!stack.isEmpty()){
-            TreeNode cur = stack.pop();
-            // 一直走到最左端，直到left为null
-            while (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            }
-
-            cur = stack.poll();
-            count--;
-            if (cur != null) {
-                if(count ==0){
-                    return cur.val;
+    void futureGet() {
+        for (int i = 0; i &lt; 5; i++) {
+            Future future = threadPool.submit(() -&gt; {
+                System.out.println(&quot;current thread name&quot; + Thread.currentThread().getName());
+                Object object = null;
+                System.out.print(&quot;result## &quot; + object.toString());
+            });
+            try {
+                future.get();
+            } catch (Exception e) {
+                System.out.println(Thread.currentThread().getName() + &quot;异常&quot;);
+                // 让主线程多等一段时间,便于观察.
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
                 }
-
-                stack.push(cur.right);
+                //主线程终止
+                throw new RuntimeException(Thread.currentThread().getName() + &quot;异常&quot;);
             }
         }
-
-        return -1;
-
     }
+}		
+
 </code></pre>
-<h2 id="原链接">原链接</h2>
-<p>leetcode 230题</p>
+<p>我们可以在jconsole中观察到:<br>
+<img src="https://imatvoid.github.io//post-images/1563526154163.png" alt=""></p>
+<p>在main线程先出现然后会消失,线程池中的线程还在,只不过是wait状态.<br>
+在idea中直接运行代码,也可以观察到同样的结论.</p>
+<p><img src="https://imatvoid.github.io//post-images/1563526250486.png" alt=""></p>
+<h2 id="总结">总结</h2>
+<ul>
+<li>JVM会在所有的非守护线程（用户线程）执行完毕后退出；</li>
+<li>main线程是用户线程；</li>
+<li>仅有main线程一个用户线程执行完毕，不能决定JVM是否退出，也即是说main线程并不一定是最后一个退出的线程。</li>
+</ul>
+<p>如果你希望在main线程退出后,所有其他线程也退出.那么你可以把其他线程都设置为守护线程,也就是setDaemon(true).<br>
+对于线程池,你可以在main线程退出的的时候手动进行一些处理.比如shutdown等方法.</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="tag">
-                    面试
-                  </a>
-                
-                  <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="tag">
-                    alibaba
+                  <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="tag">
+                    java
                   </a>
                 
               </div>
@@ -224,9 +178,9 @@ K=3,输出3</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
+                <a href="https://imatvoid.github.io//post/ru-he-you-hua-if-else">
                   <h3 class="post-title">
-                    已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位
+                    如何优化IF ELSE
                   </h3>
                 </a>
               </div>

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563465091854">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563719782690">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563465091854" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563719782690" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -140,34 +140,33 @@ Explanation: The input [1,3,2] means thread A calls first(), thread B calls thir
 请设计修改程序，以确保 two() 方法在 one() 方法之后被执行，three() 方法在 two() 方法之后被执行。</p>
 <p>不保证线程启动顺序</p>
 <h2 id="思路">思路</h2>
-<p>这种交替打印的,没有比信号量更简单得了</p>
+<p>这种交替打印的,没有比信号量更简单得了,用信号量通知.</p>
 <pre><code class="language-java">
-import java.util.concurrent.Semaphore;
 class Foo {
 
     Semaphore one = new Semaphore(1);
     Semaphore two = new Semaphore(0);
     Semaphore three = new Semaphore(0);
     public Foo() {
-        
+
     }
     public void first(Runnable printFirst) throws InterruptedException {
-          one.acquire();
-        
+        one.acquire();
+
         // printFirst.run() outputs &quot;first&quot;. Do not change or remove this line.
         printFirst.run();
-          two.release();
+        two.release();
     }
 
     public void second(Runnable printSecond) throws InterruptedException {
         two.acquire();
         // printSecond.run() outputs &quot;second&quot;. Do not change or remove this line.
         printSecond.run();
-          three.release();
+        three.release();
     }
 
     public void third(Runnable printThird) throws InterruptedException {
-           three.acquire();
+        three.acquire();
         // printThird.run() outputs &quot;third&quot;. Do not change or remove this line.
         printThird.run();
     }
@@ -177,6 +176,10 @@ class Foo {
             </div>
             
               <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="tag">
+                    leetcode-并发
+                  </a>
                 
                   <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
                     并发concurrency

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>给定一个二叉搜索树(BST)，找到树中第 K 小的节点。 | Imatvoid </title>
+<title>如何只使用信号量通过leetcode的多线程题目 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,119 +104,79 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">给定一个二叉搜索树(BST)，找到树中第 K 小的节点。</h2>
-            <div class="post-date">2019-04-03</div>
+            <h2 class="post-title">如何只使用信号量通过leetcode的多线程题目</h2>
+            <div class="post-date">2019-07-21</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="题目">题目</h2>
-<p>示例</p>
-<pre><code>       5
-      / \
-     3   6
-    / \
-   2   4
-  /
- 1
- 
+              <p>题目链接<br>
+<a href="https://leetcode-cn.com/problemset/concurrency/">https://leetcode-cn.com/problemset/concurrency/</a><br>
+<a href="https://leetcode.com/problemset/concurrency/">https://leetcode.com/problemset/concurrency/</a></p>
+<!-- more -->
+<h2 id="semaphore-回顾">Semaphore 回顾</h2>
+<h3 id="控制流量">控制流量</h3>
+<p>Semaphore可以控制某个资源可被同时访问的个数，通过 acquire() 获取一个许可，如果没有就等待，而 release() 释放一个许可。<br>
+可以通过构造方法设置是否公平.</p>
+<pre><code class="language-java">public Semaphore(int permits) {}
+
+public Semaphore(int permits, boolean fair){}
 </code></pre>
-<p>说明：保证输入的 K 满足 1&lt;=K&lt;=(节点数目）<br>
-K=3,输出3</p>
-<h2 id="出题人">出题人</h2>
-<p>阿里巴巴出题专家：文景／阿里云 CDN 资深技术专家</p>
-<h2 id="考察点">考察点</h2>
-<ol>
-<li>基础数据结构的理解和编码能力</li>
-<li>递归使用</li>
-</ol>
-<h2 id="解法">解法</h2>
-<pre><code class="language-java">public class TreeNode {
-    public  int val;
-    public  TreeNode left;
-     public TreeNode right;
-     public  TreeNode(int x) { val = x; }
-}
+<p>一个典型的例子是.</p>
+<pre><code class="language-java">public class SemapDemo implements Runnable {
+    // 最大的并发是5.
+    final Semaphore semp = new Semaphore(5);
 
-</code></pre>
-<h3 id="递归">递归</h3>
-<p>树的题目,第一反应用递归.<br>
-这其实就是二叉搜索树的中序遍历.</p>
-<pre><code class="language-java">    int res;
-    int count;
-
-    public int kthSmallest(TreeNode root, int k) {
-        count = k;
-        inOrder(root);
-        return res;
-
+    @Override
+    public void run() {
+        try {
+            
+            semp.acquire();
+            //----------------临界区--------------
+            Thread.sleep(2000);
+            System.out.println(Thread.currentThread().getId() + &quot;:done!&quot;);
+            //----------------临界区--------------
+            semp.release();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    void inOrder(TreeNode root) {
-        if (root == null) {
-            return;
-        }
-
-        inOrder(root.left);
-        count--;
-        if (count == 0) {
-            res = root.val;
-            return;
-        }
-        inOrder(root.right);
-    }
-</code></pre>
-<h3 id="非递归">非递归</h3>
-<pre><code class="language-java"> /**
-     * 中序列非递归
-     * @param root
-     * @param k
-     * @return
+    /**
+     * 总共20个线程,系统会以5个线程一组为单位,依次执行并输出
+     *
+     * @param args
      */
-    public int kthSmallest2(TreeNode root, int k) {
-        int count = k;
-
-        if(root == null){
-            return -1;
+    public static void main(String args[]) throws  InterruptedException{
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        final SemapDemo demo = new SemapDemo();
+        for (int i = 0; i &lt; 20; i++) {
+            executorService.submit(demo);
         }
-
-        LinkedList&lt;TreeNode&gt; stack = new LinkedList&lt;TreeNode&gt;();
-        stack.add(root);
-        while(!stack.isEmpty()){
-            TreeNode cur = stack.pop();
-            // 一直走到最左端，直到left为null
-            while (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            }
-
-            cur = stack.poll();
-            count--;
-            if (cur != null) {
-                if(count ==0){
-                    return cur.val;
-                }
-
-                stack.push(cur.right);
-            }
-        }
-
-        return -1;
-
+        // 不然线程池没退出
+        Thread.sleep(10000);
+        executorService.shutdown();
     }
+}
 </code></pre>
-<h2 id="原链接">原链接</h2>
-<p>leetcode 230题</p>
+<h3 id="通知信息">通知信息</h3>
+<p>信号量当然还可以当作信号量用,比如我们new Semaphore(0),许可证数量为0.<br>
+在我们需要的时候release()一下,许可证+1,等待的线程就可以得到通知,继续执行.</p>
+<h3 id="注意细节">注意细节</h3>
+<p>在任何release操作之后,你都可能面临并发,release前的代码在临界区中,release后可不是,可能已经有其他线程拿到许可做事情了.</p>
+<h2 id="解题">解题</h2>
+<p>题目序号为1114-1117,我们都可以只用信号量解决他们.<br>
+<img src="https://imatvoid.github.io//post-images/1563718606756.png" alt=""></p>
+<p>解法链接:</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="tag">
-                    面试
+                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
+                    并发concurrency
                   </a>
                 
-                  <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="tag">
-                    alibaba
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
                   </a>
                 
               </div>
@@ -224,9 +184,9 @@ K=3,输出3</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
+                <a href="https://imatvoid.github.io//post/leetcode-1117-building-h2o">
                   <h3 class="post-title">
-                    已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位
+                    leetcode -- 1117. Building H2O
                   </h3>
                 </a>
               </div>

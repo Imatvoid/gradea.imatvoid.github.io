@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-18T15:52:48.858Z</updated>
+    <updated>2019-07-21T14:37:31.751Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -12,7 +12,37 @@
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
     <entry>
-        <title type="html"><![CDATA[1116. Print Zero Even Odd]]></title>
+        <title type="html"><![CDATA[如何只使用信号量通过leetcode的多线程题目]]></title>
+        <id>https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu</id>
+        <link href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu">
+        </link>
+        <updated>2019-07-21T14:02:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>题目链接<br>
+<a href="https://leetcode-cn.com/problemset/concurrency/">https://leetcode-cn.com/problemset/concurrency/</a><br>
+<a href="https://leetcode.com/problemset/concurrency/">https://leetcode.com/problemset/concurrency/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>题目链接<br>
+<a href="https://leetcode-cn.com/problemset/concurrency/">https://leetcode-cn.com/problemset/concurrency/</a><br>
+<a href="https://leetcode.com/problemset/concurrency/">https://leetcode.com/problemset/concurrency/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 1117. Building H2O]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-1117-building-h2o</id>
+        <link href="https://imatvoid.github.io//post/leetcode-1117-building-h2o">
+        </link>
+        <updated>2019-07-21T13:49:09.000Z</updated>
+        <summary type="html"><![CDATA[<p>按组输出<br>
+<a href="https://leetcode-cn.com/problems/building-h2o/">https://leetcode-cn.com/problems/building-h2o/</a><br>
+<a href="https://leetcode.com/problems/building-h2o/">https://leetcode.com/problems/building-h2o/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>按组输出<br>
+<a href="https://leetcode-cn.com/problems/building-h2o/">https://leetcode-cn.com/problems/building-h2o/</a><br>
+<a href="https://leetcode.com/problems/building-h2o/">https://leetcode.com/problems/building-h2o/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 1116. Print Zero Even Odd]]></title>
         <id>https://imatvoid.github.io//post/1116-print-zero-even-odd</id>
         <link href="https://imatvoid.github.io//post/1116-print-zero-even-odd">
         </link>
@@ -44,10 +74,12 @@
         </link>
         <updated>2019-07-17T14:22:08.000Z</updated>
         <summary type="html"><![CDATA[<p>交替打印Foo Bar<br>
-<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+<a href="https://leetcode.com/problems/print-foobar-alternately">https://leetcode.com/problems/print-foobar-alternately</a><br>
+<a href="https://leetcode-cn.com/problems/print-foobar-alternately">https://leetcode-cn.com/problems/print-foobar-alternately</a></p>
 ]]></summary>
         <content type="html"><![CDATA[<p>交替打印Foo Bar<br>
-<a href="https://leetcode.com/problems/print-foobar-alternately/">https://leetcode.com/problems/print-foobar-alternately/</a></p>
+<a href="https://leetcode.com/problems/print-foobar-alternately">https://leetcode.com/problems/print-foobar-alternately</a><br>
+<a href="https://leetcode-cn.com/problems/print-foobar-alternately">https://leetcode-cn.com/problems/print-foobar-alternately</a></p>
 ]]></content>
     </entry>
     <entry>
@@ -110,19 +142,5 @@
         <link href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
         </link>
         <updated>2019-04-02T08:15:24.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[如何实现一个高效的单向链表逆序输出?]]></title>
-        <id>https://imatvoid.github.io//post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu</id>
-        <link href="https://imatvoid.github.io//post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu">
-        </link>
-        <updated>2019-04-01T07:50:49.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[如何优化IF ELSE]]></title>
-        <id>https://imatvoid.github.io//post/ru-he-you-hua-if-else</id>
-        <link href="https://imatvoid.github.io//post/ru-he-you-hua-if-else">
-        </link>
-        <updated>2018-12-04T09:19:21.000Z</updated>
     </entry>
 </feed>

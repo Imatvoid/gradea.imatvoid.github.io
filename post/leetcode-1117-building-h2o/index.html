@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>给定一个二叉搜索树(BST)，找到树中第 K 小的节点。 | Imatvoid </title>
+<title>leetcode -- 1117. Building H2O | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -104,119 +104,111 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">给定一个二叉搜索树(BST)，找到树中第 K 小的节点。</h2>
-            <div class="post-date">2019-04-03</div>
+            <h2 class="post-title">leetcode -- 1117. Building H2O</h2>
+            <div class="post-date">2019-07-21</div>
             
             <div class="post-content">
-              <!-- more -->
-<h2 id="题目">题目</h2>
-<p>示例</p>
-<pre><code>       5
-      / \
-     3   6
-    / \
-   2   4
-  /
- 1
- 
+              <p>按组输出<br>
+<a href="https://leetcode-cn.com/problems/building-h2o/">https://leetcode-cn.com/problems/building-h2o/</a><br>
+<a href="https://leetcode.com/problems/building-h2o/">https://leetcode.com/problems/building-h2o/</a></p>
+<!-- more -->
+<h2 id="描述">描述</h2>
+<p>现在有两种线程，氢 oxygen 和氧 hydrogen，你的目标是组织这两种线程来产生水分子。</p>
+<p>存在一个屏障（barrier）使得每个线程必须等候直到一个完整水分子能够被产生出来。</p>
+<p>氢和氧线程会被分别给予 releaseHydrogen 和 releaseOxygen 方法来允许它们突破屏障。</p>
+<p>这些线程应该三三成组突破屏障并能立即组合产生一个水分子。</p>
+<p>你必须保证产生一个水分子所需线程的结合必须发生在下一个水分子产生之前。</p>
+<p>换句话说:</p>
+<p>如果一个氧线程到达屏障时没有氢线程到达，它必须等候直到两个氢线程到达。<br>
+如果一个氢线程到达屏障时没有其它线程到达，它必须等候直到一个氧线程和另一个氢线程到达。<br>
+书写满足这些限制条件的氢、氧线程同步代码。<br>
+示例 1:</p>
+<pre><code>输入: &quot;HOH&quot;
+输出: &quot;HHO&quot;
+解释: &quot;HOH&quot; 和 &quot;OHH&quot; 依然都是有效解。
 </code></pre>
-<p>说明：保证输入的 K 满足 1&lt;=K&lt;=(节点数目）<br>
-K=3,输出3</p>
-<h2 id="出题人">出题人</h2>
-<p>阿里巴巴出题专家：文景／阿里云 CDN 资深技术专家</p>
-<h2 id="考察点">考察点</h2>
-<ol>
-<li>基础数据结构的理解和编码能力</li>
-<li>递归使用</li>
-</ol>
-<h2 id="解法">解法</h2>
-<pre><code class="language-java">public class TreeNode {
-    public  int val;
-    public  TreeNode left;
-     public TreeNode right;
-     public  TreeNode(int x) { val = x; }
+<p>示例 2:</p>
+<pre><code>输入: &quot;OOHHHH&quot;
+输出: &quot;HHOHHO&quot;
+解释: &quot;HOHHHO&quot;, &quot;OHHHHO&quot;, &quot;HHOHOH&quot;, &quot;HOHHOH&quot;, &quot;OHHHOH&quot;, &quot;HHOOHH&quot;, &quot;HOHOHH&quot; 和 &quot;OHHOHH&quot; 依然都是有效解。
+</code></pre>
+<p>限制条件:<br>
+输入字符串的总长将会是 3n, 1 ≤ n ≤ 50；<br>
+输入字符串中的 “H” 总数将会是 2n；<br>
+输入字符串中的 “O” 总数将会是 n。</p>
+<h2 id="思路">思路</h2>
+<p>我们把H原子当成一种资源,用容器装起来,并统计个数.任何时间都可以在容器中加入H原子.这里使用Semaphore来当容器,来一个就release()一下.许可证+1.</p>
+<p>我们把O原子当成输出的依据,串行化.来一个O原子就去取两个H原子的许可证,如果暂时拿不到也没关系.容器里的H早晚会蓄起来.</p>
+<p>这样我们总是可以2个H,一个O地输出.</p>
+<p>代码如下:</p>
+<pre><code class="language-java">import java.util.concurrent.Semaphore;
+
+/**
+ * @Author: yangxu
+ * @Date: 19-7-21 下午9:06
+ */
+public class H2O {
+
+    // 串行话氧原子,一个氧原子没操作完的时候,阻塞住其他氧原子的操作.
+    Semaphore olock = new Semaphore(1);
+    
+    // 判定两个氢原子都已输出
+    Semaphore hfin = new Semaphore(0);
+
+    Semaphore os = new Semaphore(0);
+    Semaphore hs = new Semaphore(0);
+
+    public H2O() {
+
+    }
+
+    public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+
+
+        // 氢原子许可+1  容器加一个H
+        hs.release();
+        // 需要氧原子许可
+        os.acquire();
+
+        // releaseHydrogen.run() outputs &quot;H&quot;. Do not change or remove this line.
+        releaseHydrogen.run();
+        // 一个H原子已经输出完毕
+        hfin.release();
+    }
+
+    public void oxygen(Runnable releaseOxygen) throws InterruptedException{
+        // 串行化氧原子操作
+        olock.acquire();
+        // 取两个H原子
+        hs.acquire(2);
+
+        // releaseOxygen.run() outputs &quot;H&quot;. Do not change or remove this line.
+        releaseOxygen.run();
+        // 通知两个H原子可以做了.
+        os.release(2);
+        // 等待两个H原子输出
+        hfin.acquire(2);
+        // 允许下一个氧原子到来
+        olock.release();
+
+    }
 }
-
 </code></pre>
-<h3 id="递归">递归</h3>
-<p>树的题目,第一反应用递归.<br>
-这其实就是二叉搜索树的中序遍历.</p>
-<pre><code class="language-java">    int res;
-    int count;
-
-    public int kthSmallest(TreeNode root, int k) {
-        count = k;
-        inOrder(root);
-        return res;
-
-    }
-
-    void inOrder(TreeNode root) {
-        if (root == null) {
-            return;
-        }
-
-        inOrder(root.left);
-        count--;
-        if (count == 0) {
-            res = root.val;
-            return;
-        }
-        inOrder(root.right);
-    }
-</code></pre>
-<h3 id="非递归">非递归</h3>
-<pre><code class="language-java"> /**
-     * 中序列非递归
-     * @param root
-     * @param k
-     * @return
-     */
-    public int kthSmallest2(TreeNode root, int k) {
-        int count = k;
-
-        if(root == null){
-            return -1;
-        }
-
-        LinkedList&lt;TreeNode&gt; stack = new LinkedList&lt;TreeNode&gt;();
-        stack.add(root);
-        while(!stack.isEmpty()){
-            TreeNode cur = stack.pop();
-            // 一直走到最左端，直到left为null
-            while (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            }
-
-            cur = stack.poll();
-            count--;
-            if (cur != null) {
-                if(count ==0){
-                    return cur.val;
-                }
-
-                stack.push(cur.right);
-            }
-        }
-
-        return -1;
-
-    }
-</code></pre>
-<h2 id="原链接">原链接</h2>
-<p>leetcode 230题</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="tag">
-                    面试
+                  <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="tag">
+                    leetcode-并发
                   </a>
                 
-                  <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="tag">
-                    alibaba
+                  <a href="https://imatvoid.github.io//tag/jewXpk0In" class="tag">
+                    并发concurrency
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
                   </a>
                 
               </div>
@@ -224,9 +216,9 @@ K=3,输出3</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
+                <a href="https://imatvoid.github.io//post/1116-print-zero-even-odd">
                   <h3 class="post-title">
-                    已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位
+                    leetcode -- 1116. Print Zero Even Odd
                   </h3>
                 </a>
               </div>
