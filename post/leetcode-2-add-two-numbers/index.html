@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563724601871">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1563724866446">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1563724601871" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1563724866446" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -117,8 +117,13 @@ https://leetcode.com/problems/add-two-numbers/</p>
 <p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
 <p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
 <h2 id="思路">思路</h2>
-<p>和普通的相加题是一样的,可以看leetcode-add的标签.<br>
+<p>和普通的相加题是一样的,可以看<a href="https://imatvoid.github.io/post/leetcode-415-add-strings/">add-strings</a>的标签.<br>
 只不过换成了链表.</p>
+<p>求和有两步操作:<br>
+1.对应位相加,%进制,取得余数<br>
+2.如果有进位,/进制,拿到进位.<br>
+后面不过是迭代这两步操作.<br>
+一个小trick是,在最后,可能你还有一个进位,别忘了.</p>
 <h2 id="代码">代码</h2>
 <pre><code class="language-java">public class AddTwoNumbers {
 
@@ -156,7 +161,7 @@ https://leetcode.com/problems/add-two-numbers/</p>
 }
 </code></pre>
 <h2 id="其他">其他</h2>
-<p>类似可以看leetcode-add的标签.</p>
+<p>类似可以看<a href="https://imatvoid.github.io/tag/41zWzzRyW/">leetcode-add</a>的标签.</p>
 
             </div>
             
