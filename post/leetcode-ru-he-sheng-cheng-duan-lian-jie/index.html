@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>leetcode -- 如何生成短链接 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564119925151">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1564119925151" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">leetcode -- 如何生成短链接</h2>
+            <div class="post-date">2019-07-25</div>
+            
+            <div class="post-content">
+              <p><a href="https://leetcode.com/problems/encode-and-decode-tinyurl/">https://leetcode.com/problems/encode-and-decode-tinyurl/</a><br>
+<a href="https://leetcode-cn.com/problems/encode-and-decode-tinyurl/">https://leetcode-cn.com/problems/encode-and-decode-tinyurl/</a></p>
+<h2 id="描述">描述</h2>
+<p>生成短链接.</p>
+<h2 id="思路">思路</h2>
+<p>如果仅仅是做题,那么其实有很多办法.</p>
+<p>在实际中,应该使用分布式发号器(Distributed ID Generator)<br>
+64位的整数能表示的范围184467440737亿远远大于全球网页数量45亿。来一个长网址,就分配一个ID去生成短网址.</p>
+<p>而且这样可以支持一个长网址对应多个短网址。一般而言，一个长网址，在不同的地点，不同的用户等情况下，生成的短网址应该不一样，这样，在后端数据库中，可以更好的进行数据分析。</p>
+<p>为了方便转化为字符串,一般使用62进制,字符串的一位可以是大小写字母加数字共62个字母.</p>
+<p>一般采用一个7位的字符串,62^7=3521614606208627=35216亿.</p>
+<p>其他的办法大概还有取HASH值的前N位，碰撞，不重复就为短网址.这样性能不高。</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-java">public class EncodeAndDecodeTinyURL {
+
+    Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+
+    long index = 10000; // 这里是模拟一个当前计数值.
+    private static String chars = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;
+    private static int scale = 62;
+
+    // Encodes a URL to a shortened URL.
+    public String encode(String longUrl) {
+
+        String tinyUrl = indexToStr(index, 7);
+        map.put(tinyUrl, longUrl);
+        return tinyUrl;
+    }
+
+    public String indexToStr(long num, int length) {
+        StringBuilder sb = new StringBuilder();
+        int remainder = 0;
+
+        while (num &gt; scale - 1) {
+            /**
+             * 对 scale 进行求余，然后将余数追加至 sb 中，由于是从末位开始追加的，因此最后需要反转（reverse）字符串
+             */
+            remainder = Long.valueOf(num % scale).intValue();
+            sb.append(chars.charAt(remainder));
+
+            num = num / scale;
+        }
+
+        sb.append(chars.charAt(Long.valueOf(num).intValue()));
+        String value = sb.reverse().toString();
+
+        while (value.length() &lt; length) {
+            value = &quot;0&quot; + value;
+        }
+        return value;
+
+
+    }
+
+    // Decodes a shortened URL to its original URL.
+    public String decode(String shortUrl) {
+        return map.get(shortUrl);
+    }
+
+    public static void main(String[] args) {
+        EncodeAndDecodeTinyURL codec = new EncodeAndDecodeTinyURL();
+        codec.decode(codec.encode(&quot;https://leetcode.com/problems/design-tinyurl&quot;));
+    }
+</code></pre>
+<h2 id="其他">其他</h2>
+<p>以下内容出自<a href="https://www.zhihu.com/question/20103344">武林的回答</a></p>
+<h3 id="如何存储">如何存储</h3>
+<p>如果存储短网址和长网址的对应关系？以短网址为 primary key, 长网址为value, 可以用传统的关系数据库存起来，例如MySQL,PostgreSQL，也可以用任意一个分布式KV数据库，例如Redis, LevelDB。       如果你手痒想要手工设计这个存储，那就是另一个话题了，你需要完整地造一个KV存储引擎轮子。当前流行的KV存储引擎有LevelDB何RockDB，去读它们的源码。</p>
+<h3 id="301还是302重定向">301还是302重定向</h3>
+<p>这也是一个有意思的问题。这个问题主要是考察你对301和302的理解，以及浏览器缓存机制的理解。       301是永久重定向，302是临时重定向。短地址一经生成就不会变化，所以用301是符合http语义的。但是如果用了301， Google，百度等搜索引擎，搜索的时候会直接展示真实地址，那我们就无法统计到短地址被点击的次数了，也无法收集用户的Cookie, User Agent 等信息，这些信息可以用来做很多有意思的大数据分析，也是短网址服务商的主要盈利来源。所以，正确答案是302重定向。</p>
+<h3 id="预防攻击">预防攻击</h3>
+<p>如果一些别有用心的黑客，短时间内向TinyURL服务器发送大量的请求，会迅速耗光ID，怎么办呢？<br>
+首先，限制IP的单日请求总数，超过阈值则直接拒绝服务。光限制IP的请求数还不够，因为黑客一般手里有上百万台肉鸡的，IP地址大大的有，所以光限制IP作用不大。<br>
+可以用一台Redis作为缓存服务器，存储的不是 ID-&gt;长网址，而是 长网址-&gt;ID，仅存储一天以内的数据，用LRU机制进行淘汰。这样，如果黑客大量发同一个长网址过来，直接从缓存服务器里返回短网址即可，他就无法耗光我们的ID了。</p>
+<h2 id="参考">参考</h2>
+<p>http://youzhixueyuan.com/how-to-generate-distributed-unique-id.html</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="tag">
+                    System Design
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="tag">
+                    leetcode-design
+                  </a>
+                
+                  <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="tag">
+                    leetcode
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu">
+                  <h3 class="post-title">
+                    如何只使用信号量通过leetcode的多线程题目
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

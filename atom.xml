@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-07-21T16:12:35.439Z</updated>
+    <updated>2019-07-26T05:45:45.202Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,13 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 如何生成短链接]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie</id>
+        <link href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">
+        </link>
+        <updated>2019-07-25T04:00:09.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何只使用信号量通过leetcode的多线程题目]]></title>
         <id>https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu</id>
@@ -90,6 +97,19 @@
         <updated>2019-07-12T05:41:15.000Z</updated>
     </entry>
     <entry>
+        <title type="html"><![CDATA[泛型与PECS原则]]></title>
+        <id>https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze</id>
+        <link href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze">
+        </link>
+        <updated>2019-06-25T12:19:02.000Z</updated>
+        <summary type="html"><![CDATA[<p>Producer Extends Consumer Super.<br>
+生产者Extends,消费者Super.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Producer Extends Consumer Super.<br>
+生产者Extends,消费者Super.</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[请评估一下程序的执行结果?]]></title>
         <id>https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo</id>
         <link href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
@@ -128,19 +148,5 @@
         <link href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">
         </link>
         <updated>2019-04-04T09:31:43.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[给定一个二叉搜索树(BST)，找到树中第 K 小的节点。]]></title>
-        <id>https://imatvoid.github.io//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian</id>
-        <link href="https://imatvoid.github.io//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian">
-        </link>
-        <updated>2019-04-03T09:15:57.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位]]></title>
-        <id>https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei</id>
-        <link href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
-        </link>
-        <updated>2019-04-02T08:15:24.000Z</updated>
     </entry>
 </feed>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>泛型与PECS原则 | Imatvoid </title>
+<meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+自古英雄出炼狱，从来富贵入凡尘。 ">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564119925151">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://imatvoid.github.io/">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1564119925151" class="site-logo">
+        <h1 class="site-title">Imatvoid </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://imatvoid.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">泛型与PECS原则</h2>
+            <div class="post-date">2019-06-25</div>
+            
+            <div class="post-content">
+              <p>Producer Extends Consumer Super.<br>
+生产者Extends,消费者Super.</p>
+<!-- more -->
+<h2 id="测试">测试</h2>
+<p>类继承结构:<br>
+Executive(经理) extends Manager(管理者) extends Employee(职工)  extends Object</p>
+<p>还有一个测试的范性类.</p>
+<pre><code class="language-java">    static class Employee {
+
+    }
+    static class Manager extends Employee {
+
+    }
+
+    static class Executive extends Manager {
+
+    }
+    static class Test&lt;T&gt; {
+        T value;
+
+        public void setValue(T value) {
+            this.value = value;
+        }
+        public T getValue() {
+            return value;
+        }
+    }
+</code></pre>
+<h2 id="你能理解下面的代码吗">你能理解下面的代码吗</h2>
+<p>? extends T 初始化</p>
+<pre><code class="language-java">//      Test&lt;? extends Manager&gt; t4= new Test&lt;Employee&gt;(); // 报错
+//      Test&lt;? extends Manager&gt; t5 = new Test&lt;Object&gt;(); // 报错
+        Test&lt;? extends Manager&gt; t6 = new Test&lt;Manager&gt;();
+        Test&lt;? extends Manager&gt; t7 = new Test&lt;Executive&gt;();
+</code></pre>
+<p>? super T 初始化</p>
+<pre><code class="language-java">//      Test&lt;? super Manager&gt; t1 = new Test&lt;Executive&gt;(); // 报错
+        Test&lt;? super Manager&gt; t2 = new Test&lt;Manager&gt;();
+        Test&lt;? super Manager&gt; t3 = new Test&lt;Object&gt;();
+        Test&lt;? super Manager&gt; t4 = new Test&lt;Employee&gt;();
+				
+</code></pre>
+<p>可以看出,? extend T 和 ? super T 限制了可以声明类型的允许范围.以Manager为界限,? extend T 可以声明Manager以及Manager以下, ? super T可以声明Manager以及Manager以上.</p>
+<h2 id="extends-t">? extends T</h2>
+<p>描述一个这样的对象/容器对象,它/它内部的对象起码是个T,你对T的所有期望都可以满足.可以做到T可以做的所有事.<br>
+因此我们可以get(),无论容器中是T的哪个子类或者T本身,我们都可以当作T来操作.<br>
+这也就是生产者Extends,它可以对外提供对象.<br>
+但你不知道T实际是什么,是哪个子类.所以你的任何set操作,或者容器的add操作都不被java允许.否则就可能出现一个装香蕉的水果篮子里出现了苹果的情况.</p>
+<pre><code class="language-java">           Test&lt;? extends Manager&gt; t7 = new Test&lt;Executive&gt;();
+//        t7.setValue(new Employee());  // 报错
+//        t7.setValue(new Manager()); // 报错
+//        t7.setValue(new Executive()); // 报错
+//        t7.setValue(new Object()); // 报错
+</code></pre>
+<h2 id="令人迷惑的-super-t">令人迷惑的 ? super T</h2>
+<p>或许你以为,按照对称性, ? super T描述的应该是一个什么都可以放的对象/容器,只要是T的父类.包括Object.<br>
+以下语句也确实不会报错.</p>
+<pre><code class="language-java">        Test&lt;? super Manager&gt; t2 = new Test&lt;Manager&gt;();
+        Test&lt;? super Manager&gt; t3 = new Test&lt;Object&gt;();
+        Test&lt;? super Manager&gt; t4 = new Test&lt;Employee&gt;();
+</code></pre>
+<p>但是你会失望的发现.在执行set操作/容器的add操作的时候.</p>
+<pre><code class="language-java">        Test&lt;? super Manager&gt; t4 = new Test&lt;Employee&gt;();
+        t4.setValue(new Manager());
+        t4.setValue(new Executive());
+//        t4.setValue(new Object());    //报错
+//        t4.setValue(new Employee());  //报错
+</code></pre>
+<p>你只能set/add  Manager和Manager的子类.<br>
+这是因为:<br>
+? super T 确实描述了一个T的父类对象/父类容器,但不知道是哪个父类,所以你只能set T/T的子类. 因为,所有T的子类都可以转化为任何一个T的父类.<br>
+set/add 操作是绝对安全的. 这也就是消费者 Super. 可以接受对象.</p>
+<p>但由于你不清楚实际是那个父类,所以你只能get到一个Object.<br>
+<code>Object o = t4.getValue();</code><br>
+这是合法的,但是没有什么意义.Object对象除了一个引用,无法进行什么操作.</p>
+<h2 id="容器操作">容器操作</h2>
+<p>这方面的例子可以看<a href="http://awesomehuan.com/2016/03/05/Java%E4%B8%AD%E7%9A%84PECS/">http://awesomehuan.com/2016/03/05/Java中的PECS/</a>加深印象.</p>
+<h2 id="巧妙的运用">巧妙的运用</h2>
+<pre><code class="language-java">public class Collections { 
+  public static &lt;T&gt; void copy  ( List&lt;? super T&gt; dest, List&lt;? extends T&gt; src)   {  
+      for (int i=0; i&lt;src.size(); i++) 
+        dest.set(i,src.get(i)); 
+  } 
+}
+</code></pre>
+<p>上面代码中copy方法的功能是将src中的数据复制到dest中，这里src就是生产者，dest就是消费者。<br>
+设计这样的方法，好处就是，可以复制任意类型的List，通用性特别强。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://stackoverflow.com/questions/2723397/what-is-pecs-producer-extends-consumer-super">https://stackoverflow.com/questions/2723397/what-is-pecs-producer-extends-consumer-super</a></p>
+<p><a href="http://awesomehuan.com/2016/03/05/Java%E4%B8%AD%E7%9A%84PECS/">http://awesomehuan.com/2016/03/05/Java中的PECS/</a></p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
+                  <h3 class="post-title">
+                    请评估一下程序的执行结果?
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
