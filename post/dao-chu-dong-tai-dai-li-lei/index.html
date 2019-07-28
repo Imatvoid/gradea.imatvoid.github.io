@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode-design | Imatvoid </title>
+<title>导出动态代理类 | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -14,6 +14,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -97,28 +103,35 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: leetcode-design</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">
-                  <h2 class="post-title">leetcode -- 如何生成短链接</h2>
-                </a>
-                <div class="post-date">
-                  2019-07-25
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">导出动态代理类</h2>
+            <div class="post-date">2019-01-26</div>
+            
+            <div class="post-content">
+              <!-- more -->
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/main-xian-cheng-zhong-zhi-qi-ta-xian-cheng-huan-hui-yun-xing-ma">
+                  <h3 class="post-title">
+                    main线程终止,其他线程还会运行吗?
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
 
         </div>
       </div>
@@ -140,6 +153,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd6f8edd37708580f1f7e',
+        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
+        repo: 'imatvoid.github.io',
+        owner: 'Imatvoid',
+        admin: ['Imatvoid'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 

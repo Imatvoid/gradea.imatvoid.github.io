@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564119925151">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564321324386">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1564119925151" class="site-logo">
+        <img src="https://imatvoid.github.io//images/avatar.png?v=1564321324386" class="site-logo">
         <h1 class="site-title">Imatvoid </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -109,12 +109,341 @@
             
             <div class="post-content">
               <!-- more -->
+<h2 id="简单使用">简单使用</h2>
+<pre><code class="language-java">//我们只需要实例化一次,作为key就够了,或者使用静态。
+private  ThreadLocal myThreadLoca&lt;String&gt;l = new ThreadLocal();
+
+// 写入
+myThreadLocal.set(&quot;A thread local value&quot;);
+
+// 读取
+String threadLocalValue = myThreadLocal.get();
+</code></pre>
+<h2 id="inheritablethreadlocal">InheritableThreadLocal</h2>
+<p>InheritableThreadLocal类是ThreadLocal类的子类.<br>
+子线程会copy父线程的值,形成自己的副本(浅拷贝).</p>
+<p>1.对于可变对象：</p>
+<ul>
+<li>父线程初始化, 因为Thread Construct浅拷贝, 共用索引, 子线程修改父线程跟着变;</li>
+<li>父线程不初始化, 子线程初始化, 无Thread Construct浅拷贝, 子线程和父线程都是单独引用, 不同对象, 子线程修改父线程不跟着变。</li>
+</ul>
+<p>2.对于不可变对象：<br>
+不可变对象由于每次都是新对象, 所以无论父线程初始化与否，子线程和父线程都互不影响。</p>
+<p>从上面两条结论可知，子线程只能通过修改可变性（Mutable）对象对主线程才是可见的，即才能将修改传递给主线程，但这不是一种好的实践，不建议使用，为了保护线程的安全性，一般建议只传递不可变（Immuable）对象，即没有状态的对象。</p>
+<h2 id="threadlocal-与thread-同步机制的比较">ThreadLocal 与Thread 同步机制的比较</h2>
+<h3 id="同步机制-以时间换空间">同步机制 -- “以时间换空间”</h3>
+<p>在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量,实现串行化.这时该变量是多个线程共享的,使用同步机制要求程序缜密地分析什么时候对变量进行读／写、什么时候需要锁定某个对象、什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。</p>
+<h3 id="threadlocal-以空间换时间">ThreadLocal -- “以空间换时间”</h3>
+<p>给每个线程建立副本,互不干扰.</p>
+<h3 id="总结">总结</h3>
+<p>对于多线程资源共享的问题.<br>
+同步机制采用“以时间换空间”的方式:访问串行化，对象共享化；<br>
+ThreadLocaI采用了“以空间换时间”的方式：访问并行化，对象独享化。<br>
+前者仅提供一份变量，让不同的线程排队访问；而后者为每个线程都提供了一份变量，因此可以同时访问而互不影响。</p>
+<h2 id="threadlocal-源码分析">ThreadLocal 源码分析</h2>
+<h3 id="threadlocal的hash值的计算">ThreadLocal的Hash值的计算</h3>
+<pre><code class="language-java">// hash code
+private final int threadLocalHashCode = nextHashCode();
+ 
+// AtomicInteger类型，从0开始
+private static AtomicInteger nextHashCode =
+    new AtomicInteger();
+ 
+// hash code每次增加1640531527 
+private static final int HASH_INCREMENT = 0x61c88647;
+ 
+// 下一个hash code
+private static int nextHashCode() {
+    return nextHashCode.getAndAdd(HASH_INCREMENT);
+}
+</code></pre>
+<p>ThreadLocal的hashcode（threadLocalHashCode）是从0开始，每新建一个ThreadLocal，对应的hashcode就加0x61c88647.</p>
+<h3 id="threadlocal的set方法">ThreadLocal的set方法</h3>
+<pre><code class="language-java">public void set(T value) {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t); // 获取当前线程的ThreadLocalMap
+    // 当前线程的ThreadLocalMap不为空则调用set方法, this为调用该方法的ThreadLocal对象
+    if (map != null) 
+        map.set(this, value);
+    // map为空则调用createMap方法创建一个新的ThreadLocalMap, 并新建一个Entry放入该
+    // ThreadLocalMap, 调用set方法的ThreadLocal和传入的value作为该Entry的key和value
+    else
+        createMap(t, value);    
+}
+ 
+ThreadLocalMap getMap(Thread t) {
+    return t.threadLocals;	// 返回线程t的threadLocals属性,类型是ThreadLocalMap
+}
+</code></pre>
+<ol>
+<li>先拿到当前线程，再使用getMap方法拿到当前线程的threadLocals变量(类型ThreadLocalMap)</li>
+<li>如果threadLocals不为空，则将当前ThreadLocal作为key，传入的值作为value，调用set方法（见下文ThreadLocalMap的set方法）插入threadLocals。</li>
+<li>如果threadLocals为空则调用创建一个ThreadLocalMap，并新建一个Entry放入该ThreadLocalMap, 调用set方法的ThreadLocal自身和传入的value作为该Entry的key和value<br>
+<strong>注意此处的threadLocals变量是一个ThreadLocalMap，是Thread的一个局部变量，因此它只与当前线程绑定。</strong></li>
+</ol>
+<h3 id="threadlocal的get方法">ThreadLocal的get方法</h3>
+<pre><code class="language-java">public T get() {
+        Thread t = Thread.currentThread();
+        ThreadLocalMap map = getMap(t);
+        if (map != null) {
+            ThreadLocalMap.Entry e = map.getEntry(this);
+            if (e != null) {
+                @SuppressWarnings(&quot;unchecked&quot;)
+                T result = (T)e.value;
+                return result;
+            }
+        }
+         return setInitialValue();
+    }
+</code></pre>
+<p>也是先获得当前线程的ThreadLocalMap变量.其实ThreadLocal类就像是一个工具类一样,核心是其内部类ThreadLocalMap.</p>
+<h2 id="threadlocalmap-源码分析">ThreadLocalMap 源码分析</h2>
+<h3 id="示意图">示意图</h3>
+<p><img src="https://imatvoid.github.io//post-images/1564291985746.png" alt=""></p>
+<p>ThreadLocalMap是一个自定义哈希映射，仅用于维护线程本地变量值。<br>
+ThreadLocalMap是ThreadLocal的内部类，主要有一个Entry数组，Entry的key为ThreadLocal，value为ThreadLocal对应的值。<br>
+每个线程都有一个ThreadLocalMap类型的threadLocals变量。</p>
+<h3 id="成员变量和相关方法">成员变量和相关方法</h3>
+<pre><code class="language-java">// 初始容量16
+private static final int INITIAL_CAPACITY = 16;
+// entry数组
+private Entry[] table;
+// entry 元素个数
+private int size = 0;
+// 扩容阀值
+private int threshold; // Default to 0
+// 一次set是2/3 len
+private void setThreshold(int len) {  threshold = len * 2 / 3;  }
+
+//下面两个方法可以向前/后获取坐标.
+private static int nextIndex(int i, int len) { return ((i + 1 &lt; len) ? i + 1 : 0);}
+
+private static int prevIndex(int i, int len) {return ((i - 1 &gt;= 0) ? i - 1 : len - 1); }
+				
+</code></pre>
+<h3 id="entry实体">Entry实体</h3>
+<pre><code class="language-java">static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt; {
+    /** The value associated with this ThreadLocal. */
+    Object value;
+ 
+    Entry(ThreadLocal&lt;?&gt; k, Object v) {
+        super(k);
+        value = v;
+    }
+}
+</code></pre>
+<p>结合示意看,entry中的key是一个弱引用.它的存在不会使得ThreadLocal变量豁免垃圾回收.当定义ThreadLocal变量的线程终止,没有强引用关联ThreadLocal变量,它就会被垃圾回收.<br>
+<strong>说到底ThreadLocal变量只是一个key而已,可以用它去各个线程自己的ThreadLocalMap中查询,它本身并不存储信息.</strong><br>
+当然这会造成各个线程的ThreadLocalMap中出现key为null的entry.这个在后边内存泄漏会讲到.</p>
+<h3 id="扩容">扩容</h3>
+<pre><code class="language-java">private void rehash() {
+    expungeStaleEntries();  // 调用expungeStaleEntries方法清理key为null的Entry
+ 
+    // 如果清理后size超过阈值的3/4, 则进行扩容
+    if (size &gt;= threshold - threshold / 4)  
+		    // 大小*2  
+				// h = k.threadLocalHashCode &amp; (newLen - 1);
+        resize();
+}
+</code></pre>
+<h3 id="清理key为null的entry">清理key为null的entry</h3>
+<p>cleanSomeSlots方法</p>
+<pre><code class="language-java">private boolean cleanSomeSlots(int i, int n) {
+    boolean removed = false;
+    Entry[] tab = table;
+    int len = tab.length;
+    do {
+        i = nextIndex(i, len);	// 下一个索引位置
+        Entry e = tab[i];
+        if (e != null &amp;&amp; e.get() == null) {	// 遍历到key为null的元素
+            n = len;	// 重置n的值
+            removed = true;	// 标志有移除元素
+            i = expungeStaleEntry(i);	// 移除i位置及之后的key为null的元素
+        }
+    } while ( (n &gt;&gt;&gt;= 1) != 0);
+    return removed;
+}
+</code></pre>
+<p>从 i 开始，清除key为空的Entry，扫描元素个数是<code>log2n</code>，当遍历到一个key为null的元素时，调用expungeStaleEntry清除，并将遍历次数重置。<br>
+n的值可能是当前元素个数size(从增加元素操作调过来).或者整个entry长度len(从replaceStaleEntry方法调过来).<br>
+官方给出的解释是这个方法简单、快速，并且效果不错。</p>
+<p>expungeStaleEntry 方法</p>
+<pre><code class="language-java">// 从staleSlot开始, 清除key为空的Entry, 并将不为空的元素放到合适的位置，最后返回Entry为空的位置
+private int expungeStaleEntry(int staleSlot) {  
+    Entry[] tab = table;
+    int len = tab.length;
+ 
+    // expunge entry at staleSlot
+    tab[staleSlot].value = null;    // 将tab上staleSlot位置的对象清空
+    tab[staleSlot] = null;
+    size--;
+ 
+    // Rehash until we encounter null
+    Entry e;
+    int i;
+    for (i = nextIndex(staleSlot, len); // 遍历下一个元素, 即(i+1)%len位置的元素
+         (e = tab[i]) != null;	// 遍历到Entry为空时, 跳出循环并返回索引位置
+         i = nextIndex(i, len)) {
+        ThreadLocal&lt;?&gt; k = e.get(); 
+        if (k == null) {    // 当前遍历Entry的key为空, 则将该位置的对象清空
+            e.value = null;
+            tab[i] = null;
+            size--;
+        } else {    // 当前遍历Entry的key不为空
+            int h = k.threadLocalHashCode &amp; (len - 1);  // 重新计算该Entry的索引位置
+            if (h != i) {   // 如果索引位置不为当前索引位置i
+                tab[i] = null;  // 则将i位置对象清空, 替当前Entry寻找正确的位置
+ 
+                // 如果h位置不为null，则向后寻找当前Entry的位置
+                while (tab[h] != null)
+                    h = nextIndex(h, len);
+                tab[h] = e;
+            }
+        }
+    }
+    return i;   
+}
+</code></pre>
+<h3 id="threadlocalmap的set方法">ThreadLocalMap的set方法</h3>
+<pre><code class="language-java">private void set(ThreadLocal&lt;?&gt; key, Object value) {
+    Entry[] tab = table;
+    int len = tab.length;
+    int i = key.threadLocalHashCode &amp; (len-1);  // 计算出索引的位置
+ 
+    // 从索引位置开始遍历,由于不是链表结构,因此通过nextIndex方法来寻找下一个索引位置  
+    for (Entry e = tab[i];
+         e != null;	// 当遍历到的Entry为空时结束遍历
+         e = tab[i = nextIndex(i, len)]) {  
+        ThreadLocal&lt;?&gt; k = e.get(); // 拿到Entry的key，也就是ThreadLocal  
+ 
+        // 该Entry的key和传入的key相等, 则用传入的value替换掉原来的value  
+        if (k == key) {
+            e.value = value;
+            return;
+        }
+ 
+        // 该Entry的key为空, 则代表该Entry需要被清空, 
+        // 调用replaceStaleEntry方法  
+        if (k == null) {
+        	// 该方法会继续寻找传入key的安放位置, 并清理掉key为空的Entry  
+            replaceStaleEntry(key, value, i);
+            return;
+        }
+    }
+ 
+    // 寻找到一个空位置,　则放置在该位置上
+    tab[i] = new Entry(key, value);
+    int sz = ++size;
+    // cleanSomeSlots是用来清理掉key为空的Entry,如果此方法返回true,则代表至少清理
+    // 了1个元素, 则此次set必然不需要扩容, 如果此方法返回false则判断sz是否大于阈值
+    if (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)
+        rehash();   // 扩容
+}
+</code></pre>
+<ol>
+<li>通过传入的key的hashCode计算出索引的位置</li>
+<li>从索引位置开始遍历，由于不是链表结构，因此通过nextIndex方法来寻找下一个索引位置</li>
+<li>如果找到某个Entry的key和传入的key相同，则用传入的value替换掉该Entry的value。</li>
+<li>如果遍历到某个Entry的key为空，则调用replaceStaleEntry方法</li>
+<li>如果通过nextIndex寻找到一个空位置（代表没有找到key相同的），则将元素放在该位置上</li>
+<li>调用cleanSomeSlots方法清理key为null的Entry，并判断是否需要扩容，如果需要则调用rehash方法进行扩容。</li>
+</ol>
+<h3 id="replacestaleentry-方法">replaceStaleEntry 方法</h3>
+<pre><code class="language-java">private void replaceStaleEntry(ThreadLocal&lt;?&gt; key, Object value,
+                               int staleSlot) {
+    Entry[] tab = table;
+    int len = tab.length;
+    Entry e;
+ 
+    int slotToExpunge = staleSlot;	// 清除元素的开始位置（记录索引位置最前面的）
+    // 向前遍历，直到遇到Entry为空
+    for (int i = prevIndex(staleSlot, len); 
+         (e = tab[i]) != null;
+         i = prevIndex(i, len))
+        if (e.get() == null)
+            slotToExpunge = i;	// 记录最后一个key为null的索引位置
+ 
+    // Find either the key or trailing null slot of run, whichever
+    // occurs first
+    for (int i = nextIndex(staleSlot, len); // 向后遍历，直到遇到Entry为空
+         (e = tab[i]) != null;
+         i = nextIndex(i, len)) {
+        ThreadLocal&lt;?&gt; k = e.get();
+ 
+        // 该Entry的key和传入的key相等, 则将传入的value替换掉该Entry的value
+        if (k == key) {
+            e.value = value;
+ 
+            // 将i位置和staleSlot位置的元素对换（staleSlot位置较前，是要清除的元素）
+            tab[i] = tab[staleSlot];	
+            tab[staleSlot] = e;
+ 
+            // 如果相等, 则代表上面的向前寻找key为null的遍历没有找到，
+            // 即staleSlot位置前面的元素没有需要清除的，此时将slotToExpunge设置为i, 
+            // 因为原staleSlot的元素已经被放到i位置了，这时位置i前面的元素都不需要清除
+            if (slotToExpunge == staleSlot) 
+                slotToExpunge = i;
+            // 从slotToExpunge位置开始清除key为空的Entry
+            cleanSomeSlots(expungeStaleEntry(slotToExpunge), len);
+            return;
+        }
+ 
+        // 如果第一次遍历到key为null的元素，并且上面的向前寻找key为null的遍历没有找到，
+        // 则将slotToExpunge设置为当前的位置
+        if (k == null &amp;&amp; slotToExpunge == staleSlot)
+            slotToExpunge = i;
+    }
+ 
+    // 如果key没有找到，则新建一个Entry，放在staleSlot位置
+    tab[staleSlot].value = null;
+    tab[staleSlot] = new Entry(key, value);
+ 
+    // 如果slotToExpunge!=staleSlot，代表除了staleSlot位置还有其他位置的元素需要清除
+    // 需要清除的定义：key为null的Entry，调用cleanSomeSlots方法清除key为null的Entry
+    if (slotToExpunge != staleSlot)
+        cleanSomeSlots(expungeStaleEntry(slotToExpunge), len);
+}
+</code></pre>
+<ol>
+<li>slotToExpunge始终记录着需要清除的元素的最前面的位置（即slotToExpunge前面的元素是不需要清除的）</li>
+<li>从位置staleSlot向前遍历，直到遇到Entry为空，用staleSlot记录最后一个key为null的索引位置（也就是遍历过位置最前的key为null的位置）</li>
+<li>从位置staleSlot向后遍历，直到遇到Entry为空，如果遍历到key和入参key相同的，则将入参的value替换掉该Entry的value，并将i位置和staleSlot位置的元素对换（staleSlot位置较前，是要清除的元素），遍历的时候判断slotToExpunge的值是否需要调整，最后调用expungeStaleEntry方法和cleanSomeSlots方法清除key为null的元素。</li>
+<li>如果key没有找到，则使用入参的key和value新建一个Entry，放在staleSlot位置</li>
+<li>判断是否还有其他位置的元素key为null，如果有则调用expungeStaleEntry方法和cleanSomeSlots方法清除key为null的元素</li>
+</ol>
+<h2 id="源码总结">源码总结</h2>
+<ol>
+<li>每个线程都有一个ThreadLocalMap 类型的 threadLocals 属性。</li>
+<li>ThreadLocalMap 类相当于一个Map，key 是 ThreadLocal 本身，value 就是我们的值。</li>
+<li>当我们通过 threadLocal.set(new Integer(123)); ，我们就会在这个线程中的 threadLocals 属性中放入一个键值对，key 是 这个 threadLocal.set(new Integer(123))的threadlocal，value 就是值new Integer(123)。</li>
+<li>当我们通过 threadlocal.get() 方法的时候，首先会根据这个线程得到这个线程的 threadLocals 属性，然后由于这个属性放的是键值对，我们就可以根据键 threadlocal 拿到值。 注意，这时候这个键 threadlocal 和 我们 set 方法的时候的那个键 threadlocal 是一样的，所以我们能够拿到相同的值。</li>
+<li>ThreadLocalMap 的get/set/remove方法跟HashMap的内部实现都基本一样，通过 &quot;key.threadLocalHashCode &amp; (table.length - 1)&quot; 运算式计算得到我们想要找的索引位置，如果该索引位置的键值对不是我们要找的，则通过nextIndex方法计算下一个索引位置，直到找到目标键值对或者为空。</li>
+<li>hash冲突：在HashMap中相同索引位置的元素以链表形式保存在同一个索引位置；而在ThreadLocalMap中，没有使用链表的数据结构，而是将（当前的索引位置+1）对length取模的结果作为相同索引元素的位置：<br>
+源码中的nextIndex方法，可以表达成如下公式：如果i为当前索引位置，则下一个索引位置 = (i + 1 &lt; len) ? i + 1 : 0</li>
+</ol>
 <h2 id="问题辨析">问题辨析</h2>
 <h3 id="为什么threadlocal通常被static修饰">为什么ThreadLocal通常被static修饰?</h3>
+<blockquote>
+<p>ThreadLocal 是一个key,去各个线程自己的map里取值,没必要多个.</p>
+</blockquote>
 <p>Java 中每个线程都有与之关联的Thread对象,Thread对象中有一个ThreadLocal.ThreadLocalMap类型的成员变量,该变量是一个Hash表.所以每个线程都单独维护这样一个Hash表.<br>
 当ThreadLocal类型对象调用set方法时,这个set方法会使用当前线程维护的Hash表,把自己作为key, set方法的参数作为value插入到Hash表中.由于每个线程维护的Hash表是独立的,因此在不同的Hash表中,key值即使相同也是没问题的.<br>
 <img src="https://imatvoid.github.io//post-images/1561821878071.png" alt=""></p>
-<p>https://blog.csdn.net/chicm/article/details/40894299<br>
+<p>如果不使用static的ThreadLocal变量,那么当定义ThreadLocal的类创建新的实例时候,会出现多个ThreadLocal.这在大多数时候是没有意义的.</p>
+<h3 id="内存泄漏问题">内存泄漏问题</h3>
+<h4 id="threadlocal变量被正常回收">ThreadLocal变量被正常回收</h4>
+<p>ThreadLocalMap使用ThreadLocal的弱引用作为Entry的key，如果一个ThreadLocal没有外部强引用来引用它，下一次系统GC时，这个ThreadLocal必然会被回收，这样一来，ThreadLocalMap中就会出现key为null的Entry，就没有办法访问这些key为null的Entry的value。</p>
+<p>我们上面介绍的get、set、remove等方法中，都会对key为null的Entry进行清除（expungeStaleEntry方法，将Entry的value清空，等下一次垃圾回收时，这些Entry将会被彻底回收）。</p>
+<p>但是如果当前线程一直在运行，并且一直不执行get、set、remove方法，这些key为null的Entry的value就会一直存在一条强引用练：Thread Ref -&gt; Thread -&gt; ThreadLocalMap -&gt; Entry -&gt; value，导致这些key为null的Entry的value永远无法回收，造成内存泄漏。</p>
+<p><strong>为了避免这种情况，我们可以在使用完ThreadLocal后，手动调用remove方法，以避免出现内存泄漏。</strong></p>
+<h4 id="threadlocal变量没被正常回收">ThreadLocal变量没被正常回收</h4>
+<p>由于我们一般把ThreadLocal变量声明成static类型,延长了它的生命周期,如果由于一些原因,持有ThreadLocal变量声明的类没有被回收.<br>
+那么确实所有使用这个ThreadLocal变量的线程中的ThreadLocalMap中的entry中的value都不会被回收(key != null).<br>
+这确实会造成问题,尤其当你的工作线程是复用的,本身永远不会终止,比如线程池/tomat的工作线程.<br>
+更糟糕的是,无法回收的value对应的类本身,和它的类加载器也无法被回收.这个类加载器所有加载的所有的类的数据会存留在永久区.造成永久区内存泄漏(permgen leak)</p>
+<p>使用后remove()是一个好习惯.</p>
+<h2 id="参考">参考</h2>
+<p>https://blog.csdn.net/v123411739/article/details/78698834<br>
 https://www.zhihu.com/question/35250439</p>
 
             </div>
@@ -131,6 +460,15 @@ https://www.zhihu.com/question/35250439</p>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://imatvoid.github.io//post/she-ji-mo-shi-dan-li-mo-shi">
+                  <h3 class="post-title">
+                    设计模式 -- 单例模式
+                  </h3>
+                </a>
+              </div>
             
 
             
