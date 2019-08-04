@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode -- 1114. Print in Order | Imatvoid </title>
+<title>leetcode -- 258. Add Digits | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -88,65 +88,67 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>leetcode -- 1114. Print in Order</h1>
+            <h1>leetcode -- 258. Add Digits</h1>
             <p class="article-meta">
-              2019-07-17
+              2018-10-04
               
-                <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
-                  leetcode-并发
+                <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge success">
+                  leetcode-math
                 </a>
               
-                <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge warning">
-                  并发concurrency
-                </a>
-              
-                <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
+                <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge ">
                   leetcode
                 </a>
               
             </p>
             
             <div class="post-content">
-              <p>按顺序打印one,two,three<br>
-<a href="https://leetcode.com/problems/print-in-order/">https://leetcode.com/problems/print-in-order/</a></p>
+              <p>原题链接<br>
+<a href="https://leetcode-cn.com/problems/add-digits/">https://leetcode-cn.com/problems/add-digits/</a><br>
+<a href="https://leetcode.com/problems/add-digits/">https://leetcode.com/problems/add-digits/</a></p>
 <!-- more -->
 <h2 id="描述">描述</h2>
-<p>三个不同的线程将会共用一个 Foo 实例。</p>
-<p>线程 A 将会调用 one() 方法<br>
-线程 B 将会调用 two() 方法<br>
-线程 C 将会调用 three() 方法<br>
-请设计修改程序，以确保 two() 方法在 one() 方法之后被执行，three() 方法在 two() 方法之后被执行。</p>
-<p>不保证线程启动顺序</p>
+<p>给定一个非负整数 num，反复将各个位上的数字相加，直到结果为一位数。</p>
+<p>示例:</p>
+<pre><code>输入: 38
+输出: 2 
+解释: 各位相加的过程为：3 + 8 = 11, 1 + 1 = 2。 由于 2 是一位数，所以返回 2。
+</code></pre>
+<p>进阶:<br>
+你可以不使用循环或者递归，且在 O(1) 时间复杂度内解决这个问题吗？</p>
 <h2 id="思路">思路</h2>
-<p>这种交替打印的,没有比信号量更简单得了,用信号量通知.</p>
-<pre><code class="language-java">
-class Foo {
-
-    Semaphore one = new Semaphore(1);
-    Semaphore two = new Semaphore(0);
-    Semaphore three = new Semaphore(0);
-    public Foo() {
-
-    }
-    public void first(Runnable printFirst) throws InterruptedException {
-        one.acquire();
-
-        // printFirst.run() outputs &quot;first&quot;. Do not change or remove this line.
-        printFirst.run();
-        two.release();
-    }
-
-    public void second(Runnable printSecond) throws InterruptedException {
-        two.acquire();
-        // printSecond.run() outputs &quot;second&quot;. Do not change or remove this line.
-        printSecond.run();
-        three.release();
-    }
-
-    public void third(Runnable printThird) throws InterruptedException {
-        three.acquire();
-        // printThird.run() outputs &quot;third&quot;. Do not change or remove this line.
-        printThird.run();
+<p>可以找一找规律</p>
+<p>那么我们先来观察1到20的所有的数根：</p>
+<pre><code>1    1
+2    2
+3    3
+4    4
+5    5
+6    6
+7    7
+8    8    
+9    9    
+10    1
+11    2
+12    3    
+13    4
+14    5
+15    6
+16    7
+17    8
+18    9
+19    1
+20    2
+</code></pre>
+<p>所有大于9的数的树根都是对9取余，等于9的数对9取余就是0了，为了得到其本身，而且同样也要对大于9的数适用，</p>
+<p>我们就用(n-1)%9+1这个表达式来包括所有的情况。</p>
+<p>还有个特殊情况需要考虑一下，当num为0的时候，那么就会出现 -1 % 9 的情况</p>
+<pre><code class="language-java">/**
+ * @Author: yangxu
+ */
+public class AddDigits {
+    public int addDigits(int num) {
+        return num==0 ?  0 :(num-1)%9+1;
     }
 }
 </code></pre>
@@ -160,9 +162,9 @@ class Foo {
               <div class="next">
                 下一篇
               </div>
-              <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">
+              <a href="https://imatvoid.github.io//post/shell-zhong-de-shi-yong">
                 <h3 class="post-title">
-                  leetcode -- 1115. Print FooBar Alternately
+                  Shell中() 、(())、[]、[[]]、{}的使用
                 </h3>
               </a>
             </div>
@@ -342,7 +344,7 @@ class Foo {
     </div>
     <div class="row">
       
-        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge ">
+        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge warning">
           System Design
         </a>
       
@@ -350,35 +352,35 @@ class Foo {
           leetcode-design
         </a>
       
-        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge success">
           leetcode
         </a>
       
-        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge warning">
           并发concurrency
         </a>
       
-        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge ">
           leetcode-并发
         </a>
       
-        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge success">
+        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge ">
           Binary Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge ">
           Binary Search Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge ">
           面试
         </a>
       
-        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge ">
           alibaba
         </a>
       
-        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge secondary">
           leetcode-add
         </a>
       
@@ -390,31 +392,31 @@ class Foo {
           leetcode-math
         </a>
       
-        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge ">
           shell
         </a>
       
-        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge success">
+        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge ">
           leetcode-linkedlist
         </a>
       
-        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge success">
           mysql
         </a>
       
-        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge success">
+        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge ">
           数据库
         </a>
       
-        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge ">
+        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge secondary">
           设计模式
         </a>
       
-        <a href="https://imatvoid.github.io//tag/KUMZwPCyy" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/KUMZwPCyy" class="badge success">
           maven
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge ">
           java集合
         </a>
       

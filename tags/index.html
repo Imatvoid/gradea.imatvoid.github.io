@@ -8,137 +8,406 @@
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564929610983">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564321324386">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
 
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
-
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1564321324386" class="site-logo">
-        <h1 class="site-title">Imatvoid </h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://imatvoid.github.io/">Imatvoid </a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
         
-          <a href="https://imatvoid.github.io/" class="site-nav">
-            首页
-          </a>
+          <li>
+            
+              <a href="https://imatvoid.github.io/" class="menu">
+                首页
+              </a>
+            
+          </li>
         
-      
+          <li>
+            
+              <a href="https://imatvoid.github.io//archives" class="menu">
+                归档
+              </a>
+            
+          </li>
         
-          <a href="https://imatvoid.github.io//archives" class="site-nav">
-            归档
-          </a>
+          <li>
+            
+              <a href="https://imatvoid.github.io//tags" class="menu">
+                标签
+              </a>
+            
+          </li>
         
-      
+          <li>
+            
+              <a href="https://imatvoid.github.io//post/about/" class="menu">
+                关于
+              </a>
+            
+          </li>
         
-          <a href="https://imatvoid.github.io//tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
-            关于
-          </a>
-        
-      
+      </ul>
     </div>
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      未曾清贫难成人，不经打击老天真。 </br>
-自古英雄出炼狱，从来富贵入凡尘。 
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
+</nav>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
           <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="row tags-container">
             
-              <a class="tag" href="https://imatvoid.github.io//tag/AQAWGqk29">System Design</a>
+              <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge success">
+                System Design
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/cz4gD6pYd">leetcode-design</a>
+              <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="badge success">
+                leetcode-design
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/Nxc6J5Kg9">leetcode</a>
+              <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge secondary">
+                leetcode
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/jewXpk0In">并发concurrency</a>
+              <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge ">
+                并发concurrency
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/N14GFPbLq">leetcode-并发</a>
+              <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
+                leetcode-并发
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/vWzpbm4an">Binary Tree</a>
+              <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge secondary">
+                Binary Tree
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/e7w16IVcO">Binary Search Tree</a>
+              <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge secondary">
+                Binary Search Tree
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/e8EfKntpt">面试</a>
+              <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge warning">
+                面试
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/hcAr2mEWi">alibaba</a>
+              <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge success">
+                alibaba
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/E3CtpWrEV">java</a>
+              <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge warning">
+                leetcode-add
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/2EwFaHY0f">leetcode-linkedlist</a>
+              <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge secondary">
+                java
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/41zWzzRyW">leetcode-add</a>
+              <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge success">
+                leetcode-math
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/FEI4krcFr">mysql</a>
+              <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge ">
+                shell
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/M7w8kiM4m">数据库</a>
+              <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge secondary">
+                leetcode-linkedlist
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/hGWLocgz4">设计模式</a>
+              <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge success">
+                mysql
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/KUMZwPCyy">maven</a>
+              <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge secondary">
+                数据库
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/mPGI5CoLF">shell</a>
+              <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge secondary">
+                设计模式
+              </a>
             
-              <a class="tag" href="https://imatvoid.github.io//tag/e9NKSV4ZO">java集合</a>
+              <a href="https://imatvoid.github.io//tag/KUMZwPCyy" class="badge warning">
+                maven
+              </a>
+            
+              <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge secondary">
+                java集合
+              </a>
             
           </div>
         </div>
       </div>
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://imatvoid.github.io//images/avatar.png?v=1564929610983" class="no-responsive avatar">
+    <div class="text-muted">未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 </div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">leetcode -- 如何生成短链接</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu">如何只使用信号量通过leetcode的多线程题目</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-1117-building-h2o">leetcode -- 1117. Building H2O</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/1116-print-zero-even-odd">leetcode -- 1116. Print Zero Even Odd</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-1114-print-in-order">leetcode -- 1114. Print in Order</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">leetcode -- 1115. Print FooBar Alternately</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">leetcode -- 938. Range Sum of BST</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze">泛型与PECS原则</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">请评估一下程序的执行结果?</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">LRU 缓存机制</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge warning">
+          System Design
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="badge ">
+          leetcode-design
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge ">
+          leetcode
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge secondary">
+          并发concurrency
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
+          leetcode-并发
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge ">
+          Binary Tree
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge secondary">
+          Binary Search Tree
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge secondary">
+          面试
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge warning">
+          alibaba
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge secondary">
+          leetcode-add
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge secondary">
+          java
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge success">
+          leetcode-math
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge warning">
+          shell
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge secondary">
+          leetcode-linkedlist
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge warning">
+          mysql
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge success">
+          数据库
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge warning">
+          设计模式
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/KUMZwPCyy" class="badge secondary">
+          maven
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge success">
+          java集合
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+  
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -148,13 +417,6 @@
 AOS.init();
 
 hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
 
 </script>
 

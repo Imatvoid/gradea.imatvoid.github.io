@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode -- 1114. Print in Order | Imatvoid </title>
+<title>leetcode -- 371. Sum of Two Integers | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -88,16 +88,12 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>leetcode -- 1114. Print in Order</h1>
+            <h1>leetcode -- 371. Sum of Two Integers</h1>
             <p class="article-meta">
-              2019-07-17
+              2019-01-04
               
-                <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
-                  leetcode-并发
-                </a>
-              
-                <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge warning">
-                  并发concurrency
+                <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge secondary">
+                  leetcode-add
                 </a>
               
                 <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
@@ -107,48 +103,48 @@
             </p>
             
             <div class="post-content">
-              <p>按顺序打印one,two,three<br>
-<a href="https://leetcode.com/problems/print-in-order/">https://leetcode.com/problems/print-in-order/</a></p>
+              <p>原题链接<br>
+<a href="https://leetcode-cn.com/problems/sum-of-two-integers/submissions/">https://leetcode-cn.com/problems/sum-of-two-integers/submissions/</a><br>
+<a href="https://leetcode.com/problems/sum-of-two-integers/submissions/">https://leetcode.com/problems/sum-of-two-integers/submissions/</a></p>
 <!-- more -->
 <h2 id="描述">描述</h2>
-<p>三个不同的线程将会共用一个 Foo 实例。</p>
-<p>线程 A 将会调用 one() 方法<br>
-线程 B 将会调用 two() 方法<br>
-线程 C 将会调用 three() 方法<br>
-请设计修改程序，以确保 two() 方法在 one() 方法之后被执行，three() 方法在 two() 方法之后被执行。</p>
-<p>不保证线程启动顺序</p>
+<p>Calculate the sum of two integers <em>a</em> and <em>b</em>, but you are <strong>not allowed</strong> to use the operator <code>+</code> and <code>-</code>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: a = 1, b = 2
+Output: 3
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: a = -2, b = 3
+Output: 1
+</code></pre>
+<h2 id="中文描述">中文描述</h2>
+<p>两个数相加，不用+号。</p>
 <h2 id="思路">思路</h2>
-<p>这种交替打印的,没有比信号量更简单得了,用信号量通知.</p>
-<pre><code class="language-java">
-class Foo {
+<p>加法的本质,是怎么算的? 这道题揭示</p>
+<p>举个简单的例子：997+24</p>
+<p>我们平时计算时是将对应位相加和进位同时计算，其实可以保留下进位，只计算对应位相加，保留进位的位置（值）。接下来，将进位向左移动一位，将上一步的结果与移位后的进位值进行对应位相加，直到没有进位结束。</p>
+<p>对于二进制数的而言，对应位相加就可以使用异或（xor）操作，计算进位就可以使用与（and）操作，在下一步进行对应位相加前，对进位数使用移位操作（&lt;&lt;）1</p>
+<p><img src="assets/image-20190417104135180.png" alt="image-20190417104135180"></p>
+<pre><code class="language-java">package leetcode.add;
 
-    Semaphore one = new Semaphore(1);
-    Semaphore two = new Semaphore(0);
-    Semaphore three = new Semaphore(0);
-    public Foo() {
+public class SumOfTwoIntegers {
 
-    }
-    public void first(Runnable printFirst) throws InterruptedException {
-        one.acquire();
-
-        // printFirst.run() outputs &quot;first&quot;. Do not change or remove this line.
-        printFirst.run();
-        two.release();
-    }
-
-    public void second(Runnable printSecond) throws InterruptedException {
-        two.acquire();
-        // printSecond.run() outputs &quot;second&quot;. Do not change or remove this line.
-        printSecond.run();
-        three.release();
+    public int getSum(int a, int b) {
+        while (b != 0) {
+            int c = a ^ b;
+            b = (a &amp; b) &lt;&lt; 1;
+            a = c;
+        }
+        return a;
     }
 
-    public void third(Runnable printThird) throws InterruptedException {
-        three.acquire();
-        // printThird.run() outputs &quot;third&quot;. Do not change or remove this line.
-        printThird.run();
+    public int getSum2(int a, int b) {
+        return b == 0 ? a : getSum((a ^ b), (a &amp; b) &lt;&lt; 1);
     }
+
+
 }
+
 </code></pre>
 
             </div>
@@ -160,9 +156,9 @@ class Foo {
               <div class="next">
                 下一篇
               </div>
-              <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">
+              <a href="https://imatvoid.github.io//post/main-xian-cheng-zhong-zhi-qi-ta-xian-cheng-huan-hui-yun-xing-ma">
                 <h3 class="post-title">
-                  leetcode -- 1115. Print FooBar Alternately
+                  main线程终止,其他线程还会运行吗?
                 </h3>
               </a>
             </div>
@@ -342,15 +338,15 @@ class Foo {
     </div>
     <div class="row">
       
-        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge ">
+        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge secondary">
           System Design
         </a>
       
-        <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="badge success">
+        <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="badge secondary">
           leetcode-design
         </a>
       
-        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge ">
           leetcode
         </a>
       
@@ -358,19 +354,19 @@ class Foo {
           并发concurrency
         </a>
       
-        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge ">
           leetcode-并发
         </a>
       
-        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge success">
+        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge warning">
           Binary Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge secondary">
           Binary Search Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge success">
           面试
         </a>
       
@@ -382,31 +378,31 @@ class Foo {
           leetcode-add
         </a>
       
-        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge success">
+        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge warning">
           java
         </a>
       
-        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge secondary">
           leetcode-math
         </a>
       
-        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge warning">
           shell
         </a>
       
-        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge success">
+        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge ">
           leetcode-linkedlist
         </a>
       
-        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge warning">
           mysql
         </a>
       
-        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge success">
+        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge ">
           数据库
         </a>
       
-        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge ">
+        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge secondary">
           设计模式
         </a>
       
@@ -414,7 +410,7 @@ class Foo {
           maven
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge ">
           java集合
         </a>
       

@@ -8,108 +8,92 @@
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564929610983">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://imatvoid.github.io//favicon.ico?v=1564321324386">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
 
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
-
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://imatvoid.github.io/">
-        <img src="https://imatvoid.github.io//images/avatar.png?v=1564321324386" class="site-logo">
-        <h1 class="site-title">Imatvoid </h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://imatvoid.github.io/">Imatvoid </a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
         
-          <a href="https://imatvoid.github.io/" class="site-nav">
-            首页
-          </a>
+          <li>
+            
+              <a href="https://imatvoid.github.io/" class="menu">
+                首页
+              </a>
+            
+          </li>
         
-      
+          <li>
+            
+              <a href="https://imatvoid.github.io//archives" class="menu">
+                归档
+              </a>
+            
+          </li>
         
-          <a href="https://imatvoid.github.io//archives" class="site-nav">
-            归档
-          </a>
+          <li>
+            
+              <a href="https://imatvoid.github.io//tags" class="menu">
+                标签
+              </a>
+            
+          </li>
         
-      
+          <li>
+            
+              <a href="https://imatvoid.github.io//post/about/" class="menu">
+                关于
+              </a>
+            
+          </li>
         
-          <a href="https://imatvoid.github.io//tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="https://imatvoid.github.io//post/about/" class="site-nav">
-            关于
-          </a>
-        
-      
+      </ul>
     </div>
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-          <a class="social-link" href="https://github.com/Imatvoid" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      未曾清贫难成人，不经打击老天真。 </br>
-自古英雄出炼狱，从来富贵入凡尘。 
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
+</nav>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
+    
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
           
 
           <h2 class="archives-title">文章归档</h2>
           <div class="archives-container">
             
-              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2019</h2>
+              <h3 class="year" data-aos-delay="500">2019</h3>
               
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 如何生成短链接
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -117,9 +101,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         如何只使用信号量通过leetcode的多线程题目
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -127,9 +111,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-1117-building-h2o">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 1117. Building H2O
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -137,9 +121,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/1116-print-zero-even-odd">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 1116. Print Zero Even Odd
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -147,9 +131,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-1114-print-in-order">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 1114. Print in Order
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -157,9 +141,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 1115. Print FooBar Alternately
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -167,9 +151,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 938. Range Sum of BST
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -177,9 +161,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         泛型与PECS原则
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -187,9 +171,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         请评估一下程序的执行结果?
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -197,9 +181,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         LRU 缓存机制
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -207,9 +191,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         给定一个二叉搜索树(BST)，找到树中第 K 小的节点。
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -217,9 +201,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         已知 sqrt (2)约等于 1.414，要求不用数学库，求 sqrt (2)精确到小数点后 10 位
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -227,9 +211,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         如何实现一个高效的单向链表逆序输出?
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -237,11 +221,25 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/dao-chu-dong-tai-dai-li-lei">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         导出动态代理类
-                      </h2>
+                      </h4>
                     </a>
                   </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://imatvoid.github.io//post/leetcode-371-sum-of-two-integers">
+                      <h4 class="post-title">
+                        leetcode -- 371. Sum of Two Integers
+                      </h4>
+                    </a>
+                  </article>
+                
+              
+                
+              
                 
               
                 
@@ -299,7 +297,9 @@
                 
               
             
-              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2018</h2>
+              <h3 class="year" data-aos-delay="500">2018</h3>
+              
+                
               
                 
               
@@ -332,9 +332,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/main-xian-cheng-zhong-zhi-qi-ta-xian-cheng-huan-hui-yun-xing-ma">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         main线程终止,其他线程还会运行吗?
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -342,9 +342,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/ru-he-you-hua-if-else">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         如何优化IF ELSE
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -352,9 +352,29 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/xun-huan-da-yin-abcab-zui-jian-dai-ma">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         循环打印ABC/AB最简代码
-                      </h2>
+                      </h4>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://imatvoid.github.io//post/leetcode-258-add-digits">
+                      <h4 class="post-title">
+                        leetcode -- 258. Add Digits
+                      </h4>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://imatvoid.github.io//post/shell-zhong-de-shi-yong">
+                      <h4 class="post-title">
+                        Shell中() 、(())、[]、[[]]、{}的使用
+                      </h4>
                     </a>
                   </article>
                 
@@ -362,9 +382,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-445-add-two-numbers-ii">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 445. Add Two Numbers II
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -372,9 +392,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-66-plus-one">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 66. Plus One
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -382,9 +402,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-2-add-two-numbers">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 2. Add Two Numbers
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -392,9 +412,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-415-add-strings">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 415. Add Strings
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -402,9 +422,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/leetcode-67-add-binary">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         leetcode -- 67. Add Binary
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -412,9 +432,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         自适应哈希索引(Adaptive Hash Index, AHI)
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -422,9 +442,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-jian-zao-zhe-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 建造者模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -432,9 +452,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/fen-ku-fen-biao">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         分库分表
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -442,9 +462,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/maven-di-yi-ge-cha-jian">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         Maven -- 第一个插件
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -452,9 +472,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/qian-xi-java-zhu-jie-di-ceng-yuan-li">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         浅析java注解底层原理
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -462,9 +482,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/login-shellno-non-shell-yi-ji-jiao-hu-shell-he-fei-jiao-hu-shell">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         登陆shell,非登陆shell 以及交互shell和非交互shell
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -472,9 +492,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-gong-han-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 工厂模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -504,7 +524,13 @@
                 
               
             
-              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2017</h2>
+              <h3 class="year" data-aos-delay="500">2017</h3>
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -567,9 +593,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 模版方法模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -577,9 +603,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-dai-li-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 代理模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -587,9 +613,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/java-ji-he-arraylist">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         java集合 -- ArrayList
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -597,9 +623,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-yuan-xing-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 原型模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -607,9 +633,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-qiao-jie-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 桥接模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -617,9 +643,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-gua-pei-qi-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 适配器模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -627,9 +653,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 装饰者模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -637,9 +663,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/threadlocal-bian-xi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         ThreadLocal 辨析
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -647,9 +673,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-dan-li-mo-shi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 单例模式
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -661,7 +687,13 @@
                 
               
             
-              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2016</h2>
+              <h3 class="year" data-aos-delay="500">2016</h3>
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -742,9 +774,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/sleephe-waitfang-fa-yu-dui-xiang-suo-suo-chi-deng-dai-chi">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         sleep()和wait()方法与对象锁、锁池、等待池
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -752,9 +784,9 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         Maven 踩坑 -- java.lang.OutOfMemoryError
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
@@ -762,7 +794,13 @@
                 
               
             
-              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2015</h2>
+              <h3 class="year" data-aos-delay="500">2015</h3>
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -847,24 +885,268 @@
                 
                   <article class="post">
                     <a href="https://imatvoid.github.io//post/she-ji-mo-shi-gai-shu">
-                      <h2 class="post-title">
+                      <h4 class="post-title">
                         设计模式 -- 概述
-                      </h2>
+                      </h4>
                     </a>
                   </article>
                 
               
             
           </div>
-
-          <div class="pagination-container">
+        </div>
+        <div class="row flex-edges">
   
   
 </div>
 
-        </div>
       </div>
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://imatvoid.github.io//images/avatar.png?v=1564929610983" class="no-responsive avatar">
+    <div class="text-muted">未曾清贫难成人，不经打击老天真。 </br>
+自古英雄出炼狱，从来富贵入凡尘。 </div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">leetcode -- 如何生成短链接</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu">如何只使用信号量通过leetcode的多线程题目</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-1117-building-h2o">leetcode -- 1117. Building H2O</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/1116-print-zero-even-odd">leetcode -- 1116. Print Zero Even Odd</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-1114-print-in-order">leetcode -- 1114. Print in Order</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">leetcode -- 1115. Print FooBar Alternately</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">leetcode -- 938. Range Sum of BST</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze">泛型与PECS原则</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">请评估一下程序的执行结果?</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">LRU 缓存机制</a>
+            </li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge warning">
+          System Design
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/cz4gD6pYd" class="badge ">
+          leetcode-design
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge secondary">
+          leetcode
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge ">
+          并发concurrency
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge ">
+          leetcode-并发
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge success">
+          Binary Tree
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge warning">
+          Binary Search Tree
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge ">
+          面试
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge success">
+          alibaba
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge success">
+          leetcode-add
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge ">
+          java
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge secondary">
+          leetcode-math
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge secondary">
+          shell
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge ">
+          leetcode-linkedlist
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/FEI4krcFr" class="badge warning">
+          mysql
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge ">
+          数据库
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge secondary">
+          设计模式
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/KUMZwPCyy" class="badge success">
+          maven
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/e9NKSV4ZO" class="badge secondary">
+          java集合
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://imatvoid.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
@@ -873,13 +1155,6 @@
 AOS.init();
 
 hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
 
 </script>
 

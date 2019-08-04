@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode -- 1114. Print in Order | Imatvoid </title>
+<title>leetcode-math | Imatvoid </title>
 <meta name="description" content="未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
 自古英雄出炼狱，从来富贵入凡尘。 ">
 
@@ -16,12 +16,6 @@
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
@@ -30,7 +24,6 @@
 
   </head>
   <body>
-  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://imatvoid.github.io/">Imatvoid </a></h3>
@@ -87,98 +80,47 @@
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <article class="article">
-            <h1>leetcode -- 1114. Print in Order</h1>
-            <p class="article-meta">
-              2019-07-17
-              
-                <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
-                  leetcode-并发
-                </a>
-              
-                <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge warning">
-                  并发concurrency
-                </a>
-              
-                <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
-                  leetcode
-                </a>
-              
-            </p>
-            
-            <div class="post-content">
-              <p>按顺序打印one,two,three<br>
-<a href="https://leetcode.com/problems/print-in-order/">https://leetcode.com/problems/print-in-order/</a></p>
-<!-- more -->
-<h2 id="描述">描述</h2>
-<p>三个不同的线程将会共用一个 Foo 实例。</p>
-<p>线程 A 将会调用 one() 方法<br>
-线程 B 将会调用 two() 方法<br>
-线程 C 将会调用 three() 方法<br>
-请设计修改程序，以确保 two() 方法在 one() 方法之后被执行，three() 方法在 two() 方法之后被执行。</p>
-<p>不保证线程启动顺序</p>
-<h2 id="思路">思路</h2>
-<p>这种交替打印的,没有比信号量更简单得了,用信号量通知.</p>
-<pre><code class="language-java">
-class Foo {
+          <h2 class="current-tag">标签: leetcode-math</h2>
+          
+  <article class="article">
+    <h2 class="article-title">
+      <a href="https://imatvoid.github.io//post/leetcode-258-add-digits">leetcode -- 258. Add Digits</a>
+    </h2>
+    <p class="article-meta">
+      2018-10-04
+      
+        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge secondary">
+          leetcode-math
+        </a>
+      
+        <a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" class="badge warning">
+          leetcode
+        </a>
+      
+    </p>
+    <p class="text-lead">
+      <p>原题链接<br>
+<a href="https://leetcode-cn.com/problems/add-digits/">https://leetcode-cn.com/problems/add-digits/</a><br>
+<a href="https://leetcode.com/problems/add-digits/">https://leetcode.com/problems/add-digits/</a></p>
 
-    Semaphore one = new Semaphore(1);
-    Semaphore two = new Semaphore(0);
-    Semaphore three = new Semaphore(0);
-    public Foo() {
+    </p>
+    <div class="row">
+      <a href="https://imatvoid.github.io//post/leetcode-258-add-digits" class="readmore-link">
+        <button>
+          Read More
+        </button>
+      </a>
+    </div>
+  </article>
 
-    }
-    public void first(Runnable printFirst) throws InterruptedException {
-        one.acquire();
 
-        // printFirst.run() outputs &quot;first&quot;. Do not change or remove this line.
-        printFirst.run();
-        two.release();
-    }
-
-    public void second(Runnable printSecond) throws InterruptedException {
-        two.acquire();
-        // printSecond.run() outputs &quot;second&quot;. Do not change or remove this line.
-        printSecond.run();
-        three.release();
-    }
-
-    public void third(Runnable printThird) throws InterruptedException {
-        three.acquire();
-        // printThird.run() outputs &quot;third&quot;. Do not change or remove this line.
-        printThird.run();
-    }
-}
-</code></pre>
-
-            </div>
-          </article>
         </div>
-        <div class="paper" data-aos="fade-in">
-          
-            <div class="next-post">
-              <div class="next">
-                下一篇
-              </div>
-              <a href="https://imatvoid.github.io//post/1115-print-foobar-alternately">
-                <h3 class="post-title">
-                  leetcode -- 1115. Print FooBar Alternately
-                </h3>
-              </a>
-            </div>
-          
-        </div>
-        
-          
-            <div class="paper" data-aos="fade-in">
-              <div id="gitalk-container"></div>
-            </div>
-          
+        <div class="row flex-edges">
+  
+  
+</div>
 
-          
-        
       </div>
-
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://imatvoid.github.io//images/avatar.png?v=1564929610983" class="no-responsive avatar">
@@ -342,7 +284,7 @@ class Foo {
     </div>
     <div class="row">
       
-        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge ">
+        <a href="https://imatvoid.github.io//tag/AQAWGqk29" class="badge secondary">
           System Design
         </a>
       
@@ -354,47 +296,47 @@ class Foo {
           leetcode
         </a>
       
-        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/jewXpk0In" class="badge success">
           并发concurrency
         </a>
       
-        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/N14GFPbLq" class="badge success">
           leetcode-并发
         </a>
       
-        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge success">
+        <a href="https://imatvoid.github.io//tag/vWzpbm4an" class="badge warning">
           Binary Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/e7w16IVcO" class="badge ">
           Binary Search Tree
         </a>
       
-        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/e8EfKntpt" class="badge ">
           面试
         </a>
       
-        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/hcAr2mEWi" class="badge warning">
           alibaba
         </a>
       
-        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/41zWzzRyW" class="badge success">
           leetcode-add
         </a>
       
-        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge success">
+        <a href="https://imatvoid.github.io//tag/E3CtpWrEV" class="badge warning">
           java
         </a>
       
-        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge warning">
+        <a href="https://imatvoid.github.io//tag/DfY45no84" class="badge secondary">
           leetcode-math
         </a>
       
-        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge secondary">
+        <a href="https://imatvoid.github.io//tag/mPGI5CoLF" class="badge ">
           shell
         </a>
       
-        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge success">
+        <a href="https://imatvoid.github.io//tag/2EwFaHY0f" class="badge warning">
           leetcode-linkedlist
         </a>
       
@@ -402,11 +344,11 @@ class Foo {
           mysql
         </a>
       
-        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge success">
+        <a href="https://imatvoid.github.io//tag/M7w8kiM4m" class="badge secondary">
           数据库
         </a>
       
-        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge ">
+        <a href="https://imatvoid.github.io//tag/hGWLocgz4" class="badge secondary">
           设计模式
         </a>
       
@@ -425,7 +367,6 @@ class Foo {
   </div>
 </div>
 
-
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -437,29 +378,6 @@ AOS.init();
 hljs.initHighlightingOnLoad()
 
 </script>
-
-
-
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-
-      var gitalk = new Gitalk({
-        clientID: 'd6f8edd37708580f1f7e',
-        clientSecret: 'd0b6a8d54d73512cc1e86256bfd778b4753e6b6c',
-        repo: 'imatvoid.github.io',
-        owner: 'Imatvoid',
-        admin: ['Imatvoid'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
 
 
 
