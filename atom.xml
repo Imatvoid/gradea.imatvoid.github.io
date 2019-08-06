@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-08-04T16:15:58.600Z</updated>
+    <updated>2019-08-06T15:46:15.400Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
-    <subtitle>未曾清贫难成人，不经打击老天真。 &lt;/br&gt;
+    <subtitle>未曾清贫难成人，不经打击老天真。    
 自古英雄出炼狱，从来富贵入凡尘。 </subtitle>
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
@@ -17,6 +17,12 @@
         <link href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie">
         </link>
         <updated>2019-07-25T04:00:09.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="https://leetcode.com/problems/encode-and-decode-tinyurl/">https://leetcode.com/problems/encode-and-decode-tinyurl/</a><br>
+<a href="https://leetcode-cn.com/problems/encode-and-decode-tinyurl/">https://leetcode-cn.com/problems/encode-and-decode-tinyurl/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://leetcode.com/problems/encode-and-decode-tinyurl/">https://leetcode.com/problems/encode-and-decode-tinyurl/</a><br>
+<a href="https://leetcode-cn.com/problems/encode-and-decode-tinyurl/">https://leetcode-cn.com/problems/encode-and-decode-tinyurl/</a></p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[如何只使用信号量通过leetcode的多线程题目]]></title>
@@ -95,6 +101,10 @@
         <link href="https://imatvoid.github.io//post/leetcode-938-range-sum-of-bst">
         </link>
         <updated>2019-07-12T05:41:15.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="https://leetcode.com/problems/range-sum-of-bst/">原题链接</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://leetcode.com/problems/range-sum-of-bst/">原题链接</a></p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[泛型与PECS原则]]></title>
@@ -148,5 +158,11 @@
         <link href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">
         </link>
         <updated>2019-04-04T09:31:43.000Z</updated>
+        <summary type="html"><![CDATA[<p>设计和实现一个 LRU(最近最少使用)缓存数据结构,使它应该支<br>
+持一下操作:get 和 put。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>设计和实现一个 LRU(最近最少使用)缓存数据结构,使它应该支<br>
+持一下操作:get 和 put。</p>
+]]></content>
     </entry>
 </feed>
