@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-08-06T15:46:15.400Z</updated>
+    <updated>2019-08-08T15:58:36.331Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,81 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode  -- 50. Pow(x, n)]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-50-powx-n</id>
+        <link href="https://imatvoid.github.io//post/leetcode-50-powx-n">
+        </link>
+        <updated>2019-08-08T15:34:06.000Z</updated>
+        <summary type="html"><![CDATA[<ol start="50">
+<li>Pow(x, n)</li>
+</ol>
+<p><a href="https://leetcode.com/problems/powx-n/">https://leetcode.com/problems/powx-n/</a></p>
+<ol start="50">
+<li>Pow(x, n)</li>
+</ol>
+<p><a href="https://leetcode-cn.com/problems/powx-n/">https://leetcode-cn.com/problems/powx-n/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<ol start="50">
+<li>Pow(x, n)</li>
+</ol>
+<p><a href="https://leetcode.com/problems/powx-n/">https://leetcode.com/problems/powx-n/</a></p>
+<ol start="50">
+<li>Pow(x, n)</li>
+</ol>
+<p><a href="https://leetcode-cn.com/problems/powx-n/">https://leetcode-cn.com/problems/powx-n/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 7. Reverse Integer]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-7-reverse-integer</id>
+        <link href="https://imatvoid.github.io//post/leetcode-7-reverse-integer">
+        </link>
+        <updated>2019-08-08T10:04:13.000Z</updated>
+        <summary type="html"><![CDATA[<ol start="7">
+<li>Reverse Integer</li>
+</ol>
+<p><a href="https://leetcode.com/problems/reverse-integer/">https://leetcode.com/problems/reverse-integer/</a></p>
+<ol start="7">
+<li>整数反转</li>
+</ol>
+<p><a href="https://leetcode-cn.com/problems/reverse-integer/">https://leetcode-cn.com/problems/reverse-integer/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<ol start="7">
+<li>Reverse Integer</li>
+</ol>
+<p><a href="https://leetcode.com/problems/reverse-integer/">https://leetcode.com/problems/reverse-integer/</a></p>
+<ol start="7">
+<li>整数反转</li>
+</ol>
+<p><a href="https://leetcode-cn.com/problems/reverse-integer/">https://leetcode-cn.com/problems/reverse-integer/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 413. Arithmetic Slices ]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-413-arithmetic-slices</id>
+        <link href="https://imatvoid.github.io//post/leetcode-413-arithmetic-slices">
+        </link>
+        <updated>2019-08-08T07:29:26.000Z</updated>
+        <summary type="html"><![CDATA[<ol start="413">
+<li>Arithmetic Slices</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
+<ol start="413">
+<li>等差数列划分</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<ol start="413">
+<li>Arithmetic Slices</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
+<ol start="413">
+<li>等差数列划分</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode -- 如何生成短链接]]></title>
         <id>https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie</id>
@@ -104,65 +179,6 @@
         <summary type="html"><![CDATA[<p><a href="https://leetcode.com/problems/range-sum-of-bst/">原题链接</a></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><a href="https://leetcode.com/problems/range-sum-of-bst/">原题链接</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[泛型与PECS原则]]></title>
-        <id>https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze</id>
-        <link href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze">
-        </link>
-        <updated>2019-06-25T12:19:02.000Z</updated>
-        <summary type="html"><![CDATA[<p>Producer Extends Consumer Super.<br>
-生产者Extends,消费者Super.</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Producer Extends Consumer Super.<br>
-生产者Extends,消费者Super.</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[请评估一下程序的执行结果?]]></title>
-        <id>https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo</id>
-        <link href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo">
-        </link>
-        <updated>2019-04-06T11:30:43.000Z</updated>
-        <summary type="html"><![CDATA[<pre><code class="language-java"> public class SynchronousQueueQuiz {
-        public static void main(String[] args) throws Exception {
-            BlockingQueue&lt;Integer&gt; queue = new
-                    SynchronousQueue&lt;&gt;();
-            System.out.print(queue.offer(1) + &quot; &quot;);
-            System.out.print(queue.offer(2) + &quot; &quot;);
-            System.out.print(queue.offer(3) + &quot; &quot;);
-            System.out.print(queue.take() + &quot; &quot;);
-            System.out.println(queue.size());
-        }
-    }
-</code></pre>
-]]></summary>
-        <content type="html"><![CDATA[<pre><code class="language-java"> public class SynchronousQueueQuiz {
-        public static void main(String[] args) throws Exception {
-            BlockingQueue&lt;Integer&gt; queue = new
-                    SynchronousQueue&lt;&gt;();
-            System.out.print(queue.offer(1) + &quot; &quot;);
-            System.out.print(queue.offer(2) + &quot; &quot;);
-            System.out.print(queue.offer(3) + &quot; &quot;);
-            System.out.print(queue.take() + &quot; &quot;);
-            System.out.println(queue.size());
-        }
-    }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LRU 缓存机制]]></title>
-        <id>https://imatvoid.github.io//post/lru-huan-cun-ji-zhi</id>
-        <link href="https://imatvoid.github.io//post/lru-huan-cun-ji-zhi">
-        </link>
-        <updated>2019-04-04T09:31:43.000Z</updated>
-        <summary type="html"><![CDATA[<p>设计和实现一个 LRU(最近最少使用)缓存数据结构,使它应该支<br>
-持一下操作:get 和 put。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>设计和实现一个 LRU(最近最少使用)缓存数据结构,使它应该支<br>
-持一下操作:get 和 put。</p>
 ]]></content>
     </entry>
 </feed>

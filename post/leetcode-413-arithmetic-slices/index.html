@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 如何生成短链接 | Imatvoid </title>	
+<title>leetcode -- 413. Arithmetic Slices  | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 如何生成短链接</h1>
+			<h1 class="wow swing entry-title">leetcode -- 413. Arithmetic Slices </h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-07-25 12:00:09" itemprop="datePublished" pubdate="">2019-07-25</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-08 15:29:26" itemprop="datePublished" pubdate="">2019-08-08</time></i>
 	          </div>
 			
 </span>
@@ -132,90 +132,64 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><a href="https://leetcode.com/problems/encode-and-decode-tinyurl/">https://leetcode.com/problems/encode-and-decode-tinyurl/</a><br>
-<a href="https://leetcode-cn.com/problems/encode-and-decode-tinyurl/">https://leetcode-cn.com/problems/encode-and-decode-tinyurl/</a></p>
+				<p><ol start="413">
+<li>Arithmetic Slices</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
+<ol start="413">
+<li>等差数列划分</li>
+</ol>
+<p><a href="https://leetcode.com/problems/arithmetic-slices/">https://leetcode.com/problems/arithmetic-slices/</a></p>
 <!-- more -->
 <h2 id="描述">描述</h2>
-<p>生成短链接.</p>
+<p>算数切片,找等差数列</p>
+<p>如果一个数列至少有三个元素，并且任意两个相邻元素之差相同，则称该数列为等差数列。</p>
+<p>例如，以下数列为等差数列:</p>
+<pre><code>1, 3, 5, 7, 9
+7, 7, 7, 7
+3, -1, -5, -9
+</code></pre>
+<p>以下数列不是等差数列。</p>
+<pre><code>1, 1, 2, 5, 7
+</code></pre>
+<p>数组 A 包含 N 个数，且索引从0开始。数组 A 的一个子数组划分为数组 (P, Q)，P 与 Q 是整数且满足 0&lt;=P&lt;Q&lt;N 。</p>
+<p>如果满足以下条件，则称子数组(P, Q)为等差数组：</p>
+<p>元素 <code>A[P]</code>, <code>A[p + 1]</code>, ..., <code>A[Q - 1]</code>, <code>A[Q]</code> 是等差的。并且 P + 1 &lt; Q 。</p>
+<p>函数要返回数组 A 中所有为等差数组的子数组个数。</p>
+<p></p>
+<p>示例:</p>
+<pre><code>A = [1, 2, 3, 4]
+
+返回: 3, A 中有三个子等差数组: [1, 2, 3], [2, 3, 4] 以及自身 [1, 2, 3, 4]。
+</code></pre>
 <h2 id="思路">思路</h2>
-<p>如果仅仅是做题,那么其实有很多办法.</p>
-<p>在实际中,应该使用分布式发号器(Distributed ID Generator)<br>
-64位的整数能表示的范围184467440737亿远远大于全球网页数量45亿。来一个长网址,就分配一个ID去生成短网址.</p>
-<p>而且这样可以支持一个长网址对应多个短网址。一般而言，一个长网址，在不同的地点，不同的用户等情况下，生成的短网址应该不一样，这样，在后端数据库中，可以更好的进行数据分析。</p>
-<p>为了方便转化为字符串,一般使用62进制,字符串的一位可以是大小写字母加数字共62个字母.</p>
-<p>一般采用一个7位的字符串,62^7=3521614606208627=35216亿.</p>
-<p>其他的办法大概还有取HASH值的前N位，碰撞，不重复就为短网址.这样性能不高。</p>
-<h2 id="代码">代码</h2>
-<pre><code class="language-java">public class EncodeAndDecodeTinyURL {
-
-    Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
-
-    long index = 10000; // 这里是模拟一个当前计数值.
-    private static String chars = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;
-    private static int scale = 62;
-
-    // Encodes a URL to a shortened URL.
-    public String encode(String longUrl) {
-
-        String tinyUrl = indexToStr(index, 7);
-        map.put(tinyUrl, longUrl);
-        return tinyUrl;
-    }
-
-    public String indexToStr(long num, int length) {
-        StringBuilder sb = new StringBuilder();
-        int remainder = 0;
-
-        while (num &gt; scale - 1) {
-            /**
-             * 对 scale 进行求余，然后将余数追加至 sb 中，由于是从末位开始追加的，因此最后需要反转（reverse）字符串
-             */
-            remainder = Long.valueOf(num % scale).intValue();
-            sb.append(chars.charAt(remainder));
-
-            num = num / scale;
+<p>DP思想<br>
+<code>DP[i]</code>代表,数组中以<code>nums[i]</code>结尾的等差数列数量。</p>
+<p>如果<code>nums[i]</code>与<code>nums[i-1]</code>和<code>nums[i-2]</code>构成等差数列,<code>DP[i]=DP[i-1]+1</code></p>
+<p>否则,<code>DP[i]=0</code></p>
+<p>最后只要求<code>DP[2]</code>到<code>DP[length-1]</code>的累加合就行.</p>
+<pre><code class="language-java">     /**
+     * DP 解法
+     * @param A
+     * @return
+     */
+    public int numberOfArithmeticSlices(int[] A) {
+        int res = 0, n = A.length;
+        int dp [] = new int [n];
+        for (int i = 2; i &lt; n; ++i) {
+            if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+                dp[i] = dp[i - 1] + 1;
+            }
+            res += dp[i];
         }
-
-        sb.append(chars.charAt(Long.valueOf(num).intValue()));
-        String value = sb.reverse().toString();
-
-        while (value.length() &lt; length) {
-            value = &quot;0&quot; + value;
-        }
-        return value;
-
-
-    }
-
-    // Decodes a shortened URL to its original URL.
-    public String decode(String shortUrl) {
-        return map.get(shortUrl);
-    }
-
-    public static void main(String[] args) {
-        EncodeAndDecodeTinyURL codec = new EncodeAndDecodeTinyURL();
-        codec.decode(codec.encode(&quot;https://leetcode.com/problems/design-tinyurl&quot;));
+        return res;
     }
 </code></pre>
-<h2 id="其他">其他</h2>
-<p>以下内容出自<a href="https://www.zhihu.com/question/20103344">武林的回答</a></p>
-<h3 id="如何存储">如何存储</h3>
-<p>如果存储短网址和长网址的对应关系？以短网址为 primary key, 长网址为value, 可以用传统的关系数据库存起来，例如MySQL,PostgreSQL，也可以用任意一个分布式KV数据库，例如Redis, LevelDB。       如果你手痒想要手工设计这个存储，那就是另一个话题了，你需要完整地造一个KV存储引擎轮子。当前流行的KV存储引擎有LevelDB何RockDB，去读它们的源码。</p>
-<h3 id="301还是302重定向">301还是302重定向</h3>
-<p>这也是一个有意思的问题。这个问题主要是考察你对301和302的理解，以及浏览器缓存机制的理解。       301是永久重定向，302是临时重定向。短地址一经生成就不会变化，所以用301是符合http语义的。但是如果用了301， Google，百度等搜索引擎，搜索的时候会直接展示真实地址，那我们就无法统计到短地址被点击的次数了，也无法收集用户的Cookie, User Agent 等信息，这些信息可以用来做很多有意思的大数据分析，也是短网址服务商的主要盈利来源。所以，正确答案是302重定向。</p>
-<h3 id="预防攻击">预防攻击</h3>
-<p>如果一些别有用心的黑客，短时间内向TinyURL服务器发送大量的请求，会迅速耗光ID，怎么办呢？<br>
-首先，限制IP的单日请求总数，超过阈值则直接拒绝服务。光限制IP的请求数还不够，因为黑客一般手里有上百万台肉鸡的，IP地址大大的有，所以光限制IP作用不大。<br>
-可以用一台Redis作为缓存服务器，存储的不是 ID-&gt;长网址，而是 长网址-&gt;ID，仅存储一天以内的数据，用LRU机制进行淘汰。这样，如果黑客大量发同一个长网址过来，直接从缓存服务器里返回短网址即可，他就无法耗光我们的ID了。</p>
-<h2 id="参考">参考</h2>
-<p>http://youzhixueyuan.com/how-to-generate-distributed-unique-id.html</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/AQAWGqk29" rel="tag">System Design</a>	
-				 
-				<a href="https://imatvoid.github.io//tag/cz4gD6pYd" rel="tag">leetcode-design</a>	
+				<a href="https://imatvoid.github.io//tag/vS9Jkg2Qm" rel="tag">leetcode-dp</a>	
 				 
 				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
@@ -224,10 +198,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-413-arithmetic-slices" rel="prev"> leetcode -- 413. Arithmetic Slices </a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-7-reverse-integer" rel="prev"> leetcode -- 7. Reverse Integer</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu" rel="next"> 如何只使用信号量通过leetcode的多线程题目</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie" rel="next"> leetcode -- 如何生成短链接</a></div>
 		
 		</div>
 	</nav>
