@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="46349566-0c1b-4d59-8f17-f88efa178dc3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/archives/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/archives/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/archives/page/2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/archives/page/2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/atom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/page/2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/page/3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/4/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/page/4/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/page/5/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/page/5/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/1115-print-foobar-alternately/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/1115-print-foobar-alternately/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/1116-print-zero-even-odd/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/1116-print-zero-even-odd/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/about/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/dao-chu-dong-tai-dai-li-lei/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/dao-chu-dong-tai-dai-li-lei/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/debian-shi-yong-aptitude-dai-ti-apt-ming-ling/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/debian-shi-yong-aptitude-dai-ti-apt-ming-ling/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/fan-xing-yu-pecs-yuan-ze/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/fan-xing-yu-pecs-yuan-ze/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/fen-ku-fen-biao/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/fen-ku-fen-biao/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/gei-ding-yi-ge-er-cha-sou-suo-shu-bstzhao-dao-shu-zhong-di-k-xiao-de-jie-dian/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/hello-gridea/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/hello-gridea/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/java-ji-he-arraylist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/java-ji-he-arraylist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-1-two-sum/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-1-two-sum/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-11-container-with-most-water/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-11-container-with-most-water/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-1114-print-in-order/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-1114-print-in-order/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-1117-building-h2o/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-1117-building-h2o/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-15-3sum/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-15-3sum/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-153-find-minimum-in-rotated-sorted-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-153-find-minimum-in-rotated-sorted-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-162-find-peak-element/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-162-find-peak-element/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-173binary-search-tree-iterator/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-173binary-search-tree-iterator/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-2-add-two-numbers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-2-add-two-numbers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-20-valid-parentheses/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-20-valid-parentheses/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-258-add-digits/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-258-add-digits/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-26-remove-duplicates-from-sorted-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-26-remove-duplicates-from-sorted-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-268-missing-number/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-268-missing-number/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-278-first-bad-version/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-278-first-bad-version/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-287-find-the-duplicate-number/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-287-find-the-duplicate-number/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-33-search-in-rotated-sorted-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-33-search-in-rotated-sorted-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-371-sum-of-two-integers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-371-sum-of-two-integers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-41-first-missing-positiveshou-ge-que-shi-de-zheng-shu/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-41-first-missing-positiveshou-ge-que-shi-de-zheng-shu/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-413-arithmetic-slices/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-413-arithmetic-slices/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-415-add-strings/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-415-add-strings/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-445-add-two-numbers-ii/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-445-add-two-numbers-ii/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-448-find-all-numbers-disappeared-in-an-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-448-find-all-numbers-disappeared-in-an-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-45-jump-game-ii/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-45-jump-game-ii/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-50-powx-n/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-50-powx-n/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-66-plus-one/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-66-plus-one/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-67-add-binary/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-67-add-binary/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-7-reverse-integer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-7-reverse-integer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-93-restore-ip-addresses/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-93-restore-ip-addresses/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-938-range-sum-of-bst/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-938-range-sum-of-bst/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-delete-node-in-a-linked-list/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-delete-node-in-a-linked-list/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-find-all-duplicates-in-an-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-find-all-duplicates-in-an-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-palindrome-linked-list/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-palindrome-linked-list/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-remove-duplicates-from-sorted-list/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-remove-duplicates-from-sorted-list/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-reverse-nodes-in-k-group/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-reverse-nodes-in-k-group/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-ru-he-sheng-cheng-duan-lian-jie/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-ru-he-sheng-cheng-duan-lian-jie/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcode-singlenumber-xi-lie/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcode-singlenumber-xi-lie/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/leetcoe-88-merge-sorted-array/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/leetcoe-88-merge-sorted-array/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/login-shellno-non-shell-yi-ji-jiao-hu-shell-he-fei-jiao-hu-shell/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/login-shellno-non-shell-yi-ji-jiao-hu-shell-he-fei-jiao-hu-shell/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/lru-huan-cun-ji-zhi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/lru-huan-cun-ji-zhi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/main-xian-cheng-zhong-zhi-qi-ta-xian-cheng-huan-hui-yun-xing-ma/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/main-xian-cheng-zhong-zhi-qi-ta-xian-cheng-huan-hui-yun-xing-ma/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/maven-di-yi-ge-cha-jian/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/maven-di-yi-ge-cha-jian/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/qian-xi-java-zhu-jie-di-ceng-yuan-li/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/qian-xi-java-zhu-jie-di-ceng-yuan-li/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/ru-he-shi-xian-yi-ge-gao-xiao-de-dan-xiang-lian-biao-ni-xu-shu-chu/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/ru-he-you-hua-if-else/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/ru-he-you-hua-if-else/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-dai-li-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-dai-li-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-dan-li-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-dan-li-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-gai-shu/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-gai-shu/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-gong-han-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-gong-han-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-gua-pei-qi-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-gua-pei-qi-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-jian-zao-zhe-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-jian-zao-zhe-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-qiao-jie-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-qiao-jie-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-yuan-xing-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-yuan-xing-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/she-ji-mo-shi-zhuang-shi-zhe-mo-shi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/shell-zhong-de-shi-yong/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/shell-zhong-de-shi-yong/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/sleephe-waitfang-fa-yu-dui-xiang-suo-suo-chi-deng-dai-chi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/sleephe-waitfang-fa-yu-dui-xiang-suo-suo-chi-deng-dai-chi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/threadlocal-bian-xi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/threadlocal-bian-xi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/xun-huan-da-yin-abcab-zui-jian-dai-ma/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/xun-huan-da-yin-abcab-zui-jian-dai-ma/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/yi-zhi-sqrt-2yue-deng-yu-1414yao-qiu-bu-yong-shu-xue-ku-qiu-sqrt-2jing-que-dao-xiao-shu-dian-hou-10-wei/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/zhuan-zai-zuo-ji-zhu-de-wu-bi-yi-yuan-ze/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/zhuan-zai-zuo-ji-zhu-de-wu-bi-yi-yuan-ze/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/2EwFaHY0f/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/2EwFaHY0f/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/3McYmXyo_/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/3McYmXyo_/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/41zWzzRyW/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/41zWzzRyW/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/74sAdS9fs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/74sAdS9fs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/AJAMFE0JV/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/AJAMFE0JV/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/AQAWGqk29/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/AQAWGqk29/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/DfY45no84/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/DfY45no84/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/E3CtpWrEV/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/E3CtpWrEV/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/ElrNpukHd/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/ElrNpukHd/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/FEI4krcFr/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/FEI4krcFr/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/G00vmJsgY/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/G00vmJsgY/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/KUMZwPCyy/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/KUMZwPCyy/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/M7w8kiM4m/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/M7w8kiM4m/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/M9_a9BZyj/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/M9_a9BZyj/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/N14GFPbLq/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/N14GFPbLq/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/Nxc6J5Kg9/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/Nxc6J5Kg9/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/Nxc6J5Kg9/page/2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/Nxc6J5Kg9/page/2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/Nxc6J5Kg9/page/3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/Nxc6J5Kg9/page/3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/QgUCp8Ttn/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/QgUCp8Ttn/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/ag7nLejzN/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/ag7nLejzN/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/cz4gD6pYd/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/cz4gD6pYd/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/e8EfKntpt/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/e8EfKntpt/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/e9NKSV4ZO/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/e9NKSV4ZO/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/hGWLocgz4/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/hGWLocgz4/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/hcAr2mEWi/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/hcAr2mEWi/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/jewXpk0In/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/jewXpk0In/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/mPGI5CoLF/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/mPGI5CoLF/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/vS9Jkg2Qm/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/vS9Jkg2Qm/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tag/xTMm_Z0EV/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tag/xTMm_Z0EV/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/index.html" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1870" />
+    <option name="height" value="1043" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="output" type="b2602c69:ProjectViewProjectNode" />
+              <item name="output" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/output/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="46349566-0c1b-4d59-8f17-f88efa178dc3" name="Default Changelist" comment="" />
+      <created>1565869483466</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1565869483466</updated>
+      <workItem from="1565869484686" duration="58000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="58000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1870" height="1043" extended-state="0" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24972856" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="GraphQL" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39955106" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+  </component>
+</project>
