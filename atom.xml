@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-08-18T16:59:55.784Z</updated>
+    <updated>2019-08-18T17:34:32.449Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,19 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 数组中缺失/重复数字问题]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-shu-zu-zhong-que-shi-chong-fu-shu-zi-wen-ti</id>
+        <link href="https://imatvoid.github.io//post/leetcode-shu-zu-zhong-que-shi-chong-fu-shu-zi-wen-ti">
+        </link>
+        <updated>2019-08-18T17:25:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>这次来推荐一类题目,数组缺失/重复的元素有关的.<br>
+这几个题真的非常像.当然,这几个题都是有限制条件的,比如数组的值在0-n之间.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>这次来推荐一类题目,数组缺失/重复的元素有关的.<br>
+这几个题真的非常像.当然,这几个题都是有限制条件的,比如数组的值在0-n之间.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[转载 -- 做技术的「五比一」原则]]></title>
         <id>https://imatvoid.github.io//post/zhuan-zai-zuo-ji-zhu-de-wu-bi-yi-yuan-ze</id>
@@ -49,22 +62,14 @@
         <link href="https://imatvoid.github.io//post/leetcode-153-find-minimum-in-rotated-sorted-array">
         </link>
         <updated>2019-08-10T08:01:21.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="153">
-<li>Find Minimum in Rotated Sorted Array</li>
-</ol>
+        <summary type="html"><![CDATA[<p><code>153. Find Minimum in Rotated Sorted Array</code></p>
 <p><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
-<ol start="153">
-<li>寻找旋转排序数组中的最小值</li>
-</ol>
+<p><code>153. 寻找旋转排序数组中的最小值</code></p>
 <p><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="153">
-<li>Find Minimum in Rotated Sorted Array</li>
-</ol>
+        <content type="html"><![CDATA[<p><code>153. Find Minimum in Rotated Sorted Array</code></p>
 <p><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
-<ol start="153">
-<li>寻找旋转排序数组中的最小值</li>
-</ol>
+<p><code>153. 寻找旋转排序数组中的最小值</code></p>
 <p><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
 ]]></content>
     </entry>
@@ -99,22 +104,14 @@
         <link href="https://imatvoid.github.io//post/leetcode-448-find-all-numbers-disappeared-in-an-array">
         </link>
         <updated>2019-08-10T07:27:02.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="448">
-<li>Find All Numbers Disappeared in an Array</li>
-</ol>
+        <summary type="html"><![CDATA[<p><code>448. Find All Numbers Disappeared in an Array</code></p>
 <p><a href="https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
-<ol start="448">
-<li>找到所有数组中消失的数字</li>
-</ol>
+<p><code>448. 找到所有数组中消失的数字</code></p>
 <p><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="448">
-<li>Find All Numbers Disappeared in an Array</li>
-</ol>
+        <content type="html"><![CDATA[<p><code>448. Find All Numbers Disappeared in an Array</code></p>
 <p><a href="https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
-<ol start="448">
-<li>找到所有数组中消失的数字</li>
-</ol>
+<p><code>448. 找到所有数组中消失的数字</code></p>
 <p><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
 ]]></content>
     </entry>
@@ -216,31 +213,6 @@
 <li>复原IP地址</li>
 </ol>
 <p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- Remove Duplicates from Sorted List]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list</id>
-        <link href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list">
-        </link>
-        <updated>2019-08-09T14:09:42.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="83">
-<li>Remove Duplicates from Sorted List</li>
-</ol>
-<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/">https://leetcode.com/problems/remove-duplicates-from-sorted-list/</a></p>
-<ol start="83">
-<li>删除排序链表中的重复元素</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/">https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<ol start="83">
-<li>Remove Duplicates from Sorted List</li>
-</ol>
-<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/">https://leetcode.com/problems/remove-duplicates-from-sorted-list/</a></p>
-<ol start="83">
-<li>删除排序链表中的重复元素</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/">https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/</a></p>
 ]]></content>
     </entry>
 </feed>
