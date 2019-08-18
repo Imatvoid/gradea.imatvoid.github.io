@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>Maven 踩坑 -- java.lang.OutOfMemoryError | Imatvoid </title>	
+<title>跨域问题 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h1>
+			<h1 class="wow swing entry-title">跨域问题</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2016-02-18 12:41:45" itemprop="datePublished" pubdate="">2016-02-18</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2016-08-15 21:33:19" itemprop="datePublished" pubdate="">2016-08-15</time></i>
 	          </div>
 			
 </span>
@@ -132,38 +132,39 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>java.lang.OutOfMemoryError: Java heap space</p>
+				<p><blockquote>
+<p>域：协议 + 域名 + 端口号</p>
+</blockquote>
 <!-- more -->
-<p>maven使用的堆内存溢出了,调大它的值即可.</p>
-<h2 id="在idea中">在idea中</h2>
-<p>file-&gt;setting-&gt;Build,Execution,Deployment-&gt;Maven-&gt;Runner<br>
-VM option栏设置jvm参数:-Xms1024m -Xmx1024m -Xss1m<br>
-<img src="https://imatvoid.github.io//post-images/1561351651144.png" alt="maven jvm 参数设置"></p>
-<h2 id="使用命令行">使用命令行</h2>
-<p>在环境变量中加上<br>
-<code>export MAVEN_OPTS=&quot;-Xms1024m -Xmx1024m -Xss1m&quot;</code><br>
-linux下比如在~/.bash_profile中加入,然后新开个shell.</p>
-<h2 id="附录">附录</h2>
-<p>再比如解决自动热部署时java.lang.OutOfMemoryError: PermGen space问题<br>
-需要增大PermGen区，默认为 64m，设置方法为：<br>
-<code>-XX:MaxPermSize=128M</code><br>
-jdk8+后移除了PermGen,使用元数据区实现,对应的设置项为:<br>
-<code>-XX:MaxMetaspaceSize=128m</code></p>
+<h2 id="跨域请求">跨域请求</h2>
+<p>跨域请求就是指：当前发起请求的域与该请求指向的资源所在的域不一样。</p>
+<p>假如一个域名为aaa.cn的网站，它发起一个资源路径为aaa.cn/books/getBookInfo的 Ajax 请求，那么这个请求是同域的，因为资源路径的协议、域名以及端口号与当前域一致（例子中协议名默认为http，端口号默认为80）。但是，如果发起一个资源路径为bbb.com/pay/purchase的 Ajax 请求，那么这个请求就是跨域请求，因为域不一致，与此同时由于安全问题，这种请求会受到同源策略限制。</p>
+<p><strong>跨域限制是浏览器的行为，和js无关</strong></p>
+<h2 id="csrf攻击">CSRF攻击</h2>
+<p>CSRF（Cross-site request forgery），中文名称：跨站请求伪造，也被称为：one click attack/session riding，缩写为：CSRF/XSRF。CSRF攻击者在用户已经登录目标网站之后，诱使用户访问一个攻击页面，利用目标网站对用户的信任，以用户身份在攻击页面对目标网站发起伪造用户操作的请求，达到攻击目的。</p>
+<p>举一个例子：</p>
+<p>有两个网站，其中A网站是真实受信任的网站，而B网站是危险网站。在用户登陆了受信任的A网站是，本地会存储A网站相关的Cookie，并且浏览器也维护这一个Session会话。这时，如果用户在没有登出A网站的情况下访问危险网站B，那么危险网站B就可以模拟发出一个对A网站的请求（跨域请求）对A网站进行操作，而在A网站的角度来看是并不知道请求是由B网站发出来的（Session和Cookie均为A网站的），这时便成功发动一次CSRF 攻击。</p>
+<h2 id="同源策略">同源策略</h2>
+<p>DOM 同源策略：禁止对不同源页面 DOM 进行操作。这里主要场景是 iframe 跨域的情况，不同域名的 iframe 是限制互相访问的。</p>
+<p>XMLHttpRequest 同源策略：禁止使用 XHR 对象向不同源的服务器地址发起 HTTP 请求。</p>
+<h2 id="跨域资源共享">跨域资源共享</h2>
+<h3 id="cors">CORS</h3>
+<p>跨源资源共享 Cross-Origin Resource Sharing(CORS) 是一个新的 W3C 标准，它新增的一组HTTP首部字段，允许服务端其声明哪些源站有权限访问哪些资源。换言之，它允许浏览器向声明了 CORS 的跨域服务器，发出 XMLHttpReuest 请求，从而克服 Ajax 只能同源使用的限制。</p>
+<h2 id="参考">参考</h2>
+<p>https://www.jianshu.com/p/f880878c1398</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/KUMZwPCyy" rel="tag">maven</a>	
-				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/kua-yu-wen-ti" rel="prev"> 跨域问题</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/sleephe-waitfang-fa-yu-dui-xiang-suo-suo-chi-deng-dai-chi" rel="prev"> sleep()和wait()方法与对象锁、锁池、等待池</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-gai-shu" rel="next"> 设计模式 -- 概述</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space" rel="next"> Maven 踩坑 -- java.lang.OutOfMemoryError</a></div>
 		
 		</div>
 	</nav>

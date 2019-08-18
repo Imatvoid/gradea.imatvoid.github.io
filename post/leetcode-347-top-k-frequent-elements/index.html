@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>Maven 踩坑 -- java.lang.OutOfMemoryError | Imatvoid </title>	
+<title>leetcode -- 347. Top K Frequent Elements | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h1>
+			<h1 class="wow swing entry-title">leetcode -- 347. Top K Frequent Elements</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2016-02-18 12:41:45" itemprop="datePublished" pubdate="">2016-02-18</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-08 15:22:19" itemprop="datePublished" pubdate="">2019-08-08</time></i>
 	          </div>
 			
 </span>
@@ -132,38 +132,68 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>java.lang.OutOfMemoryError: Java heap space</p>
+				<p><p><code>347. Top K Frequent Elements</code></p>
+<p><a href="https://leetcode.com/problems/top-k-frequent-elements/">https://leetcode.com/problems/top-k-frequent-elements/</a></p>
+<p><code>347. 前 K 个高频元素</code></p>
+<p><a href="https://leetcode-cn.com/problems/top-k-frequent-elements/">https://leetcode-cn.com/problems/top-k-frequent-elements/</a></p>
 <!-- more -->
-<p>maven使用的堆内存溢出了,调大它的值即可.</p>
-<h2 id="在idea中">在idea中</h2>
-<p>file-&gt;setting-&gt;Build,Execution,Deployment-&gt;Maven-&gt;Runner<br>
-VM option栏设置jvm参数:-Xms1024m -Xmx1024m -Xss1m<br>
-<img src="https://imatvoid.github.io//post-images/1561351651144.png" alt="maven jvm 参数设置"></p>
-<h2 id="使用命令行">使用命令行</h2>
-<p>在环境变量中加上<br>
-<code>export MAVEN_OPTS=&quot;-Xms1024m -Xmx1024m -Xss1m&quot;</code><br>
-linux下比如在~/.bash_profile中加入,然后新开个shell.</p>
-<h2 id="附录">附录</h2>
-<p>再比如解决自动热部署时java.lang.OutOfMemoryError: PermGen space问题<br>
-需要增大PermGen区，默认为 64m，设置方法为：<br>
-<code>-XX:MaxPermSize=128M</code><br>
-jdk8+后移除了PermGen,使用元数据区实现,对应的设置项为:<br>
-<code>-XX:MaxMetaspaceSize=128m</code></p>
+<h2 id="描述">描述</h2>
+<p>给定一个非空的整数数组，返回其中出现频率前 k 高的元素。</p>
+<p>示例 1:</p>
+<pre><code>输入: nums = [1,1,1,2,2,3], k = 2
+输出: [1,2]
+</code></pre>
+<p>示例 2:</p>
+<pre><code>输入: nums = [1], k = 1
+输出: [1]
+</code></pre>
+<p>说明：</p>
+<p>你可以假设给定的 k 总是合理的，且 1 ≤ k ≤ 数组中不相同的元素的个数。<br>
+你的算法的时间复杂度必须优于 O(n log n) , n 是数组的大小。</p>
+<h2 id="思路">思路</h2>
+<p>topK问题,优先级队列.<br>
+TopK问题,先用map统计次数,然后使用优先级priorityQueue排序.<br>
+注意这里的优先级队列,本质就是小顶堆,当然这个小的关系是你自己定义的.你总是可以得到一种比较关系的前K个元素.<br>
+这里的传入比较关系函数是<code>(a,b) -&gt; b.getValue()-a.getValue()</code>,也就是a大,就返回&lt;0的值,就把它放到队列前面.</p>
+<pre><code class="language-java">public List&lt;Integer&gt; topKFrequent2(int[] nums, int k) {
+
+        Map&lt;Integer,Integer&gt;  map = new HashMap&lt;&gt;();
+
+        for(int i =0;i&lt;nums.length;i++){
+            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+        }
+
+        PriorityQueue&lt;Map.Entry&lt;Integer,Integer&gt;&gt; priorityQueue = new PriorityQueue&lt;&gt;((a,b) -&gt; b.getValue()-a.getValue());
+        for (Map.Entry&lt;Integer,Integer&gt; e: map.entrySet()) {
+            priorityQueue.add(e);
+        }
+
+        List&lt;Integer&gt; arrayList = new ArrayList&lt;&gt;();
+        while (arrayList.size()&lt;k){
+            Map.Entry&lt;Integer,Integer&gt; e = priorityQueue.poll();
+            arrayList.add(e.getKey());
+        }
+        return  arrayList;
+
+    }
+</code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/KUMZwPCyy" rel="tag">maven</a>	
+				<a href="https://imatvoid.github.io//tag/H0ZNsfbzE" rel="tag">leetcode-topk</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/kua-yu-wen-ti" rel="prev"> 跨域问题</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-413-arithmetic-slices" rel="prev"> leetcode -- 413. Arithmetic Slices </a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-gai-shu" rel="next"> 设计模式 -- 概述</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-692-top-k-frequent-words" rel="next"> leetcode -- 692. Top K Frequent Words</a></div>
 		
 		</div>
 	</nav>

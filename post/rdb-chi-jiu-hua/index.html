@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>Maven 踩坑 -- java.lang.OutOfMemoryError | Imatvoid </title>	
+<title>RDB持久化 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">Maven 踩坑 -- java.lang.OutOfMemoryError</h1>
+			<h1 class="wow swing entry-title">RDB持久化</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2016-02-18 12:41:45" itemprop="datePublished" pubdate="">2016-02-18</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2018-09-15 22:58:55" itemprop="datePublished" pubdate="">2018-09-15</time></i>
 	          </div>
 			
 </span>
@@ -132,38 +132,49 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>java.lang.OutOfMemoryError: Java heap space</p>
+				<p><p>全量备份,内存数据的二进制序列化</p>
 <!-- more -->
-<p>maven使用的堆内存溢出了,调大它的值即可.</p>
-<h2 id="在idea中">在idea中</h2>
-<p>file-&gt;setting-&gt;Build,Execution,Deployment-&gt;Maven-&gt;Runner<br>
-VM option栏设置jvm参数:-Xms1024m -Xmx1024m -Xss1m<br>
-<img src="https://imatvoid.github.io//post-images/1561351651144.png" alt="maven jvm 参数设置"></p>
-<h2 id="使用命令行">使用命令行</h2>
-<p>在环境变量中加上<br>
-<code>export MAVEN_OPTS=&quot;-Xms1024m -Xmx1024m -Xss1m&quot;</code><br>
-linux下比如在~/.bash_profile中加入,然后新开个shell.</p>
-<h2 id="附录">附录</h2>
-<p>再比如解决自动热部署时java.lang.OutOfMemoryError: PermGen space问题<br>
-需要增大PermGen区，默认为 64m，设置方法为：<br>
-<code>-XX:MaxPermSize=128M</code><br>
-jdk8+后移除了PermGen,使用元数据区实现,对应的设置项为:<br>
-<code>-XX:MaxMetaspaceSize=128m</code></p>
+<h2 id="命令">命令</h2>
+<pre><code class="language-SHELL">&gt; SAVE  # 直到RDB文件创建完毕
+ok
+
+&gt; BGSAVE # 开启子进程创建RDB文件，服务器进程（父进程）继续处理命令请求
+Background saving started
+</code></pre>
+<h3 id="save">SAVE</h3>
+<p>阻塞服务器进程</p>
+<h3 id="bgsave">BGSAVE</h3>
+<p>子进程</p>
+<pre><code class="language-python">pid = os.fork()
+if pid &gt; 0:
+    handle_client_requests()  # 父进程继续处理客户端请求
+if pid == 0:
+    handle_snapshot_write()  # 子进程处理快照写磁盘
+if pid &lt; 0:
+    # fork error
+</code></pre>
+<h2 id="快照的含义">快照的含义</h2>
+<p>SAVE命令产生&quot;快照&quot;十分好理解，因为一旦执行就不再处理命令请求，内存里的数据在一瞬间就凝固了，不会改变，可以非常安心的遍历数据了进行序列化写磁盘</p>
+<p>对于BGSAVE来说情况有些许不同.</p>
+<p>子进程做数据持久化，它不会修改现有的内存数据结构，它只是对数据结构进行遍历读取，然后序列化写到磁盘中。但是父进程不一样，它必须持续服务客户端请求，然后对内存数据结构进行不间断的修改。</p>
+<p>这个时候就会使用操作系统的写时复制 COW 机制来进行数据段页面的分离。数据段是由很多操作系统的页面组合而成，当父进程对其中一个页面的数据进行修改时，会将被共享的页面复制一份分离出来，然后对这个复制的页面进行修改。这时子进程相应的页面是没有变化的，还是进程产生时那一瞬间的数据。</p>
+<p>随着父进程修改操作的持续进行，越来越多的共享页面被分离出来，内存就会持续增长。但是也不会超过原有数据内存的 2 倍大小。另外一个 Redis 实例里冷数据占的比例往往是比较高的，所以很少会出现所有的页面都会被分离，被分离的往往只有其中一部分页面。每个页面的大小只有 4K，一个 Redis 实例里面一般都会有成千上万的页面。</p>
+<p>子进程因为数据没有变化，它能看到的内存里的数据在进程产生的一瞬间就凝固了，再也不会改变。子进程也可以安心序列化数据到磁盘。</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/KUMZwPCyy" rel="tag">maven</a>	
+				<a href="https://imatvoid.github.io//tag/uE8klVNqz" rel="tag">redis</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/kua-yu-wen-ti" rel="prev"> 跨域问题</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/aof-chi-jiu-hua" rel="prev"> AOF持久化</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-gai-shu" rel="next"> 设计模式 -- 概述</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/zi-gua-ying-ha-xi-suo-yin-adaptive-hash-index-ahi" rel="next"> 自适应哈希索引(Adaptive Hash Index, AHI)</a></div>
 		
 		</div>
 	</nav>
