@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-08-18T17:34:32.449Z</updated>
+    <updated>2019-08-30T06:16:18.796Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -12,207 +12,173 @@
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
     <entry>
-        <title type="html"><![CDATA[leetcode -- 数组中缺失/重复数字问题]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-shu-zu-zhong-que-shi-chong-fu-shu-zi-wen-ti</id>
-        <link href="https://imatvoid.github.io//post/leetcode-shu-zu-zhong-que-shi-chong-fu-shu-zi-wen-ti">
+        <title type="html"><![CDATA[leetcode -- 3. Longest Substring Without Repeating Characters]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-longest-substring-without-repeating-characters</id>
+        <link href="https://imatvoid.github.io//post/leetcode-longest-substring-without-repeating-characters">
         </link>
-        <updated>2019-08-18T17:25:12.000Z</updated>
-        <summary type="html"><![CDATA[<p>这次来推荐一类题目,数组缺失/重复的元素有关的.<br>
-这几个题真的非常像.当然,这几个题都是有限制条件的,比如数组的值在0-n之间.</p>
+        <updated>2019-08-30T06:14:50.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>3. Longest Substring Without Repeating Characters</code></p>
+<p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">https://leetcode.com/problems/longest-substring-without-repeating-characters/</a></p>
+<p><code>3. 无重复字符的最长子串</code></p>
+<p><a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>这次来推荐一类题目,数组缺失/重复的元素有关的.<br>
-这几个题真的非常像.当然,这几个题都是有限制条件的,比如数组的值在0-n之间.</p>
+        <content type="html"><![CDATA[<p><code>3. Longest Substring Without Repeating Characters</code></p>
+<p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">https://leetcode.com/problems/longest-substring-without-repeating-characters/</a></p>
+<p><code>3. 无重复字符的最长子串</code></p>
+<p><a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[转载 -- 做技术的「五比一」原则]]></title>
-        <id>https://imatvoid.github.io//post/zhuan-zai-zuo-ji-zhu-de-wu-bi-yi-yuan-ze</id>
-        <link href="https://imatvoid.github.io//post/zhuan-zai-zuo-ji-zhu-de-wu-bi-yi-yuan-ze">
+        <title type="html"><![CDATA[leetcode -- 24. Swap Nodes in Pairs]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-24-swap-nodes-in-pairs</id>
+        <link href="https://imatvoid.github.io//post/leetcode-24-swap-nodes-in-pairs">
         </link>
-        <updated>2019-08-15T07:36:35.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- 33. Search in Rotated Sorted Array]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-33-search-in-rotated-sorted-array</id>
-        <link href="https://imatvoid.github.io//post/leetcode-33-search-in-rotated-sorted-array">
-        </link>
-        <updated>2019-08-10T09:06:47.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="33">
-<li>Search in Rotated Sorted Array</li>
-</ol>
-<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">https://leetcode.com/problems/search-in-rotated-sorted-array/</a></p>
-<ol start="33">
-<li>搜索旋转排序数组</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array/">https://leetcode-cn.com/problems/search-in-rotated-sorted-array/</a></p>
+        <updated>2019-08-30T05:55:43.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>24. Swap Nodes in Pairs</code></p>
+<p><a href="https://leetcode.com/problems/swap-nodes-in-pairs/">https://leetcode.com/problems/swap-nodes-in-pairs/</a></p>
+<p><code>24. 两两交换链表中的节点</code></p>
+<p><a href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/">https://leetcode-cn.com/problems/swap-nodes-in-pairs/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="33">
-<li>Search in Rotated Sorted Array</li>
-</ol>
-<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">https://leetcode.com/problems/search-in-rotated-sorted-array/</a></p>
-<ol start="33">
-<li>搜索旋转排序数组</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array/">https://leetcode-cn.com/problems/search-in-rotated-sorted-array/</a></p>
+        <content type="html"><![CDATA[<p><code>24. Swap Nodes in Pairs</code></p>
+<p><a href="https://leetcode.com/problems/swap-nodes-in-pairs/">https://leetcode.com/problems/swap-nodes-in-pairs/</a></p>
+<p><code>24. 两两交换链表中的节点</code></p>
+<p><a href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/">https://leetcode-cn.com/problems/swap-nodes-in-pairs/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode -- 153. Find Minimum in Rotated Sorted Array]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-153-find-minimum-in-rotated-sorted-array</id>
-        <link href="https://imatvoid.github.io//post/leetcode-153-find-minimum-in-rotated-sorted-array">
+        <title type="html"><![CDATA[leetcode -- 76. Minimum Window Substring]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-76-minimum-window-substring</id>
+        <link href="https://imatvoid.github.io//post/leetcode-76-minimum-window-substring">
         </link>
-        <updated>2019-08-10T08:01:21.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>153. Find Minimum in Rotated Sorted Array</code></p>
-<p><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
-<p><code>153. 寻找旋转排序数组中的最小值</code></p>
-<p><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
+        <updated>2019-08-30T05:50:26.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>76. Minimum Window Substring</code></p>
+<p><a href="https://leetcode.com/problems/minimum-window-substring/">https://leetcode.com/problems/minimum-window-substring/</a></p>
+<p><code>76. 最小覆盖子串</code></p>
+<p><a href="https://leetcode-cn.com/problems/minimum-window-substring/">https://leetcode-cn.com/problems/minimum-window-substring/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<p><code>153. Find Minimum in Rotated Sorted Array</code></p>
-<p><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
-<p><code>153. 寻找旋转排序数组中的最小值</code></p>
-<p><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/</a></p>
+        <content type="html"><![CDATA[<p><code>76. Minimum Window Substring</code></p>
+<p><a href="https://leetcode.com/problems/minimum-window-substring/">https://leetcode.com/problems/minimum-window-substring/</a></p>
+<p><code>76. 最小覆盖子串</code></p>
+<p><a href="https://leetcode-cn.com/problems/minimum-window-substring/">https://leetcode-cn.com/problems/minimum-window-substring/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcoe -- 88. Merge Sorted Array]]></title>
-        <id>https://imatvoid.github.io//post/leetcoe-88-merge-sorted-array</id>
-        <link href="https://imatvoid.github.io//post/leetcoe-88-merge-sorted-array">
+        <title type="html"><![CDATA[leetcode -- 386. Lexicographical Numbers]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-386-lexicographical-numbers</id>
+        <link href="https://imatvoid.github.io//post/leetcode-386-lexicographical-numbers">
         </link>
-        <updated>2019-08-10T07:48:32.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="88">
-<li>Merge Sorted Array</li>
-</ol>
-<p><a href="https://leetcode.com/problems/merge-sorted-array/">https://leetcode.com/problems/merge-sorted-array/</a></p>
-<ol start="88">
-<li>合并两个有序数组</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/merge-sorted-array/">https://leetcode-cn.com/problems/merge-sorted-array/</a></p>
+        <updated>2019-08-28T02:32:17.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>386. Lexicographical Numbers</code></p>
+<p><a href="https://leetcode.com/problems/lexicographical-numbers/">https://leetcode.com/problems/lexicographical-numbers/</a></p>
+<p><code>386. 字典序排数</code></p>
+<p><a href="https://leetcode-cn.com/problems/lexicographical-numbers/">https://leetcode-cn.com/problems/lexicographical-numbers/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="88">
-<li>Merge Sorted Array</li>
-</ol>
-<p><a href="https://leetcode.com/problems/merge-sorted-array/">https://leetcode.com/problems/merge-sorted-array/</a></p>
-<ol start="88">
-<li>合并两个有序数组</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/merge-sorted-array/">https://leetcode-cn.com/problems/merge-sorted-array/</a></p>
+        <content type="html"><![CDATA[<p><code>386. Lexicographical Numbers</code></p>
+<p><a href="https://leetcode.com/problems/lexicographical-numbers/">https://leetcode.com/problems/lexicographical-numbers/</a></p>
+<p><code>386. 字典序排数</code></p>
+<p><a href="https://leetcode-cn.com/problems/lexicographical-numbers/">https://leetcode-cn.com/problems/lexicographical-numbers/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode -- 448. Find All Numbers Disappeared in an Array]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-448-find-all-numbers-disappeared-in-an-array</id>
-        <link href="https://imatvoid.github.io//post/leetcode-448-find-all-numbers-disappeared-in-an-array">
+        <title type="html"><![CDATA[leetcode -- 31. Next Permutation]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-31-next-permutation</id>
+        <link href="https://imatvoid.github.io//post/leetcode-31-next-permutation">
         </link>
-        <updated>2019-08-10T07:27:02.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>448. Find All Numbers Disappeared in an Array</code></p>
-<p><a href="https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
-<p><code>448. 找到所有数组中消失的数字</code></p>
-<p><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
+        <updated>2019-08-28T01:15:31.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>31. Next Permutation</code></p>
+<p><a href="https://leetcode-.com/problems/next-permutation/">https://leetcode-.com/problems/next-permutation/</a></p>
+<p><code>31. 下一个排列</code></p>
+<p><a href="https://leetcode-cn.com/problems/next-permutation/">https://leetcode-cn.com/problems/next-permutation/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<p><code>448. Find All Numbers Disappeared in an Array</code></p>
-<p><a href="https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
-<p><code>448. 找到所有数组中消失的数字</code></p>
-<p><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/">https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/</a></p>
+        <content type="html"><![CDATA[<p><code>31. Next Permutation</code></p>
+<p><a href="https://leetcode-.com/problems/next-permutation/">https://leetcode-.com/problems/next-permutation/</a></p>
+<p><code>31. 下一个排列</code></p>
+<p><a href="https://leetcode-cn.com/problems/next-permutation/">https://leetcode-cn.com/problems/next-permutation/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode -- 268. Missing Number]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-268-missing-number</id>
-        <link href="https://imatvoid.github.io//post/leetcode-268-missing-number">
+        <title type="html"><![CDATA[leetcode -- 14. Longest Common Prefix]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-14-longest-common-prefix</id>
+        <link href="https://imatvoid.github.io//post/leetcode-14-longest-common-prefix">
         </link>
-        <updated>2019-08-10T07:14:53.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="268">
-<li>Missing Number</li>
-</ol>
-<p><a href="https://leetcode.com/problems/missing-number/submissions/">https://leetcode.com/problems/missing-number/submissions/</a></p>
-<ol start="268">
-<li>缺失数字</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/missing-number/submissions/">https://leetcode-cn.com/problems/missing-number/submissions/</a></p>
+        <updated>2019-08-28T00:59:48.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>14. Longest Common Prefix</code></p>
+<p><a href="https://leetcode.com/problems/longest-common-prefix/">https://leetcode.com/problems/longest-common-prefix/</a></p>
+<p><code>14. 最长公共前缀</code></p>
+<p><a href="https://leetcode-cn.com/problems/longest-common-prefix/">https://leetcode-cn.com/problems/longest-common-prefix/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="268">
-<li>Missing Number</li>
-</ol>
-<p><a href="https://leetcode.com/problems/missing-number/submissions/">https://leetcode.com/problems/missing-number/submissions/</a></p>
-<ol start="268">
-<li>缺失数字</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/missing-number/submissions/">https://leetcode-cn.com/problems/missing-number/submissions/</a></p>
+        <content type="html"><![CDATA[<p><code>14. Longest Common Prefix</code></p>
+<p><a href="https://leetcode.com/problems/longest-common-prefix/">https://leetcode.com/problems/longest-common-prefix/</a></p>
+<p><code>14. 最长公共前缀</code></p>
+<p><a href="https://leetcode-cn.com/problems/longest-common-prefix/">https://leetcode-cn.com/problems/longest-common-prefix/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode  -- 11. Container With Most Water]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-11-container-with-most-water</id>
-        <link href="https://imatvoid.github.io//post/leetcode-11-container-with-most-water">
+        <title type="html"><![CDATA[leetcode -- 43. Multiply Strings]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-43-multiply-strings</id>
+        <link href="https://imatvoid.github.io//post/leetcode-43-multiply-strings">
         </link>
-        <updated>2019-08-10T06:34:48.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="11">
-<li>Container With Most Water</li>
-</ol>
-<p><a href="https://leetcode.com/problems/container-with-most-water/">https://leetcode.com/problems/container-with-most-water/</a></p>
-<ol start="11">
-<li>盛最多水的容器</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/container-with-most-water/">https://leetcode-cn.com/problems/container-with-most-water/</a></p>
+        <updated>2019-08-27T15:18:35.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>43. Multiply Strings</code></p>
+<p><a href="https://leetcode.com/problems/multiply-strings/">https://leetcode.com/problems/multiply-strings/</a></p>
+<p><code>43. 字符串相乘</code></p>
+<p><a href="https://leetcode-cn.com/problems/multiply-strings/">https://leetcode-cn.com/problems/multiply-strings/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="11">
-<li>Container With Most Water</li>
-</ol>
-<p><a href="https://leetcode.com/problems/container-with-most-water/">https://leetcode.com/problems/container-with-most-water/</a></p>
-<ol start="11">
-<li>盛最多水的容器</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/container-with-most-water/">https://leetcode-cn.com/problems/container-with-most-water/</a></p>
+        <content type="html"><![CDATA[<p><code>43. Multiply Strings</code></p>
+<p><a href="https://leetcode.com/problems/multiply-strings/">https://leetcode.com/problems/multiply-strings/</a></p>
+<p><code>43. 字符串相乘</code></p>
+<p><a href="https://leetcode-cn.com/problems/multiply-strings/">https://leetcode-cn.com/problems/multiply-strings/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode -- Reverse Nodes in k-Group]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group</id>
-        <link href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group">
+        <title type="html"><![CDATA[leetcode -- 567. Permutation in String]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-567-permutation-in-string</id>
+        <link href="https://imatvoid.github.io//post/leetcode-567-permutation-in-string">
         </link>
-        <updated>2019-08-09T15:29:38.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="25">
-<li>Reverse Nodes in k-Group</li>
-</ol>
-<p><a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">https://leetcode.com/problems/reverse-nodes-in-k-group/</a></p>
-<ol start="25">
-<li>K 个一组翻转链表</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">https://leetcode-cn.com/problems/reverse-nodes-in-k-group/</a></p>
+        <updated>2019-08-27T15:08:24.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>567. Permutation in String</code></p>
+<p><a href="https://leetcode.com/problems/permutation-in-string/">https://leetcode.com/problems/permutation-in-string/</a></p>
+<p><code>567. 字符串的排列</code></p>
+<p><a href="https://leetcode-cn.com/problems/permutation-in-string/">https://leetcode-cn.com/problems/permutation-in-string/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="25">
-<li>Reverse Nodes in k-Group</li>
-</ol>
-<p><a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">https://leetcode.com/problems/reverse-nodes-in-k-group/</a></p>
-<ol start="25">
-<li>K 个一组翻转链表</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">https://leetcode-cn.com/problems/reverse-nodes-in-k-group/</a></p>
+        <content type="html"><![CDATA[<p><code>567. Permutation in String</code></p>
+<p><a href="https://leetcode.com/problems/permutation-in-string/">https://leetcode.com/problems/permutation-in-string/</a></p>
+<p><code>567. 字符串的排列</code></p>
+<p><a href="https://leetcode-cn.com/problems/permutation-in-string/">https://leetcode-cn.com/problems/permutation-in-string/</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[leetcode -- 93. Restore IP Addresses]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-93-restore-ip-addresses</id>
-        <link href="https://imatvoid.github.io//post/leetcode-93-restore-ip-addresses">
+        <title type="html"><![CDATA[leetcode -- 71. Simplify Path]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-71-simplify-path</id>
+        <link href="https://imatvoid.github.io//post/leetcode-71-simplify-path">
         </link>
-        <updated>2019-08-09T14:42:37.000Z</updated>
-        <summary type="html"><![CDATA[<ol start="93">
-<li>Restore IP Addresses</li>
-</ol>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<ol start="93">
-<li>复原IP地址</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+        <updated>2019-08-27T14:52:03.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>71. Simplify Path</code></p>
+<p><a href="https://leetcode.com/problems/simplify-path/">https://leetcode.com/problems/simplify-path/</a></p>
+<p><code>71. 简化路径</code></p>
+<p><a href="https://leetcode-cn.com/problems/simplify-path/">https://leetcode-cn.com/problems/simplify-path/</a></p>
 ]]></summary>
-        <content type="html"><![CDATA[<ol start="93">
-<li>Restore IP Addresses</li>
-</ol>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<ol start="93">
-<li>复原IP地址</li>
-</ol>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+        <content type="html"><![CDATA[<p><code>71. Simplify Path</code></p>
+<p><a href="https://leetcode.com/problems/simplify-path/">https://leetcode.com/problems/simplify-path/</a></p>
+<p><code>71. 简化路径</code></p>
+<p><a href="https://leetcode-cn.com/problems/simplify-path/">https://leetcode-cn.com/problems/simplify-path/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 94. Decode String]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-94-decode-string</id>
+        <link href="https://imatvoid.github.io//post/leetcode-94-decode-string">
+        </link>
+        <updated>2019-08-27T14:44:20.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>94. Decode String</code></p>
+<p><a href="https://leetcode-cn.com/problems/decode-string/">https://leetcode-cn.com/problems/decode-string/</a></p>
+<p><code>394. 字符串解码</code></p>
+<p><a href="https://leetcode.com/problems/decode-string/">https://leetcode.com/problems/decode-string/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>94. Decode String</code></p>
+<p><a href="https://leetcode-cn.com/problems/decode-string/">https://leetcode-cn.com/problems/decode-string/</a></p>
+<p><code>394. 字符串解码</code></p>
+<p><a href="https://leetcode.com/problems/decode-string/">https://leetcode.com/problems/decode-string/</a></p>
 ]]></content>
     </entry>
 </feed>

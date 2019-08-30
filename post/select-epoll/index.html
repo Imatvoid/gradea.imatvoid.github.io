@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>Linux -- IO多路复用: Select Poll Epoll | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+			
+<a  href="https://github.com/Imatvoid" target="_blank" ><i class="iconfont icon-github"></i></a>
+ 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">Linux -- IO多路复用: Select Poll Epoll</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-05 15:04:41" itemprop="datePublished" pubdate="">2019-08-05</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><p><a href=""></a></p>
+<!-- more -->
+<h2 id="前置">前置</h2>
+<h3 id="io模型">IO模型</h3>
+<p>先了解Iinux常见的5种IO模型.</p>
+<h3 id="文件描述符-fd">文件描述符 fd</h3>
+<p>文件描述符(file descriptor，简称 fd)在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于UNIX、Linux这样的操作系统。</p>
+<p>在 Linux 中，内核将所有的外部设备都当做一个文件来进行操作，而对一个文件的读写操作会调用内核提供的系统命令，返回一个 fd，对一个 socket 的读写也会有相应的描述符，称为 socketfd（socket 描述符），实际上描述符就是一个数字，它指向内核中的一个结构体(文件路径、数据区等一些属性)。</p>
+<h3 id="缓存io">缓存IO</h3>
+<p><code>缓存 IO 又被称作标准 IO，大多数文件系统的默认 IO 操作都是缓存 IO</code>。在 Linux 的缓存 IO 机制中，操作系统会将 IO 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，<code>数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间</code>。</p>
+<p><strong>缓存 IO 的缺点：</strong></p>
+<p><code>数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作</code>，这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。</p>
+<h2 id="为什么需要io多路复用">为什么需要IO多路复用</h2>
+<p>由于同步非阻塞方式需要不断主动轮询，轮询占据了很大一部分过程，轮询会消耗大量的CPU时间，而 “后台” 可能有多个任务在同时进行，人们就想到了循环查询多个任务的完成状态，只要有任何一个任务完成，就去处理它。</p>
+<p>如果轮询不是进程的用户态，而是有人帮忙就好了。<code>那么这就是所谓的 “IO 多路复用”</code>。</p>
+<p><code>IO多路复用有特别的系统调用select、poll、epoll函数</code>。select调用是内核级别的，select轮询相对非阻塞的轮询的区别在于---<code>前者可以等待多个socket，能实现同时对多个IO端口进行监听</code>，当其中任何一个socket的数据准好了，<code>就能返回进行可读</code>，<code>然后进程再进行recvform系统调用，将数据由内核拷贝到用户进程，当然这个过程是阻塞的</code>。</p>
+<p><code>I/O复用模型会用到select、poll、epoll函数，也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作</code>。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时（注意不是全部数据可读或可写），才真正调用I/O操作函数。</p>
+<p>对于socket多路复用，也就是在内核轮询多个socket。</p>
+<h2 id="io多路复用与异步io的区别">IO多路复用与异步IO的区别</h2>
+<p>select，poll，epoll都是IO多路复用的机制。I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的，</p>
+<p><strong>而异步I/O则无需自己负责进行读写，异步I/O的实现会负责把数据从内核拷贝到用户空间</strong></p>
+<h2 id="select-1024">select -- 1024</h2>
+<h3 id="阻塞调用与非阻塞调用">阻塞调用与非阻塞调用</h3>
+<p>使用多路复用技术时，一般都是要求设置待监听的文件为非阻塞模式。那么我们先来看一下什么是阻塞模式，什么是非阻塞模式。</p>
+<h4 id="概念描述">概念描述</h4>
+<p>当read或write一个文件[注]时，如果read/write不能立即返回，那么调用者就会进入睡眠状态，直到该文件变成可读/可写。这种模式就是阻塞模式。</p>
+<blockquote>
+<p>注： 在UNIX文化中，一切皆文件。无论是普通磁盘文件，设备，还是网络连接套接字，在虚拟文件系统中都是以文件的形式存在。用户使用统一的read/write函数去读写文件，而不管文件在底层到底是如何存在的。因此，在Linux中，总是可以看到各种形式的“文件”，比如说eventfd，可以实现事件通知，等等。</p>
+</blockquote>
+<p>以TCP连接为例，用户空间read/write是与TCP缓冲区交互的，而不是直接同网卡驱动交互。当接收缓冲区内无数据时，read操作就无法立即返回，因此就会阻塞住调用进程，直到对方发送数据过来并由网卡驱动拷贝到接收缓冲区；同理，当网络延时过大或接收方问题导致本端（发送方）发送缓冲区满时，调用write无法将数据写入到发送缓冲区（一个字节都没法写入），调用进程也会阻塞。</p>
+<p>这里需要注意的是，阻塞与否，是取决于该文件的类型的，换句话说，是取决于该文件对应的设备驱动程序的。</p>
+<p>比方说，对于普通磁盘文件，read/write总是可以立即返回的，除非磁盘出现故障。而对于网络连接，或者管道等类型的文件，read/write是有可能发送阻塞的，而且是一种常态模式。</p>
+<h4 id="内核中的实现">内核中的实现</h4>
+<p>阻塞调用在内核中的实现包含两方面：</p>
+<ul>
+<li>阻塞方如何进入睡眠状态</li>
+<li>驱动程序如何唤醒睡眠进程</li>
+</ul>
+<p>先来明确一下，这两个操作在哪里实现，或者说，由谁实现。</p>
+<p>进程进入睡眠状态，肯定是在调用read/write时由于某个条件未满足（比如说read时接收缓冲区空），因此首先需要执行条件判断。这个工作肯定是而且是只能由驱动程序来完成的。而在VFS中，read/write系统调用最终会调用驱动程序的内部实现（函数指针保存在<code>struct file</code> 的<code>struct file_operations</code>中）。因此，进程进入睡眠的工作，在驱动程序的read/write中实现。</p>
+<p>同理，也是只有在特定的条件满足了，才会去唤醒进程。当read阻塞时，是因为没有数据可读。那何时有新数据进来呢？对于本地文件，当然是有进程写入数据了（调用write）；而对于网络连接，当然是由于对方发送数据过来。这两个操作也都是在驱动程序的write中完成。</p>
+<p>因此，进程的睡眠和唤醒动作都是在文件对应的设备驱动程序的read和write中实现的。</p>
+<p>接下来，就描述一下进程如何睡眠，以及如何唤醒。其核心是一个叫做“等待队列”的数据结构。</p>
+<h4 id="等待队列">等待队列</h4>
+<p>等待队列基于<code>struct list_head</code>实现，包含一个头结点和若干个队列元素。</p>
+<pre><code class="language-c">// wait_queue 头节点
+struct __wait_queue_head {
+    spinlock_t lock;
+    struct list_head task_list;
+};
+</code></pre>
+<p>头结点包含一个指向第一个队列元素的指针和一个保护队列的自旋锁：当插入（add_wait_queue）新元素或删除（remove_wait_queue）旧元素时，均使用自旋锁保证同步。</p>
+<pre><code class="language-c">// wait_queue 节点
+struct __wait_queue {
+    unsigned int flags;
+    void *private;
+    wait_queue_func_t func;
+    struct list_head task_list;
+};
+</code></pre>
+<p>等待队列中的每个元素包含一个回调函数func，在唤醒该元素时调用。其中，private指针指向的是进程的task_struct结构，这样在唤醒时才知道唤醒哪个进程。元素与元素间使用list_head连成双向链表。</p>
+<h4 id="睡眠">睡眠</h4>
+<p>调用以下任一函数，将进程睡眠在某个等待队列上。</p>
+<pre><code>wait_event(wq, condition);
+wait_event_timeout(wq, condition, timeout);
+
+wait_event_interruptible(wq, condition);
+wait_event_interruptible(wq, condition, timeout);
+</code></pre>
+<p>上面两组函数的区别，在于调用进程睡眠时的状态：前者是TASK_UNINTERRUPTIBLE状态，后者是TASK_INTERRUPTIBLE状态，可以被信号打断睡眠。</p>
+<p>睡眠的过程分为四步：</p>
+<ol>
+<li>判断条件是否满足，若满足则无需睡眠；</li>
+<li>否则，定义一个新的wait_queue_t队列元素，插入到wq表示的等待队列中去；</li>
+<li>设置进程状态；</li>
+<li>调用schedule()，让出CPU，调度其它进程。</li>
+</ol>
+<p>需要注意的是，一个等待队列上可能有多个元素，也就表示有多个进程在同时等待。因此，当条件满足时，所有进程都会被唤醒。而且，第一个被唤醒后得到调度的进程可能会“消费”掉条件，因此所有被唤醒的进程在继续执行后首先需要再次判断条件是否满足。</p>
+<p>这也是很多代码将睡眠操作放在while循环中的原因。</p>
+<pre><code class="language-c">/* wait event */
+    while(!condition) {
+        /* 如果是非阻塞调用，那么直接返回 */
+        if (filp-&gt;f_flags &amp; O_NONBLOCK)
+            return -EAGAIN;
+
+        if (wait_event_interruptible(wq, condition)) {
+            /* 被信号中断了 */
+            return -ERESTARTSYS;
+        }
+    }
+    /* handle event */
+</code></pre>
+<h4 id="唤醒">唤醒</h4>
+<p>与睡眠函数相对应，调用以下任一函数，将队列上的进程唤醒</p>
+<pre><code class="language-c">void wake_up(wait_event_head_t *queue);
+void wake_up_interruptible(wait_event_head_t *queue);
+</code></pre>
+<p>这两个函数会唤醒某个队列上睡眠着的所有进程，分为以下步骤：</p>
+<ol>
+<li>对队列中的每一个元素，调用其回调函数func;</li>
+<li>如果回调函数返回非0值，那么看队列元素的flag值，如果设置了WQ_FLAG_EXCLUSIVE标志，那么停止遍历，不继续唤醒其它进程；否则继续唤醒下一个进程。</li>
+</ol>
+<p>那么这个等待队列的回调函数和flag是什么呢？在wait_event中定义的wait_event_t结构体的值如下所示：</p>
+<pre><code>wait_queue_t name = {
+    .private    = current,
+    .func       = autoremove_wake_function,
+    .task_list  = LIST_HEAD_INIT((name).task_list),
+};
+</code></pre>
+<p>autoremove_wake_function：</p>
+<ul>
+<li>调用<code>default_wake_function</code>唤醒睡眠的进程，</li>
+<li>将其从等待队列的list中删除掉，成功会返回1。</li>
+</ul>
+<p>而flag参数则在prepare_to_wait函数中被清除掉了WQ_FLAG_EXCLUSIVE标志。函数调用顺序如下：</p>
+<p>wait_event_interruptible -&gt; DEFINE_WAIT -&gt; prepare_to_wait -&gt; schedule -&gt; finish_wait</p>
+<p>其中，prepare_to_wait完成睡眠的前3个步骤。</p>
+<p>因此，wake_up_interruptible和wake_up会唤醒所有进程。</p>
+<h3 id="select介绍">select介绍</h3>
+<p>Linux 提供了select，进程将一个或多个fd传递给select系统调用，并且阻塞在select上。同时，kernel会侦测所有select负责的fd是否处于就绪状态，如果有任何一个fd就绪，select就会返回，这个时候用户进程再调用recvfrom，将数据从内核缓冲区拷贝到用户进程空间。</p>
+<p>于是，如果没有I/O事件产生，我们的程序就会阻塞在select处。但是依然有个问题，我们从select那里仅仅知道了，有I/O事件发生了，但却并不知道是那几个流(可能有一个，多个，甚至全部)，我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。使用select，我们有O(n)的无差别轮询复杂度，同时处理的流越多，每一次无差别轮询时间就越长。</p>
+<h3 id="函数声明">函数声明</h3>
+<pre><code class="language-c">/** 
+* @maxfd: 待监听的最大fd值+1 
+* @readfds: 待监听的可读文件fd集合  
+* @writefds: 待监听的可写文件fd集合  
+* @exceptfds: 待监听的异常文件fd集合  
+* @timeout: 超时设置，在等待指定时间后返回超时
+* return:返回满足条件的fd数量和，如果出错返回-1，如果是超时返回0 
+*/
+int select(int maxfd, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+</code></pre>
+<p><strong>fd_set</strong></p>
+<p>函数调用后,会把fd_set拷贝到内核空间.<br>
+正常返回之后，会更新fd_set(readfds/writefds/exceptfds)中相应满足条件的fd.把fd_set拷贝回用户空间.<br>
+fd_set指向的是个结构体.</p>
+<pre><code class="language-c">#define __NFDBITS (8 * sizeof(unsigned long))
+#define __FD_SETSIZE 1024
+#define __FDSET_LONGS (__FD_SETSIZE/__NFDBITS)
+typedef struct {
+    unsigned long fds_bits [__FDSET_LONGS];
+} __kernel_fd_set;
+</code></pre>
+<p>在x86机器上，select最大支持1024个文件(<code>__FD_SETSIZE</code>）。<code>__NFDBITS</code>表示一个usigned long占的bit数,在fd_set中每个文件使用一个bit表示，因此支持1024个文件共需要<code>__FDSET_LONGS=__FD_SETSIZE/__NFDBITS</code>个long型整数，放在一个数组里。</p>
+<p><strong>在Linux下,使用bit位记录fd,所以fd的默认最大值是1024,一但出现超过1024的文件描述符fd,将无法正常工作.</strong></p>
+<p><strong>windows下是fd值的数组遍历的,只要不超过最大个数就行.</strong></p>
+<p><strong>fd_set操作函数.</strong></p>
+<pre><code class="language-c">void FD_SET(int fd, fd_set *set);//将变量的某一位置零
+void FD_ZERO(fd_set *set);   //将一个fd_set类型变量的所有位都设置为0
+void FD_CLR(int fd, fd_set *set);//将变量的某一位置零
+int  FD_ISSET(int fd, fd_set *set);//测试某个位是否被置位。
+
+
+//使用示例
+/*例如*/
+fd_set rset;
+int fd;
+FD_ZERO(&amp;rset);
+FD_SET(fd,&amp;rset);
+FD_SET(stdin，&amp;rset);
+//在select返回之后，可以使用FD_ISSET(fd,&amp;rset)测试给定的位置是否置位。
+if(FD_ISSET(fd,&amp;rset))
+{......}
+</code></pre>
+<p><strong>每次select调用都要设置原始的fd集合</strong></p>
+<p>理解select模型的关键在于理解fd_set,为说明方便，取fd_set长度为1字节，fd_set中的每一bit可以对应一个文件描述符fd。则1字节长的fd_set最大可以对应8个fd。</p>
+<p>（1）执行fd_set set; FD_ZERO(&amp;set); 则set用位表示是0000,0000。</p>
+<p>（2）若fd＝5,执行FD_SET(fd,&amp;set);后set变为0001,0000(第5位置为1)</p>
+<p>（3）若再加入fd＝2，fd=1,则set变为0001,0011</p>
+<p>（4）执行select(6,&amp;set,0,0,0)阻塞等待</p>
+<p>（5）若fd=1,fd=2上都发生可读事件，则select返回，此时set变为0000,0011。注意：没有事件发生的fd=5被清空。</p>
+<p>将fd加入select监控集的同时，还要再使用一个数据结构array保存放到select监控集中的fd，select返回后会把以前加入的但并无事件发生的fd清空，则每次开始select前都要重新从array取得fd逐一加入，扫描array的同时取得fd最大值maxfd，用于select的第一个参数。</p>
+<p><strong>maxfd</strong></p>
+<p>从上面的分析可以知道,fd_set本质是一个位图,最大值是1024.假设你只监听了几个fd,那么遍历这整个位图是不合适的,所以传入一个maxfd,我们只需要遍历0-maxfd-1就可以.更高的范围没有监听</p>
+<h3 id="伪代码实现">伪代码实现</h3>
+<p>只考虑可读</p>
+<pre><code class="language-c">count=0
+FD_ZERO(&amp;res_rset)   //将返回的fd_set先全部置0
+for fd in read_set
+    if（ readable(fd) )
+        count++
+        FDSET(fd, &amp;res_rset)
+        break
+    else
+        add_to_wait_queue
+
+if count &gt; 0
+    return count
+else
+    wait_any_event
+return count
+</code></pre>
+<p>遍历所有文件，如果有文件可读，那么select无需阻塞，直接返回即可，并标记该文件可读；否则，将调用进程加入到每个文件对应设备驱动的读等待队列中，并进入睡眠状态。</p>
+<p>上面的伪代码只演示了判断文件可读的条件。算法也很朴素，遍历所有文件，如果有文件可读，那么select无需阻塞，直接返回即可，并标记该文件可读；否则，将调用进程加入到每个文件对应设备驱动的读等待队列中，并进入睡眠状态。</p>
+<p>该算法有几个待解决的问题：</p>
+<ol>
+<li>如何判断文件当前是否可读（或可写），即如何实现readable(fd)函数？</li>
+<li>如何将进程加入到驱动的读等待队列？如果调用wait_event_interruptible，那么进程在遇到第一个不可读的fd后会立即进入睡眠，而无法继续监听其它文件。</li>
+</ol>
+<p>仔细想一下，这两个问题的解决方法都需要依赖具体的设备驱动才行。因此，为了方便select/poll函数的实现，在Linux中规定每一个支持select/poll监听的文件所属设备驱动必须实现<code>struct file_operations</code>中的poll函数：</p>
+<h3 id="着重注意的问题">着重注意的问题</h3>
+<p>select中1024限制指的是select监听的文件描述符个数最多为1024还是说监听的最大文件描述符不能超过1024？</p>
+<p><strong>linux下</strong>, 1024限定的不只是监听的个数，还是文件描述符的最大值，注意，是值</p>
+<p>select第一个参数为什么是最大文件描述符加一？</p>
+<p>不用每次都遍历1024个fd.</p>
+<p>select的返回值表示的是就绪的文件描述符个数还是就绪的事件个数？</p>
+<p>是就绪的文件描述符个数</p>
+<h3 id="select的缺点">select的缺点</h3>
+<p>1.select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。select的一个缺点在于单个进程能够<strong>监视的文件描述符的数量存在最大限制，在Linux上fd最大值也受到限制,一般为1024</strong>，可以通过修改宏定义甚至重新编译内核的方式提升这一限制，但是这样也会造成效率的降低。</p>
+<p>2.另一个缺点是select返回后,只是得到一个改动的数字n. 需要重新遍历fd_set来获得实际可用的fd.这个复杂度是O(n).</p>
+<p>3.对socket进行扫描时是线性扫描，即采用轮询的方法，效率较低：当套接字比较多的时候，每次select()都要通过遍历FD_SETSIZE个Socket来完成调度,不管哪个Socket是活跃的,都遍历一遍。这会浪费很多CPU时间。如果能给套接字注册某个回调函数，当他们活跃时，自动完成相关操作，那就避免了轮询，这正是epoll与kqueue做的。</p>
+<p>4.需要维护一个用来存放大量fd的数据结构，这样会使得用户空间和内核空间在传递该结构时复制开销大。</p>
+<h2 id="poll">poll</h2>
+<p>poll和select是非常相似的.</p>
+<p>poll和select的实现基本上是一致的，只是传递参数有所不同，他们的基本流程如下：</p>
+<ol>
+<li>复制用户数据到内核空间</li>
+<li>估计超时时间</li>
+<li>遍历每个文件并调用f_op-&gt;poll 取得文件当前就绪状态， 如果前面遍历的文件都没有就绪，向文件插入wait_queue节点</li>
+<li>遍历完成后检查状态：</li>
+</ol>
+<p>​        a). 如果已经有就绪的文件转到5；</p>
+<p>​        b). 如果有信号产生，重启poll或select（转到 1或3）；</p>
+<p>​        c). 否则挂起进程等待超时或唤醒，超时或被唤醒后再次遍历所有文件取得每个文件的就绪状态</p>
+<ol start="5">
+<li>将所有文件的就绪状态复制到用户空间</li>
+<li>清理申请的资源</li>
+</ol>
+<pre><code class="language-c">int poll (struct pollfd *fds, unsigned int nfds, int timeout);
+</code></pre>
+<p>不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。</p>
+<pre><code class="language-c">struct pollfd {
+    int fd; /* file descriptor */
+    short events; /* requested events to watch */
+    short revents; /* returned events witnessed */
+};
+</code></pre>
+<p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。同时，pollfd并没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
+<blockquote>
+<p>从上面看，select和poll都需要在返回后，<code>通过遍历文件描述符来获取已经就绪的socket</code>。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+</blockquote>
+<h2 id="epoll">epoll</h2>
+<p>epoll是在2.6内核中提出的，是之前的select和poll的增强版本。相对于select和poll来说，epoll更加灵活，没有描述符限制。</p>
+<h3 id="为什么需要epoll">为什么需要epoll</h3>
+<p>select和poll采用的都是轮询的方式，每次都要扫描整个事件集合，才能找到就绪事件的文件描述符。而epoll采用的是callback(回调机制)，只要内核检测到就绪事件，就触发<strong>回调机制</strong>，将就绪事件移到就绪队列中等待用户处理。<br>
+select、poll和epoll都需要内核把fds通知给用户空间，如何避免不必要的内存拷贝就很重要，epoll是通过内核用于用户空间mmapp同一块内存实现的，所以epoll就减少了一些不必要的拷贝。</p>
+<h3 id="epoll过程">epoll过程</h3>
+<p>epoll操作过程需要三个接口，分别如下：</p>
+<pre><code class="language-c">int epoll_create(int size)；//创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大
+int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；
+int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
+</code></pre>
+<p><strong>1. int epoll_create(int size);</strong><br>
+创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，这个参数不同于select()中的第一个参数，给出最大监听的fd+1的值，<code>参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议</code>。<br>
+当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。</p>
+<p>2.int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；<br>
+函数是对指定描述符fd执行op操作。</p>
+<ul>
+<li>epfd：是epoll_create()的返回值。</li>
+<li>op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。</li>
+<li>fd：是需要监听的fd（文件描述符）</li>
+<li>epoll_event：是告诉内核需要监听什么事，struct epoll_event结构如下：</li>
+</ul>
+<pre><code>struct epoll_event {
+  __uint32_t events;  /* Epoll events */
+  epoll_data_t data;  /* User data variable */
+};
+
+//events可以是以下几个宏的集合：
+EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；
+EPOLLOUT：表示对应的文件描述符可以写；
+EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；
+EPOLLERR：表示对应的文件描述符发生错误；
+EPOLLHUP：表示对应的文件描述符被挂断；
+EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。
+EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里
+</code></pre>
+<p>3.int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</p>
+<p>等待事件的产生，类似于select()调用。</p>
+<p>等待epfd上的io事件，最多返回maxevents个事件。<br>
+参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。</p>
+<h3 id="工作模式">工作模式</h3>
+<p>epoll对文件描述符的操作有两种模式：<strong>LT（level trigger）<strong>和</strong>ET（edge trigger）</strong>。LT模式是默认模式，LT模式与ET模式的区别如下：<br>
+　　<strong>LT模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，<code>应用程序可以不立即处理该事件</code>。下次调用epoll_wait时，会再次响应应用程序并通知此事件。<br>
+　　<strong>ET模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，<code>应用程序必须立即处理该事件</code>。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。</p>
+<h4 id="1-lt模式">1. LT模式</h4>
+<p>LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的。</p>
+<h4 id="2-et模式">2. ET模式</h4>
+<p>ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once)</p>
+<p>ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
+<h4 id="总结">总结</h4>
+<p>假如有这样一个例子：</p>
+<ol>
+<li>我们已经把一个用来从管道中读取数据的文件句柄(RFD)添加到epoll描述符</li>
+<li>这个时候从管道的另一端被写入了2KB的数据</li>
+<li>调用epoll_wait(2)，并且它会返回RFD，说明它已经准备好读取操作</li>
+<li>然后我们读取了1KB的数据</li>
+<li>调用epoll_wait(2)......</li>
+</ol>
+<p><strong>LT模式：</strong><br>
+如果是LT模式，那么在第5步调用epoll_wait(2)之后，仍然能受到通知。</p>
+<p><strong>ET模式：</strong><br>
+如果我们在第1步将RFD添加到epoll描述符的时候使用了EPOLLET标志，那么在第5步调用epoll_wait(2)之后将有可能会挂起，因为剩余的数据还存在于文件的输入缓冲区内，而且数据发出端还在等待一个针对已经发出数据的反馈信息。只有在监视的文件句柄上发生了某个事件的时候 ET 工作模式才会汇报事件。因此在第5步的时候，调用者可能会放弃等待仍在存在于文件输入缓冲区内的剩余数据。</p>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/M9_a9BZyj" rel="tag">linux</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/StpB5efzv" rel="tag">操作系统</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/linux-io-mo-xing-gai-shu" rel="prev"> Linux -- IO模型概述</a></div>
+		 
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie" rel="next"> leetcode -- 如何生成短链接</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">I&#39;m  at void</div></div>
+
+
+	<p class="author-bio">我想写出一个世界</p></div></div>
+	
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>静态初始化块、静态成员、初始化块、构造函数执行顺序以及用途 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+			
+<a  href="https://github.com/Imatvoid" target="_blank" ><i class="iconfont icon-github"></i></a>
+ 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">静态初始化块、静态成员、初始化块、构造函数执行顺序以及用途</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2017-08-22 23:46:38" itemprop="datePublished" pubdate="">2017-08-22</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><h4 id="tips">Tips</h4>
+<ul>
+<li>非静态初始化块基本和构造函数一个作用，可以避免构造函数的代码重复。初始化块在类的每次构造都会执行</li>
+<li>静态初始化块只在类加载执行一次</li>
+</ul>
+<p>一个有意思的盲区：</p>
+<p>执行psvm的时候，类的构造函数并不会执行，也就是说这时候类的实例并不存在。</p>
+<pre><code class="language-java">public static void main(String[] args) {}
+</code></pre>
+<h4 id="测试执行顺序">测试执行顺序</h4>
+<p>C extens B，B extends A ， Main类中 new C()</p>
+<pre><code class="language-java">public class InitLearn {
+
+    static class A{
+        static Print  pA1 =new Print(&quot;static pA1&quot;);
+        static {
+            System.out.println(&quot;Static Initialization Block A&quot;);
+        }
+        static Print  pA2 =new Print(&quot;static pA2&quot;);
+        {
+            System.out.println(&quot;Initialization Block A Before Construct&quot;);
+        }
+        public A(){
+            System.out.println(&quot;Construct A&quot;);
+        }
+        {
+            System.out.println(&quot;Initialization Block A After Construct&quot;);
+        }
+
+
+    };
+    static class B extends A{
+        static Print  pB1 =new Print(&quot;static pB1&quot;);
+        static Print  pB2 =new Print(&quot;static pB2&quot;);
+        static {
+            System.out.println(&quot;Static Initialization Block B&quot;);
+        }
+        {
+            System.out.println(&quot;Initialization Block B Before Construct&quot;);
+        }
+        public B(){
+            System.out.println(&quot;Construct B&quot;);
+        }
+        {
+            System.out.println(&quot;Initialization Block B After Construct&quot;);
+        }
+    };
+    static class C extends B{
+        static Print  pC1 =new Print(&quot;static pC1&quot;);
+        static {
+            System.out.println(&quot;Static Initialization Block C&quot;);
+        }
+        static Print  pC2 =new Print(&quot;static pC2&quot;);
+        {
+            System.out.println(&quot;Initialization Block C Before Construct&quot;);
+        }
+        public C(){
+            System.out.println(&quot;Construct C&quot;);
+        }
+        {
+            System.out.println(&quot;Initialization Block C After Construct&quot;);
+        }
+    };
+    static class Print{
+        public Print(String v){
+                System.out.println(v);
+
+        }
+    }
+
+    static {
+        System.out.println(&quot;static{} of the class run psvm to test&quot;);
+    }
+    public static void main(String[] args) {
+          new C();
+          //new C();
+    }
+}
+</code></pre>
+<p>输出:</p>
+<pre><code class="language-java">
+static{} of the class run psvm to test //测试类的静态初始化块,在调用psvm前
+static pA1 //A类静态成员 定义在静态初始化块前
+Static Initialization Block A //A类静态初始化块
+static pA2 //A类静态成员 定义在静态初始化块后
+static pB1 //B类静态成员 定义在静态初始化块前
+static pB2 //B类静态成员 定义在静态初始化块前
+Static Initialization Block B //B类静态初始化块
+static pC1  //C类静态成员 定义在静态初始化块前
+Static Initialization Block C //C类静态初始化块
+static pC2  //C类静态成员 定义在静态初始化块后
+Initialization Block A Before Construct //A类初始化块
+Initialization Block A After Construct  //A类初始化块
+Construct A  //A类构造方法
+Initialization Block B Before Construct 
+Initialization Block B After Construct
+Construct B
+Initialization Block C Before Construct
+Initialization Block C After Construct
+Construct C
+    
+    
+</code></pre>
+<h4 id="有趣的现象">有趣的现象</h4>
+<ul>
+<li>
+<p>InitLearn类是肯定没有被实例化过的，但是由于执行main入口函数用到了InitLearn类，于是static初始化块也被执行了；</p>
+</li>
+<li>
+<p>所有的静态初始化块都优先执行，其次才是非静态的初始化块和构造函数，它们的执行顺序是：</p>
+<ol>
+<li>父类的静态初始化块/静态成员,顺序是声明顺序</li>
+<li>子类的静态初始化块/静态成员,顺序是声明顺序</li>
+<li>父类的初始化块(无论定义在构造方法前还是后)</li>
+<li>父类的构造函数</li>
+<li>子类的初始化块(无论定义在构造方法前还是后)</li>
+<li>子类的构造函数</li>
+</ol>
+</li>
+<li>
+<p>如果之后再new 一个B(),只会出现以下日志，静态的初始化过程只执行一次</p>
+<pre><code class="language-java">Initialization Block A Before Construct
+Initialization Block A After Construct
+Construct A
+Initialization Block B Before Construct
+Initialization Block B After Construct
+Construct B
+Initialization Block C Before Construct
+Initialization Block C After Construct
+Construct C
+</code></pre>
+</li>
+</ul>
+<h4 id="总结">总结</h4>
+<ol>
+<li>静态初始化块的优先级最高，也就是最先执行，并且仅在<strong>类第一次被加载时</strong>执行；</li>
+<li>非静态初始化块和构造函数后执行，并且在<strong>每次生成对象时</strong>执行一次；</li>
+<li>非静态初<strong>始化块的代码会在类构造函数之前执行</strong>。因此若要使用，应当养成把初始化块写在构造函数之前的习惯，便于调试；</li>
+<li>静态初始化块既可以用于<strong>初始化静态成员变量</strong>，也可以<strong>执行初始化代码</strong>；</li>
+<li>非静态初始化块可以针对多个重载构造函数进行<strong>代码复用</strong>。</li>
+</ol>
+<h4 id="参考">参考</h4>
+<p><a href="https://www.cnblogs.com/BlackStorm/p/5699965.html">https://www.cnblogs.com/BlackStorm/p/5699965.html</a></p>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/E3CtpWrEV" rel="tag">java</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-gong-han-mo-shi" rel="prev"> 设计模式 -- 工厂模式</a></div>
+		 
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-mo-ban-fang-fa-mo-shi" rel="next"> 设计模式 -- 模版方法模式</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">I&#39;m  at void</div></div>
+
+
+	<p class="author-bio">我想写出一个世界</p></div></div>
+	
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

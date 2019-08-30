@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>Copy on write 写时复制 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+			
+<a  href="https://github.com/Imatvoid" target="_blank" ><i class="iconfont icon-github"></i></a>
+ 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">Copy on write 写时复制</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-26 18:42:14" itemprop="datePublished" pubdate="">2019-08-26</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><p><a href=""></a></p>
+<!-- more -->
+<h2 id="前置">前置</h2>
+<h3 id="fork">fork</h3>
+<blockquote>
+<p>fork is an operation whereby a process creates a copy of itself.</p>
+</blockquote>
+<p>fork用于创建子进程(等同于当前进程的副本).</p>
+<pre><code class="language-java">#include &lt;unistd.h&gt;  
+#include &lt;stdio.h&gt;  
+ 
+int main ()   
+{   
+    pid_t fpid; //fpid表示fork函数返回的值  
+    int count=0;
+	
+	// 调用fork，创建出子进程  
+    fpid=fork();
+
+	// 所以下面的代码有两个进程执行！
+    if (fpid &lt; 0)   
+        printf(&quot;创建进程失败!/n&quot;);   
+    else if (fpid == 0) {  
+        printf(&quot;我是子进程，由父进程fork出来/n&quot;);   
+        count++;  
+    }  
+    else {  
+        printf(&quot;我是父进程/n&quot;);   
+        count++;  
+    }  
+    printf(&quot;统计结果是: %d/n&quot;,count);  
+    return 0;  
+}
+
+</code></pre>
+<p>我是子进程，由父进程fork出来</p>
+<p>统计结果是: 1</p>
+<p>我是父进程</p>
+<p>统计结果是: 1</p>
+<p>fork作为一个函数被调用。这个函数会有两次返回，将子进程的PID返回给父进程，0返回给子进程。(如果小于0，则说明创建子进程失败)。</p>
+<p>再次说明：当前进程调用fork()，会创建一个跟当前进程完全相同的子进程(除了pid)，所以子进程同样是会执行fork()之后的代码。</p>
+<p>fork之后内核会通过将子进程放在队列的前面，以让子进程先执行，以免父进程执行导致写时复制，而后子进程执行exec系统调用，因无意义的复制而造成效率的下降。</p>
+<h3 id="exec">exec</h3>
+<p>需要注意的是exec()并不是一个特定的函数, 它是一组函数的统称, 它包括了execl()、execlp()、execv()、execle()、execve()、execvp()。</p>
+<p>fork函数是用于创建一个子进程，该子进程几乎是父进程的副本，而有时我们希望子进程去执行另外的程序，exec函数族就提供了一个在进程中启动另一个程序执行的方法。它可以根据指定的文件名或目录名找到可执行文件，并用它来取代原调用进程的数据段、代码段和堆栈段，在执行完之后，原调用进程的内容除了进程号外，其他全部被新程序的内容替换了。另外，这里的可执行文件既可以是二进制文件，也可以是Linux下任何可执行脚本文件。</p>
+<p>当进程认为自己不能再为系统和用户做出任何贡献时，就可以调用任何exec 函数族让自己重生。</p>
+<p>如果一个进程想执行另一个程序，那么它就可以调用fork函数新建一个进程，然后调用任何一个exec函数使子进程重生。</p>
+<p>在<strong>fork之后exec之前</strong>两个进程用的是相同的物理空间（内存区），子进程的<strong>代码段、数据段、堆栈</strong>都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。当父子进程中有更改相应段的写行为发生时，再为子进程相应的段分配物理空间.</p>
+<p>如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。</p>
+<h2 id="cow写时复制">cow写时复制</h2>
+<p>fork()之后，kernel把父进程中所有的内存页的权限都设为read-only，然后子进程的地址空间指向父进程。当父子进程都只读内存时，相安无事。当其中某个进程写内存时，CPU硬件检测到内存页是read-only的，于是触发页异常中断（page-fault），陷入kernel的一个中断例程。中断例程中，kernel就会把触发的异常的页复制一份，于是父子进程各自持有独立的一份,其余的页还是共享父进程的.</p>
+<h3 id="注意项">注意项</h3>
+<p>如果在fork()之后，父子进程都还需要继续进行写操作，那么会产生大量的分页错误(页异常中断page-fault)，这样就得不偿失。</p>
+<h2 id="应用">应用</h2>
+<p>redis中,使用BGSAVE命令生成快照的过程中,redis会创建子进程来执行这项工作,<br>
+在生成快照的过程中,内存中的数据可能会发生变化.copy-on-write机制会分离主进程修改的page.保证快照数据的正确性(BGSAVE保存的只是那一时刻的数据).</p>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/M9_a9BZyj" rel="tag">linux</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/StpB5efzv" rel="tag">操作系统</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-12-integer-to-roman" rel="prev"> leetcode -- 12. Integer to Roman</a></div>
+		 
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/sql-cha-xun-cun-zai-yu-yi-ge-biao-er-bu-zai-ling-yi-ge-biao-de-shu-ju" rel="next"> sql查询 存在于一个表而不在另一个表的数据</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">I&#39;m  at void</div></div>
+
+
+	<p class="author-bio">我想写出一个世界</p></div></div>
+	
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>
