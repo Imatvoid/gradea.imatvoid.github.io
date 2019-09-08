@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>leetcode -- 547. Friend Circles | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">leetcode -- 547. Friend Circles</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-02 08:44:48" itemprop="datePublished" pubdate="">2019-09-02</time></i>
 	          </div>
 			
 </span>
@@ -132,62 +132,91 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p><code>547. Friend Circles</code></p>
+<p><a href="https://leetcode.com/problems/friend-circles/">https://leetcode.com/problems/friend-circles/</a></p>
+<p><code>547. 朋友圈</code></p>
+<p><a href="https://leetcode-cn.com/problems/friend-circles/">https://leetcode-cn.com/problems/friend-circles/</a></p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
-<p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
+<h4 id="描述">描述</h4>
+<p>There are N students in a class. Some of them are friends, while some are not. Their friendship is transitive in nature. For example, if A is a direct friend of B, and B is a direct friend of C, then A is an indirect friend of C. And we defined a friend circle is a group of students who are direct or indirect friends.</p>
+<p>Given a N*N matrix M representing the friend relationship between students in the class. If M[i][j] = 1, then the ith and jth students are direct friends with each other, otherwise not. And you have to output the total number of friend circles among all the students.</p>
+<p>Example 1:</p>
+<pre><code>Input: 
+[[1,1,0],
+ [1,1,0],
+ [0,0,1]]
+Output: 2
 </code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
-<pre><code class="language-java">
-public class RestoreIPAddresses {
+<p>Explanation:The 0th and 1st students are direct friends, so they are in a friend circle.<br>
+The 2nd student himself is in a friend circle. So return 2.<br>
+Example 2:</p>
+<pre><code>Input: 
+[[1,1,0],
+ [1,1,1],
+ [0,1,1]]
+Output: 1
+</code></pre>
+<p>Explanation:The 0th and 1st students are direct friends, the 1st and 2nd students are direct friends,<br>
+so the 0th and 2nd students are indirect friends. All of them are in the same friend circle, so return 1.<br>
+Note:<br>
+N is in range [1,200].<br>
+M[i][i] = 1 for all students.<br>
+If M[i][j] = 1, then M[j][i] = 1.</p>
+<h4 id="中文描述">中文描述</h4>
+<p>朋友圈 名副其实的朋友圈问题</p>
+<p>班上有 N 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 A 是 B 的朋友，B 是 C 的朋友，那么我们可以认为 A 也是 C 的朋友。所谓的朋友圈，是指所有朋友的集合。</p>
+<p>给定一个 N * N 的矩阵 M，表示班级中学生之间的朋友关系。如果<code>M[i][j] = 1</code>，表示已知第 i 个和 j 个学生互为朋友关系，否则为不知道。你必须输出所有学生中的已知的朋友圈总数。</p>
+<p>示例 1:</p>
+<p>输入:</p>
+<pre><code>[[1,1,0],
+ [1,1,0],
+ [0,0,1]]
+</code></pre>
+<p>输出: 2<br>
+说明：已知学生0和学生1互为朋友，他们在一个朋友圈。<br>
+第2个学生自己在一个朋友圈。所以返回2。<br>
+示例 2:</p>
+<p>输入:</p>
+<pre><code>[[1,1,0],
+ [1,1,1],
+ [0,1,1]]
+</code></pre>
+<p>输出: 1<br>
+说明：已知学生0和学生1互为朋友，学生1和学生2互为朋友，所以学生0和学生2也是朋友，所以他们三个在一个朋友圈，返回1。<br>
+注意：</p>
+<p>N 在<code>[1,200]</code>的范围内。<br>
+对于所有学生，有<code>M[i][i]</code> = 1。<br>
+如果有<code>M[i][j] = 1</code>，则有<code>M[j][i]</code>= 1。</p>
+<h4 id="思路">思路</h4>
+<p>遍历每一个人，如果没访问过，DFS。</p>
+<pre><code class="language-java">    int visited[];
 
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
-
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
-        return res;
-
-    }
-
-
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
+    public int findCircleNum(int[][] M) {
+        int m = M.length;
+        if (m == 0) {
+            return 0;
+        }
+        int count = 0;
+        visited = new int[M[0].length];
+        for (int i = 0; i &lt; m; i++) {
+            if (visited[i] == 0) {
+                dfs(M, i);
+                count++;
             }
-            return;
         }
 
 
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
+        return count;
+    }
+
+    void dfs(int[][] M,int i){
+        for(int j=0;j&lt;M[0].length;j++){
+            if(M[i][j]==1 &amp;&amp; visited[j] == 0){
+                visited[j]=1;
+                dfs(M,j);
             }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
         }
-
-
     }
-
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
-    }
-}
-
 </code></pre>
 </p>
 							</div>
@@ -202,10 +231,10 @@ public class RestoreIPAddresses {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-695-max-area-of-island" rel="prev"> leetcode -- 695. Max Area of Island</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-22-generate-parentheses" rel="next"> leetcode -- 22. Generate Parentheses</a></div>
 		
 		</div>
 	</nav>

@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>leetcode -- 39. Combination Sum | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">leetcode -- 39. Combination Sum</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-30 16:03:12" itemprop="datePublished" pubdate="">2019-08-30</time></i>
 	          </div>
 			
 </span>
@@ -132,68 +132,70 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p><code>39. Combination Sum</code></p>
+<p><a href="https://leetcode.com/problems/combination-sum/">https://leetcode.com/problems/combination-sum/</a></p>
+<p><code>39. 组合总和</code></p>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/">https://leetcode-cn.com/problems/combination-sum/</a></p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
-<p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
+<h3 id="描述">描述</h3>
+<p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的数字可以无限制重复被选取。</p>
+<p>说明：</p>
+<p>所有数字（包括 target）都是正整数。<br>
+解集不能包含重复的组合。 <br>
+示例 1:</p>
+<pre><code>输入: candidates = [2,3,6,7], target = 7,
+所求解集为:
+[
+  [7],
+  [2,2,3]
+]
 </code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
-<pre><code class="language-java">
-public class RestoreIPAddresses {
+<p>示例 2:</p>
+<pre><code>输入: candidates = [2,3,5], target = 8,
+所求解集为:
+[
+  [2,2,2,2],
+  [2,3,3],
+  [3,5]
+]
+</code></pre>
+<h3 id="思路">思路</h3>
+<pre><code class="language-java">List&lt;List&lt;Integer&gt;&gt; res = new LinkedList();
 
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
-
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
-        return res;
+    /**
+     * candidates，不包含重复的数字 每个数可以用多次
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+       dfs(candidates,new LinkedList&lt;&gt;(),0,target);
+       return  res;
 
     }
 
-
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
-            }
+    void dfs(int[] candidates, List&lt;Integer&gt; list, int start, int remain) {
+        if (remain &lt; 0) return;
+        if (remain == 0) {
+            res.add(new LinkedList&lt;&gt;(list));
             return;
         }
+        for (int i = start; i &lt;candidates.length ; i++) {
+            list.add(candidates[i]);
+            // 注意这是要传入i 这是组合
+            dfs(candidates,list,i,remain-candidates[i]);
+            list.remove(list.size()-1);
 
-
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
-            }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
         }
 
-
     }
-
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
-    }
-}
-
 </code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/dUwql5MsD" rel="tag">leetcode-dfs</a>	
+				<a href="https://imatvoid.github.io//tag/X5pp1O2tA" rel="tag">leetcode-排列组合</a>	
 				 
 				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
@@ -202,10 +204,10 @@ public class RestoreIPAddresses {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-40-combination-sum-ii" rel="prev"> leetcode -- 40. Combination Sum II</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-77-combinations" rel="next"> leetcode -- 77. Combinations</a></div>
 		
 		</div>
 	</nav>

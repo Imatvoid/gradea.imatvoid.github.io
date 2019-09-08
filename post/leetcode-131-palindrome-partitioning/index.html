@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>leetcode -- 131. Palindrome Partitioning | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">leetcode -- 131. Palindrome Partitioning</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-02 09:12:07" itemprop="datePublished" pubdate="">2019-09-02</time></i>
 	          </div>
 			
 </span>
@@ -132,62 +132,56 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p><code>131. Palindrome Partitioning</code></p>
+<p><a href="https://leetcode.com/problems/palindrome-partitioning/">https://leetcode.com/problems/palindrome-partitioning/</a></p>
+<p><code>131. 分割回文串</code></p>
+<p><a href="https://leetcode-cn.com/problems/palindrome-partitioning/">https://leetcode-cn.com/problems/palindrome-partitioning/</a></p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
+<h3 id="描述">描述</h3>
+<p>给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。</p>
+<p>返回 s 所有可能的分割方案。</p>
 <p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
+<p>输入: &quot;aab&quot;<br>
+输出:</p>
+<pre><code>[
+  [&quot;aa&quot;,&quot;b&quot;],
+  [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]
+]
 </code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
-<pre><code class="language-java">
-public class RestoreIPAddresses {
+<h3 id="思路">思路</h3>
+<p>dfs , start 思路</p>
+<pre><code class="language-java">List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;List&lt;String&gt;&gt;();
 
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
+    public List&lt;List&lt;String&gt;&gt; partition(String s) {
 
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
+        if (s.length() == 0) return res;
+        dfs(new ArrayList&lt;String&gt;(), 0, s);
         return res;
-
     }
 
-
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
-            }
+    public void dfs(List&lt;String&gt; temp, int start, String s) {
+        if (start == s.length()) {
+            res.add(new ArrayList&lt;String&gt;(temp));
             return;
         }
 
+        for (int i = 1; start + i &lt;= s.length(); i++) {
 
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
+            String t = s.substring(start, start + i);
+            if (isPalin(t)) {
+                temp.add(t);
+                dfs(temp, start + i, s);
+                temp.remove(temp.size() - 1);
             }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
         }
-
-
     }
 
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
+    public boolean isPalin(String s) {
+        for (int i = 0; i &lt; s.length() / 2; i++) {
+            if (s.charAt(i) != s.charAt(s.length() - 1 - i)) return false;
+        }
+        return true;
     }
-}
-
 </code></pre>
 </p>
 							</div>
@@ -202,10 +196,8 @@ public class RestoreIPAddresses {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
 		 
-		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-695-max-area-of-island" rel="next"> leetcode -- 695. Max Area of Island</a></div>
 		
 		</div>
 	</nav>

@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>leetcode -- 47. Permutations II | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">leetcode -- 47. Permutations II</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-30 15:03:23" itemprop="datePublished" pubdate="">2019-08-30</time></i>
 	          </div>
 			
 </span>
@@ -132,68 +132,79 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p><code>47. Permutations II</code></p>
+<p><a href="https://leetcode.com/problems/permutations-ii/">https://leetcode.com/problems/permutations-ii/</a></p>
+<p><code>47. 全排列 II</code></p>
+<p><a href="https://leetcode-cn.com/problems/permutations-ii/">https://leetcode-cn.com/problems/permutations-ii/</a></p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
+<h3 id="描述">描述</h3>
+<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
 <p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
+<pre><code>输入: [1,1,2]
+输出:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+
 </code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
-<pre><code class="language-java">
-public class RestoreIPAddresses {
+<h3 id="思路1">思路1</h3>
+<p>其实可以手动去重,那就和普通的全排列问题一样了。</p>
+<p>但其实有更通用的做法,我们使用交换法。</p>
+<p>我们每一次交换递归之前对元素进行检查，如果这个元素在前面还存在数值相同的元素，那么我们就可以跳过进行下一次循环递归</p>
+<pre><code class="language-java"> List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;List&lt;Integer&gt;&gt;();
 
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
-
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
-        return res;
-
+    public List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] nums) {
+        fullArray(nums, 0, nums.length - 1);
+        return  res;
     }
 
 
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
+    private void fullArray(int[] array, int cursor, int end) {
+        if (cursor == end) {
+            //System.out.println(Arrays.toString(array));
+            ArrayList&lt;Integer&gt; l = new ArrayList&lt;Integer&gt;();
+            for (int i = 0; i &lt; array.length; i++) {
+                l.add(array[i]);
             }
-            return;
-        }
+            res.add(l);
+        } else {
+            for (int i = cursor; i &lt;= end; i++) {
+                if (!swapAccepted(array, cursor, i)) {
+                    continue;
+                }
 
 
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
+                swap(array, cursor, i);
+                fullArray(array, cursor + 1, end);
+                // 恢复
+                swap(array, cursor, i);
             }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
         }
-
-
     }
 
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
+    void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
-}
 
+
+    private  boolean swapAccepted(int[] array, int start, int end) {
+        for (int i = start; i &lt; end; i++) {
+            if (array[i] == array[end]) {
+                return false;
+            }
+        }
+        return true;
+    }
 </code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/dUwql5MsD" rel="tag">leetcode-dfs</a>	
+				<a href="https://imatvoid.github.io//tag/X5pp1O2tA" rel="tag">leetcode-排列组合</a>	
 				 
 				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
@@ -202,10 +213,10 @@ public class RestoreIPAddresses {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-77-combinations" rel="prev"> leetcode -- 77. Combinations</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-46-permutations" rel="next"> leetcode -- 46. Permutations</a></div>
 		
 		</div>
 	</nav>

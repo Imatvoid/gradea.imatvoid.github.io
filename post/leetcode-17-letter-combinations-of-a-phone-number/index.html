@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>leetcode -- 17. Letter Combinations of a Phone Number | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">leetcode -- 17. Letter Combinations of a Phone Number</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-30 16:09:28" itemprop="datePublished" pubdate="">2019-08-30</time></i>
 	          </div>
 			
 </span>
@@ -132,68 +132,70 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p><code>17. Letter Combinations of a Phone Number</code></p>
+<p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">https://leetcode.com/problems/letter-combinations-of-a-phone-number/</a></p>
+<p><code>17. 电话号码的字母组合</code></p>
+<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/</a></p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
+<h3 id="描述">描述</h3>
+<p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。</p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/original_images/17_telephone_keypad.png" alt=""></p>
 <p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
+<pre><code>输入：&quot;23&quot;
+输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].
 </code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
+<h3 id="思路">思路</h3>
+<p>典型dfs</p>
 <pre><code class="language-java">
-public class RestoreIPAddresses {
+    Map&lt;Character, String&gt; map = new HashMap&lt;Character, String&gt;() {{
+        put('2', &quot;abc&quot;);
+        put('3', &quot;def&quot;);
+        put('4', &quot;ghi&quot;);
+        put('5', &quot;jkl&quot;);
+        put('6', &quot;mno&quot;);
+        put('7', &quot;pqrs&quot;);
+        put('8', &quot;tuv&quot;);
+        put('9', &quot;wxyz&quot;);
+    }};
 
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
+    List&lt;String&gt; res = new LinkedList&lt;&gt;();
 
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
+    public List&lt;String&gt; letterCombinations(String digits) {
+        // 边界条件
+        if (digits == null || digits.length() == 0) {
+            return new ArrayList&lt;&gt;();
+        }
+        dfs(digits, 0, new StringBuilder());
         return res;
-
     }
 
-
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
-            }
+    void dfs(String digits, int start, StringBuilder sb) {
+        if (start == digits.length()) {
+            res.add(sb.toString());
             return;
         }
 
+        //  for (int i = start; i &lt; digits.length(); i++) {
 
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
-            }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
+        char[] cs = map.get(digits.charAt(start)).toCharArray();
+        for (char c : cs) {
+            sb.append(c);
+            dfs(digits, start + 1, sb);
+            sb.deleteCharAt(sb.length() - 1);
         }
 
+        // }
 
     }
-
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
-    }
-}
-
 </code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
 				<a href="https://imatvoid.github.io//tag/dUwql5MsD" rel="tag">leetcode-dfs</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/X5pp1O2tA" rel="tag">leetcode-排列组合</a>	
 				 
 				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
@@ -202,10 +204,10 @@ public class RestoreIPAddresses {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/innodb_autoinc_lock_mode-yu-zhu-cong-fu-zhi" rel="prev"> innodb_autoinc_lock_mode 与主从复制</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-40-combination-sum-ii" rel="next"> leetcode -- 40. Combination Sum II</a></div>
 		
 		</div>
 	</nav>

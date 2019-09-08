@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 93. Restore IP Addresses | Imatvoid </title>	
+<title>innodb_autoinc_lock_mode 与主从复制 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 93. Restore IP Addresses</h1>
+			<h1 class="wow swing entry-title">innodb_autoinc_lock_mode 与主从复制</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-09 22:42:37" itemprop="datePublished" pubdate="">2019-08-09</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-08-31 19:48:50" itemprop="datePublished" pubdate="">2019-08-31</time></i>
 	          </div>
 			
 </span>
@@ -132,80 +132,35 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>93. Restore IP Addresses</code></p>
-<p><a href="https://leetcode.com/problems/restore-ip-addresses/">https://leetcode.com/problems/restore-ip-addresses/</a></p>
-<p><code>93. 复原IP地址</code></p>
-<p><a href="https://leetcode-cn.com/problems/restore-ip-addresses/">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
+				<p><p>当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉 的，在有主从复制的场景中是不安全的。</p>
 <!-- more -->
-<h2 id="描述">描述</h2>
-<p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
-<p>示例:</p>
-<pre><code>输入: &quot;25525511135&quot;
-输出: [&quot;255.255.11.135&quot;, &quot;255.255.111.35&quot;]
-</code></pre>
-<h2 id="思路">思路</h2>
-<p>DFS</p>
-<pre><code class="language-java">
-public class RestoreIPAddresses {
-
-    List&lt;String&gt; res = new ArrayList&lt;String&gt;();
-
-    public List&lt;String&gt; restoreIpAddresses(String s) {
-
-        recursion(s, &quot;&quot;, 0, 0);
-        return res;
-
-    }
-
-
-    void recursion(String s, String temp, int start, int count) {
-        // 这也是一个终止条件 对于 1111111111111111111
-				11111111111111111111111
-        if (count == 4) {
-            if (start == s.length()) {
-                res.add(temp);
-            }
-            return;
-        }
-
-
-        for (int i = 1; i &lt;= 3 &amp;&amp; start + i &lt;= s.length(); i++) {
-            String s1 = s.substring(start, start + i);
-            if (Integer.valueOf(s1) &gt; 255 || 
-						                  (s1.charAt(0) == '0' &amp;&amp; s1.length() &gt; 1)) {
-                break;
-            }
-            recursion(s, temp.equals(&quot;&quot;) ? s1 : temp + &quot;.&quot; + s1
-						                  , start + i, count + 1);
-        }
-
-
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new RestoreIPAddresses()
-				.restoreIpAddresses(&quot;0000&quot;));
-    }
-}
-
-</code></pre>
+<h2 id="innodb_autoinc_lock_mode-2">innodb_autoinc_lock_mode = 2</h2>
+<p>当innodb_autoinc_lock_mode值为2时， ⼀律采⽤轻量级锁；<br>
+轻量级锁:<br>
+在为插⼊语句⽣成AUTO_INCREMENT修饰的列的值时获取⼀下这个轻量级锁，然后⽣成本次插⼊语句需要⽤到的 AUTO_INCREMENT列的值之后，就把该轻量级锁释放掉，并不需要等到整个插⼊语句执⾏完才释放锁。</p>
+<p>因此,当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉的.</p>
+<h2 id="主从复制">主从复制</h2>
+<p>主从复制的原理是同步binlog日志,然后去执行binlog日志,<strong>如果binlog是Statement格式,记录的是原始sql语句,且innodb_autoinc_lock_mode = 2</strong> .</p>
+<p>在主服务器/从服务器 ,多个事务并行对某个表执行插入语句,自增id是可能是随机交错的.</p>
+<p>则不能保证主从同一张表的同一个行记录的自增ID一样。</p>
+<h2 id="补充">补充</h2>
+<p>如果你的二进制文件格式是mixed | row , 那么这三个值中的任何一个对于你来说都是复制安全的。</p>
+<p>由于现在mysql已经推荐把二进制的格式设置成row(记录表内容的修改)，所以在binlog_format不是statement的情况下最好是innodb_autoinc_lock_mode=2 这样可能知道更好的性能。</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/dUwql5MsD" rel="tag">leetcode-dfs</a>	
-				 
-				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
+				<a href="https://imatvoid.github.io//tag/FEI4krcFr" rel="tag">mysql</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-reverse-nodes-in-k-group" rel="prev"> leetcode -- Reverse Nodes in k-Group</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/binlog-ri-zhi-ge-shi" rel="prev"> binlog日志格式</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-remove-duplicates-from-sorted-list" rel="next"> leetcode -- Remove Duplicates from Sorted List</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-17-letter-combinations-of-a-phone-number" rel="next"> leetcode -- 17. Letter Combinations of a Phone Number</a></div>
 		
 		</div>
 	</nav>
