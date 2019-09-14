@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-09-08T02:49:28.885Z</updated>
+    <updated>2019-09-14T02:44:43.401Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,56 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[设计模式 -- 外观模式]]></title>
+        <id>https://imatvoid.github.io//post/she-ji-mo-shi-wai-guan-mo-shi</id>
+        <link href="https://imatvoid.github.io//post/she-ji-mo-shi-wai-guan-mo-shi">
+        </link>
+        <updated>2019-09-13T08:57:04.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href=""></a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href=""></a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TargetSource]]></title>
+        <id>https://imatvoid.github.io//post/targetsource</id>
+        <link href="https://imatvoid.github.io//post/targetsource">
+        </link>
+        <updated>2019-09-13T06:27:47.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[布隆过滤器]]></title>
+        <id>https://imatvoid.github.io//post/bu-long-guo-lu-qi</id>
+        <link href="https://imatvoid.github.io//post/bu-long-guo-lu-qi">
+        </link>
+        <updated>2019-09-12T05:44:04.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="介绍">介绍</h2>
+<p><strong>mightContains</strong></p>
+<p>判断某个值存在时，这个值可能不存在；判断不存在时，那就肯定不存在。</p>
+<p><strong>不支持删除</strong></p>
+<p>一个bit位置其实是被复用的.</p>
+<p><strong>不可逆,无法迁移扩容</strong></p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="介绍">介绍</h2>
+<p><strong>mightContains</strong></p>
+<p>判断某个值存在时，这个值可能不存在；判断不存在时，那就肯定不存在。</p>
+<p><strong>不支持删除</strong></p>
+<p>一个bit位置其实是被复用的.</p>
+<p><strong>不可逆,无法迁移扩容</strong></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[获取动态代理类的目标对象]]></title>
+        <id>https://imatvoid.github.io//post/huo-qu-dong-tai-dai-li-lei-de-mu-biao-dui-xiang</id>
+        <link href="https://imatvoid.github.io//post/huo-qu-dong-tai-dai-li-lei-de-mu-biao-dui-xiang">
+        </link>
+        <updated>2019-09-09T02:08:46.000Z</updated>
+        <summary type="html"><![CDATA[<p>在目标对象被动态代理后,在一些场景中,我们需要拿到原始的对象</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在目标对象被动态代理后,在一些场景中,我们需要拿到原始的对象</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[leetcode -- 131. Palindrome Partitioning]]></title>
         <id>https://imatvoid.github.io//post/leetcode-131-palindrome-partitioning</id>
@@ -103,74 +153,6 @@ Mixedlevel: 是以上两种level的混合使用，一般的语句修改使用sta
         <summary type="html"><![CDATA[<p>当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉 的，在有主从复制的场景中是不安全的。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉 的，在有主从复制的场景中是不安全的。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- 17. Letter Combinations of a Phone Number]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-17-letter-combinations-of-a-phone-number</id>
-        <link href="https://imatvoid.github.io//post/leetcode-17-letter-combinations-of-a-phone-number">
-        </link>
-        <updated>2019-08-30T08:09:28.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>17. Letter Combinations of a Phone Number</code></p>
-<p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">https://leetcode.com/problems/letter-combinations-of-a-phone-number/</a></p>
-<p><code>17. 电话号码的字母组合</code></p>
-<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>17. Letter Combinations of a Phone Number</code></p>
-<p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">https://leetcode.com/problems/letter-combinations-of-a-phone-number/</a></p>
-<p><code>17. 电话号码的字母组合</code></p>
-<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- 40. Combination Sum II]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-40-combination-sum-ii</id>
-        <link href="https://imatvoid.github.io//post/leetcode-40-combination-sum-ii">
-        </link>
-        <updated>2019-08-30T08:03:58.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>40. Combination Sum II</code></p>
-<p><a href="https://leetcode.com/problems/combination-sum-ii/">https://leetcode.com/problems/combination-sum-ii/</a></p>
-<p><code>40. 组合总和 II</code></p>
-<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/">https://leetcode-cn.com/problems/combination-sum-ii/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>40. Combination Sum II</code></p>
-<p><a href="https://leetcode.com/problems/combination-sum-ii/">https://leetcode.com/problems/combination-sum-ii/</a></p>
-<p><code>40. 组合总和 II</code></p>
-<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/">https://leetcode-cn.com/problems/combination-sum-ii/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- 39. Combination Sum]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-39-combination-sum</id>
-        <link href="https://imatvoid.github.io//post/leetcode-39-combination-sum">
-        </link>
-        <updated>2019-08-30T08:03:12.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>39. Combination Sum</code></p>
-<p><a href="https://leetcode.com/problems/combination-sum/">https://leetcode.com/problems/combination-sum/</a></p>
-<p><code>39. 组合总和</code></p>
-<p><a href="https://leetcode-cn.com/problems/combination-sum/">https://leetcode-cn.com/problems/combination-sum/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>39. Combination Sum</code></p>
-<p><a href="https://leetcode.com/problems/combination-sum/">https://leetcode.com/problems/combination-sum/</a></p>
-<p><code>39. 组合总和</code></p>
-<p><a href="https://leetcode-cn.com/problems/combination-sum/">https://leetcode-cn.com/problems/combination-sum/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leetcode -- 77. Combinations]]></title>
-        <id>https://imatvoid.github.io//post/leetcode-77-combinations</id>
-        <link href="https://imatvoid.github.io//post/leetcode-77-combinations">
-        </link>
-        <updated>2019-08-30T07:30:14.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>77. Combinations</code></p>
-<p><a href="https://leetcode.com/problems/combinations/">https://leetcode.com/problems/combinations/</a></p>
-<p><code>77. 组合</code></p>
-<p><a href="https://leetcode-cn.com/problems/combinations/">https://leetcode-cn.com/problems/combinations/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>77. Combinations</code></p>
-<p><a href="https://leetcode.com/problems/combinations/">https://leetcode.com/problems/combinations/</a></p>
-<p><code>77. 组合</code></p>
-<p><a href="https://leetcode-cn.com/problems/combinations/">https://leetcode-cn.com/problems/combinations/</a></p>
 ]]></content>
     </entry>
 </feed>

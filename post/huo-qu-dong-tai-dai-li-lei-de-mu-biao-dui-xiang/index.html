@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>leetcode -- 131. Palindrome Partitioning | Imatvoid </title>	
+<title>获取动态代理类的目标对象 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">leetcode -- 131. Palindrome Partitioning</h1>
+			<h1 class="wow swing entry-title">获取动态代理类的目标对象</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-02 09:12:07" itemprop="datePublished" pubdate="">2019-09-02</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-09 10:08:46" itemprop="datePublished" pubdate="">2019-09-09</time></i>
 	          </div>
 			
 </span>
@@ -132,74 +132,94 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><code>131. Palindrome Partitioning</code></p>
-<p><a href="https://leetcode.com/problems/palindrome-partitioning/">https://leetcode.com/problems/palindrome-partitioning/</a></p>
-<p><code>131. 分割回文串</code></p>
-<p><a href="https://leetcode-cn.com/problems/palindrome-partitioning/">https://leetcode-cn.com/problems/palindrome-partitioning/</a></p>
+				<p><p>在目标对象被动态代理后,在一些场景中,我们需要拿到原始的对象</p>
 <!-- more -->
-<h3 id="描述">描述</h3>
-<p>给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。</p>
-<p>返回 s 所有可能的分割方案。</p>
-<p>示例:</p>
-<p>输入: &quot;aab&quot;<br>
-输出:</p>
-<pre><code>[
-  [&quot;aa&quot;,&quot;b&quot;],
-  [&quot;a&quot;,&quot;a&quot;,&quot;b&quot;]
-]
-</code></pre>
-<h3 id="思路">思路</h3>
-<p>dfs , start 思路</p>
-<pre><code class="language-java">List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;List&lt;String&gt;&gt;();
-
-    public List&lt;List&lt;String&gt;&gt; partition(String s) {
-
-        if (s.length() == 0) return res;
-        dfs(new ArrayList&lt;String&gt;(), 0, s);
-        return res;
-    }
-
-    public void dfs(List&lt;String&gt; temp, int start, String s) {
-        if (start == s.length()) {
-            res.add(new ArrayList&lt;String&gt;(temp));
-            return;
-        }
-
-        for (int i = 1; start + i &lt;= s.length(); i++) {
-
-            String t = s.substring(start, start + i);
-            if (isPalin(t)) {
-                temp.add(t);
-                dfs(temp, start + i, s);
-                temp.remove(temp.size() - 1);
-            }
-        }
-    }
-
-    public boolean isPalin(String s) {
-        for (int i = 0; i &lt; s.length() / 2; i++) {
-            if (s.charAt(i) != s.charAt(s.length() - 1 - i)) return false;
-        }
-        return true;
-    }
+<h2 id="思路">思路</h2>
+<p>动态代理有两种方式:</p>
+<ul>
+<li>jdk 动态代理(基于接口)<br>
+代理类也实现接口,然后内部保存invocationHandler对象,<br>
+invocationHandler对象中保存原始target对象</li>
+<li>cglib动态代理(基于子类)<br>
+继承目标类(不能final类/final方法)<br>
+我们需要根据这两种方式的特点,分别实现拿到target目标类的逻辑</li>
+</ul>
+<h2 id="实现-基于spring">实现 -- 基于spring</h2>
+<pre><code class="language-java">import java.lang.reflect.Field;  
+  
+import org.springframework.aop.framework.AdvisedSupport;  
+import org.springframework.aop.framework.AopProxy;  
+import org.springframework.aop.support.AopUtils;  
+  
+public class AopTargetUtils {  
+      
+    /** 
+     * 获取 目标对象 
+     * @param proxy 代理对象 
+     * @return  
+     * @throws Exception 
+     */  
+    public static Object getTarget(Object proxy) throws Exception {  
+          
+        if(!AopUtils.isAopProxy(proxy)) {  
+            return proxy;//不是代理对象  
+        }  
+          
+        if(AopUtils.isJdkDynamicProxy(proxy)) {  
+            return getJdkDynamicProxyTargetObject(proxy);  
+        } else { //cglib  
+            return getCglibProxyTargetObject(proxy);  
+        }  
+          
+          
+          
+    }  
+  
+  
+    private static Object getCglibProxyTargetObject(Object proxy) throws Exception {  
+        Field h = proxy.getClass().getDeclaredField(&quot;CGLIB$CALLBACK_0&quot;);  
+        h.setAccessible(true);  
+        Object dynamicAdvisedInterceptor = h.get(proxy);  
+          
+        Field advised = dynamicAdvisedInterceptor.getClass().getDeclaredField(&quot;advised&quot;);  
+        advised.setAccessible(true);  
+          
+        Object target = ((AdvisedSupport)advised.get(dynamicAdvisedInterceptor)).getTargetSource().getTarget();  
+          
+        return target;  
+    }  
+  
+  
+    private static Object getJdkDynamicProxyTargetObject(Object proxy) throws Exception {  
+        Field h = proxy.getClass().getSuperclass().getDeclaredField(&quot;h&quot;);  
+        h.setAccessible(true);  
+        AopProxy aopProxy = (AopProxy) h.get(proxy);  
+          
+        Field advised = aopProxy.getClass().getDeclaredField(&quot;advised&quot;);  
+        advised.setAccessible(true);  
+          
+        Object target = ((AdvisedSupport)advised.get(aopProxy)).getTargetSource().getTarget();  
+          
+        return target;  
+    }  
+      
+}  
 </code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/dUwql5MsD" rel="tag">leetcode-dfs</a>	
-				 
-				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
+				<a href="https://imatvoid.github.io//tag/E3CtpWrEV" rel="tag">java</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/huo-qu-dong-tai-dai-li-lei-de-mu-biao-dui-xiang" rel="prev"> 获取动态代理类的目标对象</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/bu-long-guo-lu-qi" rel="prev"> 布隆过滤器</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-695-max-area-of-island" rel="next"> leetcode -- 695. Max Area of Island</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-131-palindrome-partitioning" rel="next"> leetcode -- 131. Palindrome Partitioning</a></div>
 		
 		</div>
 	</nav>
