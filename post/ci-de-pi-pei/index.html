@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>如何只使用信号量通过leetcode的多线程题目 | Imatvoid </title>	
+<title>词的匹配 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -121,10 +121,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">如何只使用信号量通过leetcode的多线程题目</h1>
+			<h1 class="wow swing entry-title">词的匹配</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-07-21 22:02:44" itemprop="datePublished" pubdate="">2019-07-21</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-07-22 22:59:06" itemprop="datePublished" pubdate="">2019-07-22</time></i>
 	          </div>
 			
 </span>
@@ -132,82 +132,92 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>题目链接<br>
-<a href="https://leetcode-cn.com/problemset/concurrency/">https://leetcode-cn.com/problemset/concurrency/</a><br>
-<a href="https://leetcode.com/problemset/concurrency/">https://leetcode.com/problemset/concurrency/</a></p>
+				<p><p><a href=""></a></p>
 <!-- more -->
-<h2 id="semaphore-回顾">Semaphore 回顾</h2>
-<h3 id="控制流量">控制流量</h3>
-<p>Semaphore可以控制某个资源可被同时访问的个数，通过 acquire() 获取一个许可，如果没有就等待，而 release() 释放一个许可。<br>
-可以通过构造方法设置是否公平.</p>
-<pre><code class="language-java">public Semaphore(int permits) {}
+<h2 id="描述">描述</h2>
+<blockquote>
+<p>阿里巴巴笔试 有一个字符串它的构成是词+空格的组合，如“北京 杭州 杭州 北京”， 要求输入一个匹配模式（简单的以字符来写）.<br>
+比如 aabb,来判断该字符串是否符合该模式， 举个例子：</p>
+<p>pattern = “abba”, str=”北京 杭州 杭州 北京” 返回 ture<br>
+pattern = “aabb”, str=”北京 杭州 杭州 北京” 返回 false<br>
+pattern = “baab”, str=”北京 杭州 杭州 北京” 返回 ture</p>
+</blockquote>
+<h2 id="思路">思路</h2>
+<p><code>abba</code> 说明所有a所在的位置都必须相同,所有b所在的位置也必须相同.</p>
+<p>可以使用hashmap记录所有应当相同的位置组.</p>
+<pre><code class="language-java">import java.util.*;
 
-public Semaphore(int permits, boolean fair){}
-</code></pre>
-<p>一个典型的例子是.</p>
-<pre><code class="language-java">public class SemapDemo implements Runnable {
-    // 最大的并发是5.
-    final Semaphore semp = new Semaphore(5);
+public class Solution {
 
-    @Override
-    public void run() {
-        try {
-            
-            semp.acquire();
-            //----------------临界区--------------
-            Thread.sleep(2000);
-            System.out.println(Thread.currentThread().getId() + &quot;:done!&quot;);
-            //----------------临界区--------------
-            semp.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private Boolean wordPattern(String pattern,String input){
+        if(pattern == null || pattern.length() ==0 ) {
+            return  true;
         }
+        if(input == null || input.length() ==0){
+            return false;
+        }
+        String[] ins = input.split(&quot; &quot;);
+        if(ins.length != pattern.length()){
+            return  false;
+        }
+
+        char [] cs = pattern.toCharArray();
+        Map&lt;Character, List&lt;Integer&gt;&gt; map = new HashMap&lt;Character, List&lt;Integer&gt;&gt;();
+        for (int i = 0; i &lt;cs.length ; i++) {
+
+            if(map.containsKey(cs[i])){
+                map.get(cs[i]).add(i);
+            }else {
+                List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
+                list.add(i);
+                map.put(cs[i],list);
+            }
+        }
+        for (Map.Entry&lt;Character,List&lt;Integer&gt;&gt; entry : map.entrySet()){
+            List&lt;Integer&gt; list = entry.getValue();
+            String value = &quot;&quot;;
+            for (int i = 0; i &lt;list.size() ; i++) {
+                if(i== 0){
+                    value=ins[list.get(i)];
+                    continue;
+                }
+                if(!ins[list.get(i)].equals(value)){
+                    return  false;
+                }
+            }
+        }
+        return  true;
     }
 
-    /**
-     * 总共20个线程,系统会以5个线程一组为单位,依次执行并输出
-     *
-     * @param args
-     */
-    public static void main(String args[]) throws  InterruptedException{
-        ExecutorService executorService = Executors.newFixedThreadPool(20);
-        final SemapDemo demo = new SemapDemo();
-        for (int i = 0; i &lt; 20; i++) {
-            executorService.submit(demo);
-        }
-        // 不然线程池没退出
-        Thread.sleep(10000);
-        executorService.shutdown();
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.wordPattern(&quot;aabb&quot;,&quot;北京 北京 杭州 杭州&quot;));
+        System.out.println(solution.wordPattern(&quot;aaab&quot;,&quot;北京 北京 杭州 杭州&quot;));
+        System.out.println(solution.wordPattern(&quot;abba&quot;,&quot;北京 杭州 杭州 北京&quot;));
+        System.out.println(solution.wordPattern(&quot;baab&quot;,&quot;北京 杭州 杭州 北京&quot;));
     }
+
+
 }
+
 </code></pre>
-<h3 id="通知信息">通知信息</h3>
-<p>信号量当然还可以当作信号量用,比如我们new Semaphore(0),许可证数量为0.<br>
-在我们需要的时候release()一下,许可证+1,等待的线程就可以得到通知,继续执行.</p>
-<h3 id="注意细节">注意细节</h3>
-<p>在任何release操作之后,你都可能面临并发,release前的代码在临界区中,release后可不是,可能已经有其他线程拿到许可做事情了.</p>
-<h2 id="解题">解题</h2>
-<p>题目序号为1114-1117,我们都可以只用信号量解决他们.<br>
-<img src="https://imatvoid.github.io//post-images/1563718606756.png" alt=""></p>
-<p>解法链接:<br>
-<a href="https://imatvoid.github.io/tag/N14GFPbLq/">https://imatvoid.github.io/tag/N14GFPbLq/</a></p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/jewXpk0In" rel="tag">并发concurrency</a>	
+				<a href="https://imatvoid.github.io//tag/e8EfKntpt" rel="tag">面试</a>	
 				 
-				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
+				<a href="https://imatvoid.github.io//tag/hcAr2mEWi" rel="tag">alibaba</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/ci-de-pi-pei" rel="prev"> 词的匹配</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-ru-he-sheng-cheng-duan-lian-jie" rel="prev"> leetcode -- 如何生成短链接</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-1117-building-h2o" rel="next"> leetcode -- 1117. Building H2O</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/ru-he-zhi-shi-yong-xin-hao-liang-tong-guo-leetcode-de-duo-xian-cheng-ti-mu" rel="next"> 如何只使用信号量通过leetcode的多线程题目</a></div>
 		
 		</div>
 	</nav>
