@@ -338,53 +338,53 @@ public class XXXApplicationContext {
 </code></pre>
 <h3 id="java-shutdownhook">Java ShutDownHook</h3>
 <p>接收到kill SIGTERM 信号后,虚拟机关闭的钩子线程</p>
-<pre><code class="language-java">public static void main(String[] args) {
-  
-		log.info(&quot;xxxApplication will be started&quot;);
-		XXXApplicationContext.getApplicationLifeCycle().start();
+<pre><code class="language-java">    public static void main(String[] args) {
+
+        log.info(&quot;xxxApplication will be started&quot;);
+        XXXApplicationContext.getApplicationLifeCycle().start();
 
         final ApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;spring/spring-main.xml&quot;);
 
-		XXXApplicationContext.getApplicationLifeCycle().started();
+        XXXApplicationContext.getApplicationLifeCycle().started();
 
-    log.error(&quot;xxxApplication started successfully!&quot;);
+        log.error(&quot;xxxApplication started successfully!&quot;);
 
-		// register APPWILLTERM signal handler
-		Signal.handle(new Signal(&quot;APPWILLTERM&quot;), new SignalHandlerAPPWILLTERM());
+        // register APPWILLTERM signal handler
+        Signal.handle(new Signal(&quot;APPWILLTERM&quot;), new SignalHandlerAPPWILLTERM());
 
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-			public void run() {
-				log.info(&quot;xxxApplication catch JVM shutdown event, Run shutdown hook now.&quot;);
-				XXXApplicationContext.getApplicationLifeCycle().stop();
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                log.info(&quot;xxxApplication catch JVM shutdown event, Run shutdown hook now.&quot;);
+                XXXApplicationContext.getApplicationLifeCycle().stop();
 
-				// 如果使用的mq中间件支持停止消费,在此处调用控制接口停止消费.
-				log.info(&quot;mq consumers has been stopped&quot;);
+                // 如果使用的mq中间件支持停止消费,在此处调用控制接口停止消费.
+                log.info(&quot;mq consumers has been stopped&quot;);
 
-				// 等待rpc的业务线程及mq的consumer线程执行完毕
-				try {
-					log.info(&quot;wait 60 second&quot;);
-					Thread.sleep(60 * 1000);
-				} catch (InterruptedException e) {
-					log.error(&quot;xxxApplication shutdown hook sleep exception&quot;, e);
-				}
+                // 等待rpc的业务线程及mq的consumer线程执行完毕
+                try {
+                    log.info(&quot;wait 60 second&quot;);
+                    Thread.sleep(60 * 1000);
+                } catch (InterruptedException e) {
+                    log.error(&quot;xxxApplication shutdown hook sleep exception&quot;, e);
+                }
 
-				//shutdown log4j2
-				if( LogManager.getContext() instanceof LoggerContext) {
-					log.info(&quot;log4j2 will be shutdown&quot;);
-					try {
-						Configurator.shutdown((LoggerContext) LogManager.getContext());
-					} catch (Exception e) {
-						log.error(&quot;shutdown log4j2 has exception&quot;, e);
-					}
-					System.out.println(&quot;log4j2 has been shutdown&quot;);
-				}
+                //shutdown log4j2
+                if (LogManager.getContext() instanceof LoggerContext) {
+                    log.info(&quot;log4j2 will be shutdown&quot;);
+                    try {
+                        Configurator.shutdown((LoggerContext) LogManager.getContext());
+                    } catch (Exception e) {
+                        log.error(&quot;shutdown log4j2 has exception&quot;, e);
+                    }
+                    System.out.println(&quot;log4j2 has been shutdown&quot;);
+                }
 
-				XXXApplicationContext.getApplicationLifeCycle().stopped();
-				System.out.println(&quot;shutdown hook end.&quot;);
-			}
-		}, &quot;XXXApplicationShutdownHook&quot;));
+                XXXApplicationContext.getApplicationLifeCycle().stopped();
+                System.out.println(&quot;shutdown hook end.&quot;);
+            }
+        }, &quot;XXXApplicationShutdownHook&quot;));
 
-	}
+    }
 </code></pre>
 </p>
 							</div>
