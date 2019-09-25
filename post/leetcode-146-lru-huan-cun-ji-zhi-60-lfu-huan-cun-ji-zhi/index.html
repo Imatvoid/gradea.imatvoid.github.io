@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>leetcode -- 146. LRU缓存机制   60. LFU 缓存机制 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">leetcode -- 146. LRU缓存机制   60. LFU 缓存机制</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-04-25 10:03:28" itemprop="datePublished" pubdate="">2019-04-25</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><!-- more -->
+<h2 id="推荐题目">推荐题目</h2>
+<p>这次来推荐一类题目,LRU缓存和LFU缓存的实现，这两个问题在面试很常见。</p>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>146. LRU Cache</code></td>
+<td><code>146. LRU缓存机制</code></td>
+<td>最近最少使用</td>
+</tr>
+<tr>
+<td><code>60. LFU Cache</code></td>
+<td><code>60. LFU 缓存机制</code></td>
+<td>最不经常使用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lru">LRU</h2>
+<p>首先可以了解下LRU缓存的概念</p>
+<p>LRU：</p>
+<ul>
+<li>在达到容量的情况下，继续插入元素则移除最近最久未使用的元素，再把要插入的元素插入到队列头。</li>
+<li>在LRU查询、更新元素值的情况下，要将此元素移动到队列头。</li>
+</ul>
+<p><img src="https://imatvoid.github.io//post-images/1569377554036.png" alt=""></p>
+<p>这其实可以用一个双向链表+HashMap实现，O(1)的时间复杂度</p>
+<blockquote>
+<p>注意,一个双向链表+HashMap其实就是java集合中的LinkedHasMap，使用链表把map中的元素，按一定顺序串联起来。</p>
+<p>这道题我们当然也可以用LinkedHasMap。代码只有几行，不过自己实现可以更好地展现基本功。</p>
+</blockquote>
+<p><strong>下面的代码基本是自解释的，只是有点长</strong></p>
+<p><strong>双向链表元素</strong></p>
+<pre><code class="language-java">class ListNode {
+    int key, val;
+    ListNode prev, next;
+
+    ListNode(int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+</code></pre>
+<p><strong>双向链表</strong></p>
+<pre><code class="language-java">class DoublyLinkedList {
+    ListNode head, tail;
+    int size = 0;
+
+    DoublyLinkedList() {
+        head = new ListNode(0, 0);
+        tail = new ListNode(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    void addToHead(ListNode listNode) {
+        listNode.prev = head;
+        listNode.next = head.next;
+        head.next = listNode;
+        listNode.next.prev = listNode;
+        size++;
+    }
+
+    void remove(ListNode listNode) {
+        listNode.prev.next = listNode.next;
+        listNode.next.prev = listNode.prev;
+        size--;
+    }
+
+    ListNode removeLast() {
+        if (size &gt; 0) {
+            ListNode listNode = tail.prev;
+            remove(listNode);
+            return listNode;
+        } else return null;
+    }
+}
+</code></pre>
+<p><strong>LRU实现</strong></p>
+<p>使用一个hashmap和双向链表</p>
+<pre><code class="language-java">public class LRUCache {
+    DoublyLinkedList DLList;
+    int capacity;
+    Map&lt;Integer, ListNode&gt; cache;
+
+    public LRUCache(int capacity) {
+        cache = new HashMap&lt;&gt;();
+        this.DLList = new DoublyLinkedList();
+        this.capacity = capacity;
+    }
+
+    public int get(int key) {
+        if (!cache.containsKey(key)) {
+            return -1;
+        } else {
+            ListNode node = cache.get(key);
+            DLList.remove(node);
+            DLList.addToHead(node);
+            return node.val;
+        }
+    }
+
+    public void put(int key, int value) {
+        if (!cache.containsKey(key)) {
+            if (cache.size() &gt;= capacity) {
+                ListNode toRemove = DLList.tail.prev;
+                DLList.remove(toRemove);
+                cache.remove(toRemove.key);
+            }
+            ListNode newNode = new ListNode(key, value);
+            DLList.addToHead(newNode);
+            cache.put(key, newNode);
+        } else {
+            ListNode node = cache.get(key);
+            node.val = value;
+            DLList.remove(node);
+            DLList.addToHead(node);
+        }
+    }
+
+}
+</code></pre>
+<h2 id="lfu">LFU</h2>
+<p>LFU实际也就是最少使用，将元素按使用次数（查询，更新值都算一次使用）排列。</p>
+<p>到达容量则移除被使用次数最少的，好插入新的元素。</p>
+<p>我们只需要稍微改一下上面的双向链表元素类</p>
+<p>增加一个cnt代表这个元素被访问的次数。</p>
+<pre><code class="language-java">class Node {
+        int key, val;
+        Node prev, next;
+        int cnt;
+
+        Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+            cnt = 1;
+        }
+    }
+</code></pre>
+<p>可以继续使用上面的双向链表。</p>
+<p>当然这次我们是使用两个hashmap，一个map存储所有元素，一个map存储多条链表。</p>
+<p>可以类比操作系统的进程队列，根据进程状态的不同，有就绪，挂起等多个队列。</p>
+<p>我们这里按照被访问的次数，将元素划分到不同的链表。</p>
+<p>一个元素被操作，则把它的cnt+1，从一个队列移动到另一个队列。</p>
+<p>到达容量，则从访问次数最小的队列中，移除末尾元素。</p>
+<p>复用了实现LRU使用到的两个类。</p>
+<pre><code class="language-java">package leetcode.design;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class LFUCache {
+    class Node {
+        int key, val;
+        Node prev, next;
+        int cnt;
+
+        Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+            cnt = 1;
+        }
+    }
+
+    class DoublyLinkedList {
+        Node head, tail;
+        int size;
+
+        DoublyLinkedList() {
+            head = new Node(0, 0);
+            tail = new Node(0, 0);
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        void addToHead(Node node) {
+            node.prev = head;
+            node.next = head.next;
+            head.next = node;
+            node.next.prev = node;
+            size++;
+        }
+
+        void remove(Node node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            size--;
+        }
+
+    
+    }
+
+    int capacity, min;
+    Map&lt;Integer, Node&gt; nodeMap;
+    Map&lt;Integer, DoublyLinkedList&gt; countMap;
+
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+        nodeMap = new HashMap&lt;&gt;();
+        countMap = new HashMap&lt;&gt;();
+    }
+
+    public int get(int key) {
+        Node node = nodeMap.get(key);
+        if (node == null) return -1;
+        update(node);
+        return node.val;
+    }
+
+    public void put(int key, int value) {
+        if (capacity == 0) return;
+        Node node;
+        if (nodeMap.containsKey(key)) {
+            node = nodeMap.get(key);
+            node.val = value;
+            update(node);
+        } else {
+
+            if (nodeMap.size() == capacity) {
+                DoublyLinkedList lastList = countMap.get(min);
+                nodeMap.remove(lastList.tail.prev.key);
+                lastList.remove(lastList.tail.prev);
+            }
+
+            node = new Node(key, value);
+            nodeMap.put(key, node);
+
+            min = 1;
+            DoublyLinkedList newList = countMap.getOrDefault(node.cnt, new DoublyLinkedList());
+            newList.addToHead(node);
+            countMap.put(node.cnt, newList);
+        }
+    }
+
+    private void update(Node node) {
+        DoublyLinkedList oldList = countMap.get(node.cnt);
+        oldList.remove(node);
+        if (node.cnt == min &amp;&amp; oldList.size == 0) min++;
+        node.cnt++;
+        DoublyLinkedList newList = countMap.getOrDefault(node.cnt, new DoublyLinkedList());
+        newList.addToHead(node);
+        countMap.put(node.cnt, newList);
+    }
+
+
+}
+
+</code></pre>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/cz4gD6pYd" rel="tag">leetcode-design</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/git-zi-mo-kuai-de-pei-zhi-yu-shi-yong" rel="prev"> git -- 子模块的配置与使用</a></div>
+		 
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/qing-ping-gu-yi-xia-cheng-xu-de-zhi-xing-jie-guo" rel="next"> 请评估一下程序的执行结果?</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

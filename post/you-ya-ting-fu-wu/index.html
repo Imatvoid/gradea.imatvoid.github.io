@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>优雅停服务 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">优雅停服务</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-24 10:39:51" itemprop="datePublished" pubdate="">2019-09-24</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><p>考虑rpc,mq,定时任务,日志的停机实现</p>
+<!-- more -->
+<h2 id="思路">思路</h2>
+<h3 id="自定义shutdownhook">自定义ShutdownHook</h3>
+<p>在其中实现如下逻辑：</p>
+<ol>
+<li>将应用的LifeCycle状态设置为STOPPING，供业务代码使用（如：定时任务判断此状态为STOPPING则停止执行）</li>
+<li>停止mq:consumer继续消费</li>
+<li>sleep一段时间以便rpc业务线程执行完毕(一般设置为60秒)</li>
+<li>停止log4j2日志框架（需要在log4j2的配置文件中关闭shutdownHook）</li>
+<li>将应用的LifeCycle状态设置为STOPED</li>
+</ol>
+<h3 id="自定义appwillterm信号处理器">自定义APPWILLTERM信号处理器</h3>
+<p>在其中实现如下逻辑</p>
+<ol>
+<li>将应用的LifeCycle状态设置为STOPPING(此状态可以供应用中的业务线程使用，如：执行时间较长的定时任务可以在每个小任务执行之前检查LifeCycle的值)</li>
+</ol>
+<h3 id="停止服务脚本">停止服务脚本：</h3>
+<ol>
+<li>向应用发送APPWILLTERM信号，通知应用开始执行停服操作</li>
+<li>向rpc控制接口发送实例下线请求，并等待下线信息同步到所有consumer（无法确认是否真的通知到所有consumer，只能依靠经验设置等待时长）</li>
+<li>使用kill(SIGTERM)现进程发送信号，触发自定义ShutdownHook</li>
+<li>循环查询进程是否已经停止（循环查询时间略大于自定义ShutdownHook中sleep的时间）</li>
+<li>循环完毕后如果进程还没有停止，则使用jstack保存进程堆栈信息后使用kill -9(SIGKILL)强制将进程结束</li>
+</ol>
+<h2 id="实现">实现</h2>
+<h3 id="stopsh">Stop.sh</h3>
+<pre><code class="language-shell">#!/bin/bash
+
+#================================================================
+# 停止指定进程的脚本
+#
+# PROCESS_LAUNCHER_CLASS_NAME  - 定义进程启动类的名称，脚本根据此名称寻找进程
+# KILL_TIMEOUT_IN_SECOND       - 脚本在使用kill命令后等待的时间，超过此时间则执行kill -9来停止进程
+# KILL9_JSTACK_LOG_PATH        - 执行kill -9之前先用jstack抓取进程的堆栈信息，此参数指定堆栈信息的保存目录(不存在会自动创建)，保存文件名规则为pid+当前时间
+# RPC_OFFLINE_WAIT_IN_SECOND   - RPC下线接口后等待通知到所有consumer的时间
+# RPC_TOKEN                    - 调用RPC框架下线接口的token
+#================================================================
+
+# 变量定义
+# 应用启动类名
+PROCESS_LAUNCHER_CLASS_NAME=XXXLauncher
+KILL_TIMEOUT_IN_SECOND=65
+KILL9_JSTACK_LOG_PATH=/export/Logs/jvm/kill9jstack/
+RPC_OFFLINE_WAIT_IN_SECOND=10
+RPC_TOKEN=&quot;123456&quot;
+
+# 查询进程ID
+# -w是精确匹配 -v要排除grep自己
+PROCESS_IDS=$(ps -ef | grep -w ${PROCESS_LAUNCHER_CLASS_NAME} | grep -v 'grep' | awk '{print $2}')
+
+# 未查存到进程pid
+if [[ -z &quot;$PROCESS_IDS&quot; ]]; then
+  echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;is not running&quot;
+  exit 0
+fi
+
+echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process ids: &quot; &quot;${PROCESS_IDS}&quot;
+
+for PID in ${PROCESS_IDS}; do
+   # 自定义终止信号,如果应用程序有需要可以自定义SignalHandler判断.
+  kill -APPWILLTERM ${PID}
+
+  # 调用RPC下线接口（反注册）
+  status=$(curl -XPOST http://xxx/insnsOffline/ \
+    -d &quot;[{post_data}]&quot; -H &quot;token:$RPC_TOKEN&quot;)
+
+  # 等待RPC下线通知到所有consumer
+  sleep ${RPC_OFFLINE_WAIT_IN_SECOND}s
+
+  if [[ &quot;$status&quot; != &quot;true&quot; ]]; then
+    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) &quot;insOffline fail : $status, appid:${def_app_id},instanceid=${def_instance_id}&quot;
+  else
+    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) &quot;insOffline ok&quot;
+  fi
+
+  # 通知服务正常停止
+  echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process will be stopped (Pid:$PID)&quot;
+  kill &quot;${PID}&quot; # 默认是15 SIGTERM
+
+  kill9WaitSecond=${KILL_TIMEOUT_IN_SECOND}
+  while [[ ${kill9WaitSecond} -gt 0 ]]; do
+    sleep 1s
+    kill9WaitSecond=$((kill9WaitSecond - 1))
+
+    PID_COUNT=$(ps -ef | grep ${PROCESS_LAUNCHER_CLASS_NAME} | grep -w &quot;${PID}&quot; | grep -v 'grep' | wc -l)
+
+    if [[ ${PID_COUNT} -eq 0 ]]; then
+      echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process has been stopped (Pid:$PID)&quot;
+      break
+    fi
+  done
+  
+  # 等待了kill9WaitSecond服务还存在,说明无法正常停止服务,尝试强制停止,进行保存线程快照等工作
+  if [[ ${kill9WaitSecond} -le 0 ]]; then
+   
+    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process will be *force* stopped (Pid:$PID)&quot;
+    mkdir -p ${KILL9_JSTACK_LOG_PATH}
+    NOW=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)
+    jstack &quot;${PID}&quot; &gt;${KILL9_JSTACK_LOG_PATH}/&quot;${NOW}&quot;-&quot;${PID}&quot;.log
+    kill -9 &quot;${PID}&quot;
+    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process has been *force* stopped (Pid:$PID)&quot;
+  fi
+done
+
+echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - stop finished.
+
+</code></pre>
+<h3 id="定义应用生命周期">定义应用生命周期</h3>
+<pre><code class="language-java">public final class ApplicationLifeCycle {
+    private ApplicationLifeCycle.State state;
+
+    public ApplicationLifeCycle() {
+        this.state = ApplicationLifeCycle.State.INITIALIZED;
+    }
+
+    public ApplicationLifeCycle.State getState() {
+        return this.state;
+    }
+
+    public void start() {
+        this.state = ApplicationLifeCycle.State.STARTING;
+    }
+
+    public void started() {
+        this.state = ApplicationLifeCycle.State.STARTED;
+    }
+
+    public void stop() {
+        this.state = ApplicationLifeCycle.State.STOPPING;
+    }
+
+    public void stopped() {
+        this.state = ApplicationLifeCycle.State.STOPPED;
+    }
+
+    public boolean isStarting() {
+        return this.state == ApplicationLifeCycle.State.STARTING;
+    }
+
+    public boolean isStarted() {
+        return this.state == ApplicationLifeCycle.State.STARTED;
+    }
+
+    public boolean isStopping() {
+        return this.state == ApplicationLifeCycle.State.STOPPING;
+    }
+
+    public boolean isStopped() {
+        return this.state == ApplicationLifeCycle.State.STOPPED;
+    }
+
+    public static enum State {
+        INITIALIZED,
+        STARTING,
+        STARTED,
+        STOPPING,
+        STOPPED;
+
+        private State() {
+        }
+    }
+}
+
+</code></pre>
+<pre><code class="language-java">/**
+ * 应用的上下文
+ */
+public class XXXApplicationContext {
+
+    /**
+     * 应用生命周期状态
+     */
+    private static final ApplicationLifeCycle applicationLifeCycle = new ApplicationLifeCycle();
+
+    /**
+     * 获取应用生命周期状态
+     */
+    public static ApplicationLifeCycle getApplicationLifeCycle() {
+        return applicationLifeCycle;
+    }
+
+}
+</code></pre>
+<h3 id="signalhandler">SignalHandler</h3>
+<pre><code class="language-java">public class SignalHandlerAPPWILLTERM implements SignalHandler {
+    private static final Logger logger = LoggerFactory.getLogger(SignalHandlerAPPWILLTERM.class);
+
+    private static String SIG_APPWILLTERM = &quot;APPWILLTERM&quot;;
+
+    @Override
+    public void handle(Signal signal) {
+        if (!signal.getName().equals(SIG_APPWILLTERM)) {
+            return;
+        }
+
+        logger.warn(&quot;start handle {}&quot;, SIG_APPWILLTERM);
+
+        XXXApplicationContext.getApplicationLifeCycle().stop();
+        logger.warn(&quot;set life cycle to stopping&quot;, SIG_APPWILLTERM);
+
+        logger.warn(&quot;{} handled success&quot;, SIG_APPWILLTERM);
+
+    }
+}
+</code></pre>
+<h3 id="java-shutdownhook">Java ShutDownHook</h3>
+<p>接收到kill SIGTERM 信号后,虚拟机关闭的钩子线程</p>
+<pre><code class="language-java">public static void main(String[] args) {
+  
+		log.info(&quot;xxxApplication will be started&quot;);
+		XXXApplicationContext.getApplicationLifeCycle().start();
+
+        final ApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;spring/spring-main.xml&quot;);
+
+		XXXApplicationContext.getApplicationLifeCycle().started();
+
+    log.error(&quot;xxxApplication started successfully!&quot;);
+
+		// register APPWILLTERM signal handler
+		Signal.handle(new Signal(&quot;APPWILLTERM&quot;), new SignalHandlerAPPWILLTERM());
+
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			public void run() {
+				log.info(&quot;xxxApplication catch JVM shutdown event, Run shutdown hook now.&quot;);
+				XXXApplicationContext.getApplicationLifeCycle().stop();
+
+				// 如果使用的mq中间件支持停止消费,在此处调用控制接口停止消费.
+				log.info(&quot;mq consumers has been stopped&quot;);
+
+				// 等待rpc的业务线程及mq的consumer线程执行完毕
+				try {
+					log.info(&quot;wait 60 second&quot;);
+					Thread.sleep(60 * 1000);
+				} catch (InterruptedException e) {
+					log.error(&quot;xxxApplication shutdown hook sleep exception&quot;, e);
+				}
+
+				//shutdown log4j2
+				if( LogManager.getContext() instanceof LoggerContext) {
+					log.info(&quot;log4j2 will be shutdown&quot;);
+					try {
+						Configurator.shutdown((LoggerContext) LogManager.getContext());
+					} catch (Exception e) {
+						log.error(&quot;shutdown log4j2 has exception&quot;, e);
+					}
+					System.out.println(&quot;log4j2 has been shutdown&quot;);
+				}
+
+				XXXApplicationContext.getApplicationLifeCycle().stopped();
+				System.out.println(&quot;shutdown hook end.&quot;);
+			}
+		}, &quot;XXXApplicationShutdownHook&quot;));
+
+	}
+</code></pre>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/E3CtpWrEV" rel="tag">java</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/shutdownhook" rel="next"> ShutDownHook</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

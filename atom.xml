@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-09-22T15:25:55.922Z</updated>
+    <updated>2019-09-25T03:21:16.993Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,28 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[优雅停服务]]></title>
+        <id>https://imatvoid.github.io//post/you-ya-ting-fu-wu</id>
+        <link href="https://imatvoid.github.io//post/you-ya-ting-fu-wu">
+        </link>
+        <updated>2019-09-24T02:39:51.000Z</updated>
+        <summary type="html"><![CDATA[<p>考虑rpc,mq,定时任务,日志的停机实现</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>考虑rpc,mq,定时任务,日志的停机实现</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ShutDownHook]]></title>
+        <id>https://imatvoid.github.io//post/shutdownhook</id>
+        <link href="https://imatvoid.github.io//post/shutdownhook">
+        </link>
+        <updated>2019-09-24T02:38:18.000Z</updated>
+        <summary type="html"><![CDATA[<p>Shutdown Hooks are a special construct that allow developers to plug in a piece of code to be executed when the JVM is shutting down.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Shutdown Hooks are a special construct that allow developers to plug in a piece of code to be executed when the JVM is shutting down.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[负载均衡算法]]></title>
         <id>https://imatvoid.github.io//post/fu-zai-jun-heng-suan-fa</id>
@@ -104,34 +126,6 @@ Mixedlevel: 是以上两种level的混合使用，一般的语句修改使用sta
         <link href="https://imatvoid.github.io//post/sql-cha-xun-cun-zai-yu-yi-ge-biao-er-bu-zai-ling-yi-ge-biao-de-shu-ju">
         </link>
         <updated>2019-08-25T09:45:45.000Z</updated>
-        <summary type="html"><![CDATA[<p><a href=""></a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><a href=""></a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[leeetcode -- Merge k Sorted Lists]]></title>
-        <id>https://imatvoid.github.io//post/leeetcode-merge-k-sorted-lists</id>
-        <link href="https://imatvoid.github.io//post/leeetcode-merge-k-sorted-lists">
-        </link>
-        <updated>2019-08-23T00:54:42.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>Merge k Sorted Lists</code></p>
-<p><a href="https://leetcode.com/problems/merge-k-sorted-lists/">https://leetcode.com/problems/merge-k-sorted-lists/</a></p>
-<p><code>23. 合并K个排序链表</code></p>
-<p><a href="https://leetcode-cn.com/problems/merge-k-sorted-lists/">https://leetcode-cn.com/problems/merge-k-sorted-lists/</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>Merge k Sorted Lists</code></p>
-<p><a href="https://leetcode.com/problems/merge-k-sorted-lists/">https://leetcode.com/problems/merge-k-sorted-lists/</a></p>
-<p><code>23. 合并K个排序链表</code></p>
-<p><a href="https://leetcode-cn.com/problems/merge-k-sorted-lists/">https://leetcode-cn.com/problems/merge-k-sorted-lists/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多态性探究]]></title>
-        <id>https://imatvoid.github.io//post/duo-tai-xing-tan-jiu</id>
-        <link href="https://imatvoid.github.io//post/duo-tai-xing-tan-jiu">
-        </link>
-        <updated>2019-08-22T16:00:05.000Z</updated>
         <summary type="html"><![CDATA[<p><a href=""></a></p>
 ]]></summary>
         <content type="html"><![CDATA[<p><a href=""></a></p>
