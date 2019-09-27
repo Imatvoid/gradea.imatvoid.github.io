@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>优雅停服务 | Imatvoid </title>	
+<title> Fastjson与Gson的差异 | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -119,10 +119,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">优雅停服务</h1>
+			<h1 class="wow swing entry-title"> Fastjson与Gson的差异</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-24 10:39:51" itemprop="datePublished" pubdate="">2019-09-24</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-09-27 20:31:15" itemprop="datePublished" pubdate="">2019-09-27</time></i>
 	          </div>
 			
 </span>
@@ -130,261 +130,216 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>考虑rpc,mq,定时任务,日志的停机实现</p>
-<!-- more -->
-<h2 id="思路">思路</h2>
-<h3 id="自定义shutdownhook">自定义ShutdownHook</h3>
-<p>在其中实现如下逻辑：</p>
-<ol>
-<li>将应用的LifeCycle状态设置为STOPPING，供业务代码使用（如：定时任务判断此状态为STOPPING则停止执行）</li>
-<li>停止mq:consumer继续消费</li>
-<li>sleep一段时间以便rpc业务线程执行完毕(一般设置为60秒)</li>
-<li>停止log4j2日志框架（需要在log4j2的配置文件中关闭shutdownHook）</li>
-<li>将应用的LifeCycle状态设置为STOPED</li>
-</ol>
-<h3 id="自定义appwillterm信号处理器">自定义APPWILLTERM信号处理器</h3>
-<p>在其中实现如下逻辑</p>
-<ol>
-<li>将应用的LifeCycle状态设置为STOPPING(此状态可以供应用中的业务线程使用，如：执行时间较长的定时任务可以在每个小任务执行之前检查LifeCycle的值)</li>
-</ol>
-<h3 id="停止服务脚本">停止服务脚本：</h3>
-<ol>
-<li>向应用发送APPWILLTERM信号，通知应用开始执行停服操作</li>
-<li>向rpc控制接口发送实例下线请求，并等待下线信息同步到所有consumer（无法确认是否真的通知到所有consumer，只能依靠经验设置等待时长）</li>
-<li>使用kill(SIGTERM)现进程发送信号，触发自定义ShutdownHook</li>
-<li>循环查询进程是否已经停止（循环查询时间略大于自定义ShutdownHook中sleep的时间）</li>
-<li>循环完毕后如果进程还没有停止，则使用jstack保存进程堆栈信息后使用kill -9(SIGKILL)强制将进程结束</li>
-</ol>
-<h2 id="实现">实现</h2>
-<h3 id="stopsh">Stop.sh</h3>
-<pre><code class="language-shell">#!/bin/bash
-
-#================================================================
-# 停止指定进程的脚本
-#
-# PROCESS_LAUNCHER_CLASS_NAME  - 定义进程启动类的名称，脚本根据此名称寻找进程
-# KILL_TIMEOUT_IN_SECOND       - 脚本在使用kill命令后等待的时间，超过此时间则执行kill -9来停止进程
-# KILL9_JSTACK_LOG_PATH        - 执行kill -9之前先用jstack抓取进程的堆栈信息，此参数指定堆栈信息的保存目录(不存在会自动创建)，保存文件名规则为pid+当前时间
-# RPC_OFFLINE_WAIT_IN_SECOND   - RPC下线接口后等待通知到所有consumer的时间
-# RPC_TOKEN                    - 调用RPC框架下线接口的token
-#================================================================
-
-# 变量定义
-# 应用启动类名
-PROCESS_LAUNCHER_CLASS_NAME=XXXLauncher
-KILL_TIMEOUT_IN_SECOND=65
-KILL9_JSTACK_LOG_PATH=/export/Logs/jvm/kill9jstack/
-RPC_OFFLINE_WAIT_IN_SECOND=10
-RPC_TOKEN=&quot;123456&quot;
-
-# 查询进程ID
-# -w是精确匹配 -v要排除grep自己
-PROCESS_IDS=$(ps -ef | grep -w ${PROCESS_LAUNCHER_CLASS_NAME} | grep -v 'grep' | awk '{print $2}')
-
-# 未查存到进程pid
-if [[ -z &quot;$PROCESS_IDS&quot; ]]; then
-  echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;is not running&quot;
-  exit 0
-fi
-
-echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process ids: &quot; &quot;${PROCESS_IDS}&quot;
-
-for PID in ${PROCESS_IDS}; do
-   # 自定义终止信号,如果应用程序有需要可以自定义SignalHandler判断.
-  kill -APPWILLTERM ${PID}
-
-  # 调用RPC下线接口（反注册）
-  status=$(curl -XPOST http://xxx/insnsOffline/ \
-    -d &quot;[{post_data}]&quot; -H &quot;token:$RPC_TOKEN&quot;)
-
-  # 等待RPC下线通知到所有consumer
-  sleep ${RPC_OFFLINE_WAIT_IN_SECOND}s
-
-  if [[ &quot;$status&quot; != &quot;true&quot; ]]; then
-    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) &quot;insOffline fail : $status, appid:${def_app_id},instanceid=${def_instance_id}&quot;
-  else
-    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) &quot;insOffline ok&quot;
-  fi
-
-  # 通知服务正常停止
-  echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process will be stopped (Pid:$PID)&quot;
-  kill &quot;${PID}&quot; # 默认是15 SIGTERM
-
-  kill9WaitSecond=${KILL_TIMEOUT_IN_SECOND}
-  while [[ ${kill9WaitSecond} -gt 0 ]]; do
-    sleep 1s
-    kill9WaitSecond=$((kill9WaitSecond - 1))
-
-    PID_COUNT=$(ps -ef | grep ${PROCESS_LAUNCHER_CLASS_NAME} | grep -w &quot;${PID}&quot; | grep -v 'grep' | wc -l)
-
-    if [[ ${PID_COUNT} -eq 0 ]]; then
-      echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process has been stopped (Pid:$PID)&quot;
-      break
-    fi
-  done
-  
-  # 等待了kill9WaitSecond服务还存在,说明无法正常停止服务,尝试强制停止,进行保存线程快照等工作
-  if [[ ${kill9WaitSecond} -le 0 ]]; then
-   
-    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process will be *force* stopped (Pid:$PID)&quot;
-    mkdir -p ${KILL9_JSTACK_LOG_PATH}
-    NOW=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)
-    jstack &quot;${PID}&quot; &gt;${KILL9_JSTACK_LOG_PATH}/&quot;${NOW}&quot;-&quot;${PID}&quot;.log
-    kill -9 &quot;${PID}&quot;
-    echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - ${PROCESS_LAUNCHER_CLASS_NAME} &quot;process has been *force* stopped (Pid:$PID)&quot;
-  fi
-done
-
-echo $(date &quot;+%Y-%m-%d %H:%M:%S&quot;) - stop finished.
-
-</code></pre>
-<h3 id="定义应用生命周期">定义应用生命周期</h3>
-<pre><code class="language-java">public final class ApplicationLifeCycle {
-    private ApplicationLifeCycle.State state;
-
-    public ApplicationLifeCycle() {
-        this.state = ApplicationLifeCycle.State.INITIALIZED;
+				<p><blockquote>
+<p>序列化/反序列化的时候,要么全部使用统一框架.要么保持生成的json中立</p>
+</blockquote>
+<h2 id="gson-与-fastjson">GSON 与 Fastjson</h2>
+<ul>
+<li>
+<p>gson</p>
+<p>Gson（又称Google Gson）是Google公司发布的一个开放源代码的Java库，主要用途为序列化Java对象为JSON字符串，或反序列化JSON字符串成Java对象。</p>
+</li>
+<li>
+<p>fastjson</p>
+<p>fastjson是阿里巴巴的开源JSON解析库，它可以解析JSON格式的字符串，支持将Java Bean序列化为JSON字符串，也可以从JSON字符串反序列化到JavaBean。</p>
+</li>
+</ul>
+<h2 id="查找属性方式的不同">查找属性方式的不同</h2>
+<p><strong>不要对布尔类型使用is命名.</strong></p>
+<p>Gson与Jackson或fastjson不同的是, <strong>它的序列/反序列化是用通过读取类的属性进行</strong>的,也就是说, 跟getter/setter没什么关系</p>
+<pre><code class="language-java">class Person{
+    // 属性名带is
+    Boolean isStudent;
+    // 方法使用idea自动生成
+    public Boolean getStudent() {
+        return isStudent;
     }
 
-    public ApplicationLifeCycle.State getState() {
-        return this.state;
-    }
-
-    public void start() {
-        this.state = ApplicationLifeCycle.State.STARTING;
-    }
-
-    public void started() {
-        this.state = ApplicationLifeCycle.State.STARTED;
-    }
-
-    public void stop() {
-        this.state = ApplicationLifeCycle.State.STOPPING;
-    }
-
-    public void stopped() {
-        this.state = ApplicationLifeCycle.State.STOPPED;
-    }
-
-    public boolean isStarting() {
-        return this.state == ApplicationLifeCycle.State.STARTING;
-    }
-
-    public boolean isStarted() {
-        return this.state == ApplicationLifeCycle.State.STARTED;
-    }
-
-    public boolean isStopping() {
-        return this.state == ApplicationLifeCycle.State.STOPPING;
-    }
-
-    public boolean isStopped() {
-        return this.state == ApplicationLifeCycle.State.STOPPED;
-    }
-
-    public static enum State {
-        INITIALIZED,
-        STARTING,
-        STARTED,
-        STOPPING,
-        STOPPED;
-
-        private State() {
-        }
-    }
-}
-
-</code></pre>
-<pre><code class="language-java">/**
- * 应用的上下文
- */
-public class XXXApplicationContext {
-
-    /**
-     * 应用生命周期状态
-     */
-    private static final ApplicationLifeCycle applicationLifeCycle = new ApplicationLifeCycle();
-
-    /**
-     * 获取应用生命周期状态
-     */
-    public static ApplicationLifeCycle getApplicationLifeCycle() {
-        return applicationLifeCycle;
-    }
-
-}
-</code></pre>
-<h3 id="signalhandler">SignalHandler</h3>
-<pre><code class="language-java">public class SignalHandlerAPPWILLTERM implements SignalHandler {
-    private static final Logger logger = LoggerFactory.getLogger(SignalHandlerAPPWILLTERM.class);
-
-    private static String SIG_APPWILLTERM = &quot;APPWILLTERM&quot;;
-
-    @Override
-    public void handle(Signal signal) {
-        if (!signal.getName().equals(SIG_APPWILLTERM)) {
-            return;
-        }
-
-        logger.warn(&quot;start handle {}&quot;, SIG_APPWILLTERM);
-
-        XXXApplicationContext.getApplicationLifeCycle().stop();
-        logger.warn(&quot;set life cycle to stopping&quot;, SIG_APPWILLTERM);
-
-        logger.warn(&quot;{} handled success&quot;, SIG_APPWILLTERM);
-
+    public void setStudent(Boolean student) {
+        isStudent = student;
     }
 }
 </code></pre>
-<h3 id="java-shutdownhook">Java ShutDownHook</h3>
-<p>接收到kill SIGTERM 信号后,虚拟机关闭的钩子线程</p>
-<pre><code class="language-java">    public static void main(String[] args) {
+<p>分别使用gson/fastjson序列化</p>
+<pre><code>{&quot;isStudent&quot;:true} //gson
+{&quot;student&quot;:true}   //fastjson
+</code></pre>
+<p>如果把fastjson序列化的结果输入gson进行反序列化,就是导致属性丢失.gson认为<code>Person</code>并没有student这个属性.</p>
+<p><strong>拓展</strong></p>
+<blockquote>
+<p>不要在对外暴露的接口使用boolean**,统一使用大布尔,给予初始值**.<strong>布尔值为null不能做业务含义</strong>.那说明需要的不是布尔值.</p>
+<p>这个错其实和序列化没什么关系.</p>
+<pre><code class="language-java">class bPerson{
+ Boolean isStudent;
+ // null自动拆箱直接空指针
+ public boolean getStudent() {
+     return isStudent;
+ }
+}
+</code></pre>
+</blockquote>
+<h2 id="序列化与时间">序列化与时间</h2>
+<p>gson默认将时间序列化为字符串,fastjson则默认将其序列化为unix时间戳.</p>
+<pre><code class="language-java">@Data
+class Entity{
+    Date date;
+}
+</code></pre>
+<p>分别使用gson/fastjson序列化</p>
+<pre><code>{&quot;date&quot;:&quot;Sep 27, 2019 6:34:46 PM&quot;}  //gson
+{&quot;date&quot;:1569580486000}              //fastjson
+</code></pre>
+<p>很明显,这两者默认是无法通用的.</p>
+<p>将<code>{&quot;date&quot;:1569580486000}</code>使用gson反序列化会有如下错误:</p>
+<pre><code>Failed to parse date [&quot;1569580486000&quot;]: Invalid time zone indicator '8'
+</code></pre>
+<p>将<code>{&quot;date&quot;:&quot;Sep 27, 2019 6:34:46 PM”}</code>使用fastjson反序列化会有如下错误:</p>
+<pre><code>Caused by: java.lang.NumberFormatException: For input string: &quot;Sep 27, 2019 6:34:46 PM&quot;
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+</code></pre>
+<p>可以使用JSONFiled指定fastjson的行为,这样达到中间兼容的格式.</p>
+<pre><code class="language-java">@Data
+class Entity{
+    @JSONField(format=&quot;yyyy-MM-dd HH:mm:ss&quot;)
+    Date date;
+}
+//{&quot;date&quot;:&quot;2019-09-27 18:37:44&quot;}
+</code></pre>
+<p>这样可以gson可以反序列化fastjson的结果.</p>
+<p>如果要让fastjson成功反序列化gson生辰的<code>Sep 27, 2019 6:34:46 PM</code> 那只能自定义反序列化处理器.</p>
+<pre><code class="language-java">public class DateDeserializer extends DateCodec {
 
-        log.info(&quot;xxxApplication will be started&quot;);
-        XXXApplicationContext.getApplicationLifeCycle().start();
+    public DateDeserializer() {
+    }
 
-        final ApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;spring/spring-main.xml&quot;);
-
-        XXXApplicationContext.getApplicationLifeCycle().started();
-
-        log.error(&quot;xxxApplication started successfully!&quot;);
-
-        // register APPWILLTERM signal handler
-        Signal.handle(new Signal(&quot;APPWILLTERM&quot;), new SignalHandlerAPPWILLTERM());
-
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                log.info(&quot;xxxApplication catch JVM shutdown event, Run shutdown hook now.&quot;);
-                XXXApplicationContext.getApplicationLifeCycle().stop();
-
-                // 如果使用的mq中间件支持停止消费,在此处调用控制接口停止消费.
-                log.info(&quot;mq consumers has been stopped&quot;);
-
-                // 等待rpc的业务线程及mq的consumer线程执行完毕
-                try {
-                    log.info(&quot;wait 60 second&quot;);
-                    Thread.sleep(60 * 1000);
-                } catch (InterruptedException e) {
-                    log.error(&quot;xxxApplication shutdown hook sleep exception&quot;, e);
-                }
-
-                //shutdown log4j2
-                if (LogManager.getContext() instanceof LoggerContext) {
-                    log.info(&quot;log4j2 will be shutdown&quot;);
+    public &lt;T&gt; T cast(DefaultJSONParser parser, Type clazz, Object fieldName, Object val) {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;MMM d, yyyy K:m:s a&quot;, Locale.ENGLISH);
+        if (val == null) {
+            return null;
+        } else {
+            if (val instanceof String) {
+                String strVal = (String) val;
+                if (strVal.length() == 0) {
+                    return null;
+                } else if (strVal.equals(&quot;0000-00-00&quot;)) {
+                    parser.setDateFormat(&quot;yyyy-MM-dd&quot;);
+                } else if (strVal.endsWith(&quot;AM&quot;) || strVal.endsWith(&quot;PM&quot;)) {
+                    parser.setDateFomrat(sdf);
                     try {
-                        Configurator.shutdown((LoggerContext) LogManager.getContext());
-                    } catch (Exception e) {
-                        log.error(&quot;shutdown log4j2 has exception&quot;, e);
+                        val = sdf.parse(strVal).getTime();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(&quot;转换英国格式的日期异常&quot;, e);
                     }
-                    System.out.println(&quot;log4j2 has been shutdown&quot;);
                 }
-
-                XXXApplicationContext.getApplicationLifeCycle().stopped();
-                System.out.println(&quot;shutdown hook end.&quot;);
             }
-        }, &quot;XXXApplicationShutdownHook&quot;));
-
+        }
+        return super.cast(parser, clazz, fieldName, val);
     }
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="language-java"> ParserConfig parserConfig = new ParserConfig();
+ parserConfig.putDeserializer(Date.class, new DateDeserializer());
+ JSON.parseObject(message, SoMainParam.class,parserConfig, JSON.DEFAULT_PARSER_FEATURE);
+</code></pre>
+<p><strong>这里其实涉及一条原则,序列化/反序列化的时候,要么全部使用统一框架.要么保持生成的json中立</strong></p>
+<h2 id="序列化与接口">序列化与接口</h2>
+<p>gson fastjson对反序列化接口的处理不同.</p>
+<pre><code class="language-java">public interface CustomInterface {
+    int getNum();
+}
+
+public class CustomImpl implements CustomInterface {
+    int num = 123;
+    @Override
+    public int getNum() {
+        return num;
+    }
+}
+
+@Data
+class EntityContainsInterface{
+    CustomInterface custom;
+}
+</code></pre>
+<p>分别使用gson/fastjson序列化EntityContainsInterface</p>
+<pre><code>{&quot;custom&quot;:{&quot;num&quot;:123}}  //gson
+{&quot;custom&quot;:{&quot;num&quot;:123}}  //fastjson
+</code></pre>
+<p>结果是一致的,但是在反序列化的时候.</p>
+<h3 id="gson默认不允许反序列化接口">gson默认不允许反序列化接口</h3>
+<pre><code class="language-java">Caused by: java.lang.UnsupportedOperationException: Interface can't be instantiated! 
+</code></pre>
+<p>在源码中可以看到</p>
+<pre><code class="language-java">  static void assertInstantiable(Class&lt;?&gt; c) {
+        int modifiers = c.getModifiers();
+        if (Modifier.isInterface(modifiers)) {
+            throw new UnsupportedOperationException(&quot;Interface can't be instantiated! Interface name: &quot; + c.getName());
+        } else if (Modifier.isAbstract(modifiers)) {
+            throw new UnsupportedOperationException(&quot;Abstract class can't be instantiated! Class name: &quot; + c.getName());
+        }
+    }
+</code></pre>
+<p>如果是接口/抽象类.gson直接抛出<code>UnsupportedOperationException</code>异常,这是不支持的操作.</p>
+<p><strong>我们在一般情况下,实在是没必要在对外暴露的实体类中使用接口</strong></p>
+<h3 id="fastjson对接口反序列化的处理">fastjson对接口反序列化的处理</h3>
+<p>还是上面的例子.如果你使用fastjson反序列化,那么不会报错.</p>
+<p><img src="https://imatvoid.github.io//post-images/1569587548426.png" alt=""></p>
+<p>但是注意看这个custom属性其实是一个代理类.</p>
+<p>使用<code>System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;, &quot;true&quot;);</code>在本地导出这个代理类可以发现它实际是jdk的动态代理.</p>
+<pre><code class="language-java">public final class $Proxy0 extends Proxy implements CustomInterface {
+}
+public class Proxy implements java.io.Serializable {
+   /**
+     * the invocation handler for this proxy instance.
+     * @serial
+     */
+    protected InvocationHandler h;
+}    
+
+</code></pre>
+<p>它的h属性invocationHandler指向一个JSONObject.</p>
+<pre><code class="language-java">public class JSONObject extends JSON implements Map&lt;String, Object&gt;, Cloneable, Serializable, InvocationHandler {
+  
+}
+</code></pre>
+<p>如果对反序列化的<code>EntityContainsInterfaced</code>对象的<code>custom</code>对象调用<code>getNum</code>方法,实际会走到</p>
+<p>JSONObject的<code>invoke(Object proxy, Method method, Object[] args)</code>方法.</p>
+<p>他会去自己的<code>Map&lt;String, Object&gt; map</code>使用属性名<code>num</code>取值,但得到一个null,最后抛出空指针.</p>
+<p>但如果是声明类型的接口则有所不同,比如<code>Serializable</code></p>
+<pre><code class="language-java">@Data
+class EntityContainsSerializable{
+    Serializable serial;
+}
+</code></pre>
+<p>序列化的结果为:</p>
+<p>{&quot;serial&quot;:1}</p>
+<p>进行反序列化是可以正常拿到这个serial属性的值了.</p>
+<p>在对属性接口反序列化的时候,对泛型和特殊几个标志性接口做了特殊处理.</p>
+<ul>
+<li>
+<p>Cloneable,Serializable,Closeable,Comparable</p>
+<p>他们会走到<code>parser.parse(fieldName)</code></p>
+</li>
+</ul>
+<pre><code class="language-java"> public &lt;T&gt; T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+        if (type instanceof GenericArrayType) {
+          ......
+        } else {
+            return type instanceof Class &amp;&amp; type != Object.class &amp;&amp; type != Serializable.class &amp;&amp; type != Cloneable.class &amp;&amp; type != Closeable.class &amp;&amp; type != Comparable.class ? parser.parseObject(type) : parser.parse(fieldName);
+        }
+    }
+</code></pre>
+<p>在parser.parse(fieldName)中,会通过lexer返回一个intValue.</p>
+<pre><code class="language-java">public Object parse(Object fieldName) {
+    JSONLexer lexer = this.lexer;
+    switch(lexer.token()) {
+       case 2:
+            Number intValue = lexer.integerValue();
+            lexer.nextToken();
+            return intValue;
+    }    
+}
 </code></pre>
 </p>
 							</div>
@@ -397,10 +352,8 @@ public class XXXApplicationContext {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/fastjson-yu-gson-de-chai-yi" rel="prev">  Fastjson与Gson的差异</a></div>
 		 
-		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/shutdownhook" rel="next"> ShutDownHook</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/you-ya-ting-fu-wu" rel="next"> 优雅停服务</a></div>
 		
 		</div>
 	</nav>
