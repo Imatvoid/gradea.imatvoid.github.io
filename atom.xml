@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://imatvoid.github.io/</id>
     <title>Imatvoid </title>
-    <updated>2019-09-27T12:33:29.363Z</updated>
+    <updated>2019-10-03T15:26:53.077Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://imatvoid.github.io/"/>
     <link rel="self" href="https://imatvoid.github.io//atom.xml"/>
@@ -11,6 +11,34 @@
     <logo>https://imatvoid.github.io//images/avatar.png</logo>
     <icon>https://imatvoid.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Imatvoid </rights>
+    <entry>
+        <title type="html"><![CDATA[leetcode -- 81. Search in Rotated Sorted Array II]]></title>
+        <id>https://imatvoid.github.io//post/leetcode-81-search-in-rotated-sorted-array-ii</id>
+        <link href="https://imatvoid.github.io//post/leetcode-81-search-in-rotated-sorted-array-ii">
+        </link>
+        <updated>2019-10-03T05:57:51.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>81. Search in Rotated Sorted Array II</code></p>
+<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/">https://leetcode.com/problems/search-in-rotated-sorted-array-ii/</a></p>
+<p><code>81. 搜索旋转排序数组 II</code></p>
+<p><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/">https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>81. Search in Rotated Sorted Array II</code></p>
+<p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/">https://leetcode.com/problems/search-in-rotated-sorted-array-ii/</a></p>
+<p><code>81. 搜索旋转排序数组 II</code></p>
+<p><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/">https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[什么是二进制安全]]></title>
+        <id>https://imatvoid.github.io//post/shi-me-shi-er-jin-zhi-an-quan</id>
+        <link href="https://imatvoid.github.io//post/shi-me-shi-er-jin-zhi-an-quan">
+        </link>
+        <updated>2019-09-29T03:22:14.000Z</updated>
+        <summary type="html"><![CDATA[<p>二进制安全是一种主要用于字符串操作函数相关的计算机编程术语。一个二进制安全功能（函数），其本质上将输入作为原始的、无任何特殊格式意义的数据流。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>二进制安全是一种主要用于字符串操作函数相关的计算机编程术语。一个二进制安全功能（函数），其本质上将输入作为原始的、无任何特殊格式意义的数据流。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ Fastjson与Gson的差异]]></title>
         <id>https://imatvoid.github.io//post/fastjson-yu-gson-de-chai-yi</id>
@@ -103,28 +131,6 @@ Mixedlevel: 是以上两种level的混合使用，一般的语句修改使用sta
         <content type="html"><![CDATA[<p>Statement：每一条会修改数据的sql都会记录在binlog中<br>
 Row:不记录sql语句上下文相关信息，仅保存哪条记录被修改<br>
 Mixedlevel: 是以上两种level的混合使用，一般的语句修改使用statment格式保存binlog，如一些函数，statement无法完成主从复制的操作，则采用row格式保存binlog</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[innodb_autoinc_lock_mode 与主从复制]]></title>
-        <id>https://imatvoid.github.io//post/innodb_autoinc_lock_mode-yu-zhu-cong-fu-zhi</id>
-        <link href="https://imatvoid.github.io//post/innodb_autoinc_lock_mode-yu-zhu-cong-fu-zhi">
-        </link>
-        <updated>2019-08-31T11:48:50.000Z</updated>
-        <summary type="html"><![CDATA[<p>当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉 的，在有主从复制的场景中是不安全的。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>当 innodb_autoinc_lock_mode值为2时，可能会造成不同事务中的插⼊语句为AUTO_INCREMENT修饰的列⽣成的值是交叉 的，在有主从复制的场景中是不安全的。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Copy on write 写时复制]]></title>
-        <id>https://imatvoid.github.io//post/copy-on-write-xie-shi-fu-zhi</id>
-        <link href="https://imatvoid.github.io//post/copy-on-write-xie-shi-fu-zhi">
-        </link>
-        <updated>2019-08-26T10:42:14.000Z</updated>
-        <summary type="html"><![CDATA[<p><a href=""></a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><a href=""></a></p>
 ]]></content>
     </entry>
 </feed>

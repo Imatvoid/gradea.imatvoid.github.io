@@ -130,13 +130,9 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><ol start="33">
-<li>Search in Rotated Sorted Array</li>
-</ol>
+				<p><p><code>33. Search in Rotated Sorted Array</code></p>
 <p><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">https://leetcode.com/problems/search-in-rotated-sorted-array/</a></p>
-<ol start="33">
-<li>搜索旋转排序数组</li>
-</ol>
+<p><code>33. 搜索旋转排序数组</code></p>
 <p><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array/">https://leetcode-cn.com/problems/search-in-rotated-sorted-array/</a></p>
 <!-- more -->
 <h2 id="描述">描述</h2>
@@ -179,32 +175,32 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 <pre><code class="language-java"> public int search(int[] nums, int target) {
 
         int left = 0;
-        int right = nums.length-1;
-        while (left &lt;= right) {
+        int right = nums.length;
+        while (left &lt; right) {
 
             int mid = left + (right - left) / 2;
 
             if (nums[mid] == target) return mid;
             //左边有序 小 - 大
-            if (nums[mid] &gt; nums[right]) {
-
+            if (nums[mid] &gt; nums[right-1]) {
+                // find
                 if (nums[left] &lt;= target &amp;&amp; nums[mid] &gt; target) {
-                    right = mid-1;
+                    right = mid;
                 } else {
+                    //not
                     left = mid + 1;
                 }
             } else {
                 // 右边有序
-                if (nums[mid] &lt; target &amp;&amp; nums[right] &gt;= target) {
+                if (nums[mid] &lt; target &amp;&amp; nums[right-1] &gt;= target) {
                     left = mid + 1;
                 } else {
-                    right = mid-1;
+                    right = mid;
                 }
             }
         }
 
         return -1;
-
     }
 </code></pre>
 </p>
@@ -212,6 +208,8 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	<div class="wow bounceInDown vt-post-tags">
  
 				<a href="https://imatvoid.github.io//tag/xTMm_Z0EV" rel="tag">leetcode-array</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/ag7nLejzN" rel="tag">leetcode-binsearch</a>	
 				 
 				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
 				 
