@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>git -- 子模块的配置与使用 | Imatvoid </title>	
+<title>sql 注入与 mybatis#{} ${} | Imatvoid </title>	
 
 <link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
 <script type="text/javascript">
@@ -119,10 +119,10 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">git -- 子模块的配置与使用</h1>
+			<h1 class="wow swing entry-title">sql 注入与 mybatis#{} ${}</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-05-18 13:57:14" itemprop="datePublished" pubdate="">2019-05-18</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2015-10-04 15:14:31" itemprop="datePublished" pubdate="">2015-10-04</time></i>
 	          </div>
 			
 </span>
@@ -130,94 +130,48 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p><img src="https://imatvoid.github.io//post-images/1566107963744.png" alt=""></p>
-<!-- more -->
-<h2 id="子模块效果">子模块效果</h2>
-<p>配置完子模块后，可以在一个大项目中管理很多嵌套的git子项目，当然也可以管理非git子模块目录和文件的变化。下面是我配置的子模块目录。<br>
-.gitmodule文件</p>
-<pre><code class="language-shell">[submodule &quot;Spring&quot;]
-	path = Spring
-	url = git@github.com:Imatvoid/Spring.git
-[submodule &quot;MysqlGuide&quot;]
-	path = MysqlGuide
-	url = git@github.com:Imatvoid/MysqlGuide.git
-[submodule &quot;Algorithm&quot;]
-	path = Algorithm
-	url = git@github.com:Imatvoid/Algorithm.git
-[submodule &quot;LinuxGuide&quot;]
-	path = LinuxGuide
-	url = git@github.com:Imatvoid/LinuxGuide.git
-[submodule &quot;DataStructure&quot;]
-	path = DataStructure
-	url = git@github.com:Imatvoid/DataStructure.git
-[submodule &quot;ImproveJava&quot;]
-	path = ImproveJava
-	url = git@github.com:Imatvoid/ImproveJava.git
-[submodule &quot;GoGuide&quot;]
-	path = GoGuide
-	url = git@github.com:Imatvoid/GoGuide.git
-[submodule &quot;OperatingSystem&quot;]
-	path = OperatingSystem
-	url = git@github.com:Imatvoid/OperatingSystem.git
-[submodule &quot;RedisGuide&quot;]
-	path = RedisGuide
-	url = git@github.com:Imatvoid/RedisGuide.git
-[submodule &quot;ComputerNetworks&quot;]
-	path = ComputerNetworks
-	url = git@github.com:Imatvoid/ComputerNetworks.git
+				<p><h2 id="sql注入">sql注入</h2>
+<p>sql注入指的是通过特定的输入参数,和sql语法组合，改变了语法原意。这也是解释性语言的缺陷, 混淆语法和参数。<br>
+一个经典的注入是万能密码</p>
+<pre><code class="language-mysql">select * from tb_usertable where name='&quot;+HEHE+&quot;'and password='1'or'1'='1'
 </code></pre>
-<p>在本地也可以提交子模块项目的comit，也可以提交本身项目的commit。<br>
-在项目中，git只记录git子模块的commit节点，比如我新提交了一个子模块的commit。<br>
-<img src="https://imatvoid.github.io//post-images/1566108362106.png" alt=""></p>
-<p>git子模块在github上只是显示一个子模块的链接。<br>
-<img src="https://imatvoid.github.io//post-images/1566108205590.png" alt=""></p>
-<p>但是在本地，你是可以管理项目和子项目的，只是子模块的commit会提交到自己的仓库，父项目只记录commit。</p>
-<h2 id="子模块配置">子模块配置</h2>
-<h3 id="添加子模块">添加子模块</h3>
-<pre><code class="language-shell">git submodule add ***.git 目录名
-</code></pre>
-<h3 id="更新子模块">更新子模块</h3>
-<pre><code class="language-shell">git submodule update --recursive --remote //  -f 还可以强制拉出
-</code></pre>
-<h3 id="删除submodule">删除Submodule</h3>
-<pre><code class="language-shell">rm -rf 子模块目录 #删除子模块目录及源码
-vi .gitmodules #删除项目目录下.gitmodules文件中子模块相关条目
-vi .git/config   #删除配置项中子模块相关条目
-rm .git/module/子模块名   # 删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可
-
-#执行完成后，再执行添加子模块命令即可，如果仍然报错，执行如下：
-git rm --cached 子模块名称 #完成删除后，提交到仓库即可。
-</code></pre>
-<h2 id="忽略文件权限变更">忽略文件权限变更</h2>
-<p>这个在不同操作系统拷贝项目时候，让git忽略文件权限的变化。</p>
-<pre><code class="language-shell">git config core.filemode false
-
-git submodule foreach --recursive git config core.filemode false # 每个子模块都忽略
-</code></pre>
-<h2 id="本地提交git子模块">本地提交git子模块</h2>
-<p>推荐一个git工具，gitKraken，它可以让你方便的管理子模块的提交。<br>
-<img src="https://imatvoid.github.io//post-images/1566108544223.png" alt=""></p>
-<p>当然，你也可以进入子模块目录使用命令行，注意检查所在的分支。</p>
-<p>默认 git submodule update 并不会将 submodule 切到任何 branch，所以，默认下 submodule 的 HEAD 是处于游离状态的 (‘detached HEAD’ state)。所以在修改前，记得一定要用 git checkout master 将当前的 submodule 分支切换到 master，然后才能做修改和提交。</p>
-<p>否则你就要使用rebase 或者 cherry-pick了。</p>
-<p>最后记得提交父项目，因为子模块的commit信息更新了，这属于父模块的变化。</p>
+<h3 id="mybatis-的区别">mybatis#{} ${} 的区别</h3>
+<p><strong><code>#{}</code>预编译可以防止sql注入，因为已经进行过词法分析和语法分析。语句已经固定，能变的只是参数。</strong></p>
+<p><code>${}</code> 一般不建议使用</p>
+<ol>
+<li>#将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #user_id#，如果传入的值是111,那么解析成sql时的值为order by &quot;111&quot;, 如果传入的值是id，则解析成的sql为order by &quot;id&quot;.</li>
+<li>$将传入的数据直接显示生成在sql中。如：order by <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi><mi>s</mi><mi>e</mi><msub><mi>r</mi><mi>i</mi></msub><mi>d</mi></mrow><annotation encoding="application/x-tex">user_id</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault">u</span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">d</span></span></span></span>，如果传入的值是111,那么解析成sql时的值为order by user_id,  如果传入的值是id，则解析成的sql为order by id.</li>
+<li>#方式能够很大程度防止sql注入。</li>
+<li>$方式无法防止Sql注入。</li>
+<li>$方式一般用于传入数据库对象，例如传入表名.</li>
+<li>一般能用#的就别用$.</li>
+</ol>
+<p>MyBatis排序时使用order by 动态参数时需要注意，用$而不是#</p>
+<h3 id="为什么预编译可以防止注入">为什么预编译可以防止注入</h3>
+<h4 id="sql预编译">sql预编译</h4>
+<p>SQL之所以能被注入，最主要的原因就是它的数据和代码（指令）是混合的。<br>
+C程序为什么从来没听说过注入这种说法，有也是溢出。这是因为C是一种编译型语言,<br>
+你没法在语义上欺骗它，语义解析这步提前做了，都生成二进制了。<br>
+所以攻击C的方式大多是溢出，通过溢出让数据覆盖指令段。</p>
+<p>数据库也提供了这种分离数据和代码（指令）的方式，就是SQL预编译。而SQL语句在程序运行前已经进行了预编译，在程序运行时第一次操作数据库之前，SQL语句已经进行语义解析和语法分析，  对应的执行计划也会缓存下来，允许数据库以参数化的形式进行查询，  当运行时动态地把参数传给PreprareStatement时，即使参数里有敏感字符如 or &quot;1=1&quot;也数据库会作为一个参数一个字段的属性值来处理而不会作为一个SQL指令。</p>
+<p>同时，预编译也可以提高执行速度,因为已经缓存在内存中。</p>
 <h2 id="参考">参考</h2>
-<p><a href="https://blog.devtang.com/2013/05/08/git-submodule-issues/">https://blog.devtang.com/2013/05/08/git-submodule-issues/</a></p>
+<p>https://yq.aliyun.com/articles/53660</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://imatvoid.github.io//tag/iP5BkBtCR" rel="tag">git</a>	
+				<a href="https://imatvoid.github.io//tag/FEI4krcFr" rel="tag">mysql</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/leetcode-sql-fen-lei-ti-jie" rel="prev"> leetcode -- sql 分类题解</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/maven-cai-keng-javalangoutofmemoryerror-java-heap-space" rel="prev"> Maven 踩坑 -- java.lang.OutOfMemoryError</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-127-word-ladder" rel="next"> leetcode -- 127. Word Ladder</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-gai-shu" rel="next"> 设计模式 -- 概述</a></div>
 		
 		</div>
 	</nav>

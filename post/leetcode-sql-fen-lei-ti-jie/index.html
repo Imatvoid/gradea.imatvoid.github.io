@@ -1,0 +1,2098 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>leetcode -- sql 分类题解 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">leetcode -- sql 分类题解</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-06-04 15:21:54" itemprop="datePublished" pubdate="">2019-06-04</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><p><a href=""></a></p>
+<!-- more -->
+<h2 id="easy">Easy</h2>
+<h3 id="584-寻找用户推荐人"><a href="https://leetcode-cn.com/problems/find-customer-referee/">584. 寻找用户推荐人</a></h3>
+<p>给定表 customer ，里面保存了所有客户信息和他们的推荐人。</p>
+<pre><code>+------+------+-----------+
+| id   | name | referee_id|
++------+------+-----------+
+|    1 | Will |      NULL |
+|    2 | Jane |      NULL |
+|    3 | Alex |         2 |
+|    4 | Bill |      NULL |
+|    5 | Zack |         1 |
+|    6 | Mark |         2 |
++------+------+-----------+
+</code></pre>
+<p>写一个查询语句，返回一个编号列表，列表中编号的推荐人的编号都 不是 2。</p>
+<p>对于上面的示例数据，结果为：</p>
+<pre><code>+------+
+| name |
++------+
+| Will |
+| Jane |
+| Bill |
+| Zack |
++------+
+</code></pre>
+<pre><code class="language-mysql">select name from customer where referee_id != 2 or referee_id is null
+</code></pre>
+<blockquote>
+<p>注意包含null<br>
+null 不能使用 = , != 比较，永远返回false， 应该使用<code>is null</code> , <code>is not null</code></p>
+</blockquote>
+<h3 id="620-有趣的电影"><a href="https://leetcode-cn.com/problems/not-boring-movies/">620. 有趣的电影</a></h3>
+<p>作为该电影院的信息部主管，您需要编写一个 SQL查询，找出所有影片描述为非 boring (不无聊) 的并且 id 为奇数 的影片，结果请按等级 rating 排列。</p>
+<pre><code class="language-mysql">SELECT id, movie, description, rating
+FROM cinema
+WHERE description != 'boring'
+	AND id % 2 = 1
+ORDER BY rating DESC;
+
+# 或者 mod(id, 2) = 1
+</code></pre>
+<h2 id="union">Union</h2>
+<p><strong>union等集合操作</strong></p>
+<p>Union：对两个结果集进行并集操作，不包括重复行，同时进行默认规则的排序；</p>
+<p>Union All：对两个结果集进行并集操作，包括重复行，不进行排序；</p>
+<p>Intersect：对两个结果集进行交集操作，不包括重复行，同时进行默认规则的排序；</p>
+<p>Minus：对两个结果集进行差操作，不包括重复行，同时进行默认规则的排序。</p>
+<p>可以在最后一个结果集中指定Order by子句改变排序方式。</p>
+<h3 id="602-好友申请-ii-谁有最多的好友"><a href="https://leetcode-cn.com/problems/friend-requests-ii-who-has-the-most-friends/">602. 好友申请 II ：谁有最多的好友</a></h3>
+<p>在 Facebook 或者 Twitter 这样的社交应用中，人们经常会发好友申请也会收到其他人的好友申请。</p>
+<p>表 request_accepted 存储了所有好友申请通过的数据记录，其中， requester_id 和 accepter_id 都是用户的编号。</p>
+<table>
+<thead>
+<tr>
+<th>requester_id</th>
+<th>accepter_id</th>
+<th>accept_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2016_06-03</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>2016-06-08</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>2016-06-08</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>2016-06-09</td>
+</tr>
+</tbody>
+</table>
+<p>写一个查询语句，求出谁拥有最多的好友和他拥有的好友数目。对于上面的样例数据，结果为：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>注意：</p>
+<p>保证拥有最多好友数目的只有 1 个人。<br>
+好友申请只会被接受一次，所以不会有 requester_id 和 accepter_id 值都相同的重复记录。</p>
+<p>解释：</p>
+<p>编号为 '3' 的人是编号为 '1'，'2' 和 '4' 的好友，所以他总共有 3 个好友，比其他人都多。</p>
+<pre><code class="language-mysql">SELECT r3.requester_id AS id, COUNT(r3.requester_id) AS num
+FROM (
+	SELECT r1.requester_id
+	FROM request_accepted r1
+	UNION ALL
+	SELECT r2.accepter_id
+	FROM request_accepted r2
+) r3
+GROUP BY r3.requester_id
+ORDER BY COUNT(r3.requester_id) DESC
+LIMIT 1
+</code></pre>
+<h2 id="inner-join">Inner join</h2>
+<h3 id="614-二级关注者"><a href="https://leetcode-cn.com/problems/second-degree-follower/">614. 二级关注者</a></h3>
+<blockquote>
+<p>被关注者的关注者</p>
+</blockquote>
+<p>在 facebook 中，表 follow 会有 2 个字段： followee, follower ，分别表示被关注者和关注者。</p>
+<p>请写一个 sql 查询语句，对每一个关注者，查询他的关注者数目。</p>
+<p>比方说：</p>
+<pre><code>+-------------+------------+
+| followee    | follower   |
++-------------+------------+
+|     A       |     B      |
+|     B       |     C      |
+|     B       |     D      |
+|     D       |     E      |
++-------------+------------+
+应该输出：
+
++-------------+------------+
+| follower    | num        |
++-------------+------------+
+|     B       |  2         |
+|     D       |  1         |]
++-------------+------------+
+</code></pre>
+<p>解释：</p>
+<p>B 和 D 都在在 follower 字段中出现，作为被关注者，B 被 C 和 D 关注，D 被 E 关注。A 不在 follower 字段内，所以A不在输出列表中。</p>
+<pre><code class="language-mysql"># 考虑重复情况
+SELECT f1.follower, COUNT(DISTINCT f2.follower) AS num
+FROM follow f1
+ INNER	JOIN follow f2 ON f1.follower = f2.followee
+GROUP BY f1.follower
+</code></pre>
+<blockquote>
+<p>INNER JOIN 关键字在表中存在至少一个匹配时返回行。如果 &quot;from1&quot; 中的行在 &quot;from2&quot; 中没有匹配，就不会列出这些行。</p>
+<p>INNER JOIN 与 JOIN 是相同的。</p>
+<p>对于重复会多次匹配。</p>
+</blockquote>
+<h3 id="613-直线上的最近距离"><a href="https://leetcode-cn.com/problems/shortest-distance-in-a-line/">613. 直线上的最近距离</a></h3>
+<p>表 point 保存了一些点在 x 轴上的坐标，这些坐标都是整数。</p>
+<p>写一个查询语句，找到这些点中最近两个点之间的距离。</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+</tr>
+<tr>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>最近距离显然是 '1' ，是点 '-1' 和 '0' 之间的距离。所以输出应该如下：</p>
+<table>
+<thead>
+<tr>
+<th>shortest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mysql">SELECT min(abs(p1.x - p2.x)) shortest
+FROM  point p1 inner join point p2 
+ON p1.x != p2.x
+</code></pre>
+<h3 id="612-平面上的最近距离"><a href="https://leetcode-cn.com/problems/shortest-distance-in-a-plane/">612. 平面上的最近距离</a></h3>
+<pre><code class="language-mysql">SELECT
+    p1.x,
+    p1.y,
+    p2.x,
+    p2.y,
+    SQRT((POW(p1.x - p2.x, 2) + POW(p1.y - p2.y, 2))) AS distance
+FROM
+    point_2d p1
+        JOIN
+    point_2d p2 ON p1.x != p2.x OR p1.y != p2.y
+
+</code></pre>
+<h3 id="197-上升的温度"><a href="https://leetcode-cn.com/problems/rising-temperature/">197. 上升的温度</a></h3>
+<p>给定一个 Weather 表，编写一个 SQL 查询，来查找与之前（昨天的）日期相比温度更高的所有日期的 Id。</p>
+<pre><code>+---------+------------------+------------------+
+| Id(INT) | RecordDate(DATE) | Temperature(INT) |
++---------+------------------+------------------+
+|       1 |       2015-01-01 |               10 |
+|       2 |       2015-01-02 |               25 |
+|       3 |       2015-01-03 |               20 |
+|       4 |       2015-01-04 |               30 |
++---------+------------------+------------------+
+</code></pre>
+<p>例如，根据上述给定的 Weather 表格，返回如下 Id:</p>
+<pre><code>+----+
+| Id |
++----+
+|  2 |
+|  4 |
++----+
+</code></pre>
+<pre><code class="language-mysql"># SELECT DATEDIFF('2008-12-30','2008-12-29') AS DiffDate =  1
+select 
+  w1.Id 
+from 
+  Weather w1 
+   inner join 
+  Weather w2 on datediff(w1.RecordDate,w2.RecordDate)=1 
+    and 
+  w1.Temperature&gt;w2.Temperature;
+</code></pre>
+<h3 id="603-连续空余座位"><a href="https://leetcode-cn.com/problems/consecutive-available-seats/">603. 连续空余座位</a></h3>
+<p>几个朋友来到电影院的售票处，准备预约连续空余座位。</p>
+<p>你能利用表 cinema ，帮他们写一个查询语句，获取所有空余座位，并将它们按照 seat_id 排序后返回吗？</p>
+<table>
+<thead>
+<tr>
+<th>seat_id</th>
+<th>free</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>对于如上样例，你的查询语句应该返回如下结果。</p>
+<table>
+<thead>
+<tr>
+<th>seat_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+</tr>
+<tr>
+<td>4</td>
+</tr>
+<tr>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>注意：</p>
+<p>seat_id 字段是一个自增的整数，free 字段是布尔类型（'1' 表示空余， '0' 表示已被占据）。<br>
+连续空余座位的定义是大于等于 2 个连续空余的座位。</p>
+<p>两个连在一起就算连续</p>
+<pre><code class="language-mysql">select distinct a.seat_id
+from cinema a join cinema b  # 自连接
+  on abs(a.seat_id - b.seat_id) = 1
+  and a.free = true and b.free = true
+order by a.seat_id
+;
+</code></pre>
+<h2 id="left-join">Left Join</h2>
+<h3 id="75-组合两个表"><a href="https://leetcode-cn.com/problems/combine-two-tables/">75. 组合两个表</a></h3>
+<p>编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息：</p>
+<pre><code class="language-mysql">SELECT
+	p.FirstName,
+	p.LastName,
+	a.City,
+	a.State 
+FROM
+	Person p
+	LEFT JOIN Address a ON p.PersonId = a.PersonId
+</code></pre>
+<h3 id="577-员工奖金"><a href="https://leetcode-cn.com/problems/employee-bonus/">577. 员工奖金</a></h3>
+<p>选出所有 bonus &lt; 1000 的员工的 name 及其 bonus。</p>
+<p>Employee 表单</p>
+<pre><code>+-------+--------+-----------+--------+
+| empId |  name  | supervisor| salary |
++-------+--------+-----------+--------+
+|   1   | John   |  3        | 1000   |
+|   2   | Dan    |  3        | 2000   |
+|   3   | Brad   |  null     | 4000   |
+|   4   | Thomas |  3        | 4000   |
++-------+--------+-----------+--------+
+</code></pre>
+<p>empId 是这张表单的主关键字<br>
+Bonus 表单</p>
+<pre><code>+-------+-------+
+| empId | bonus |
++-------+-------+
+| 2     | 500   |
+| 4     | 2000  |
++-------+-------+
+</code></pre>
+<p>empId 是这张表单的主关键字<br>
+输出示例：</p>
+<pre><code>+-------+-------+
+| name  | bonus |
++-------+-------+
+| John  | null  |
+| Dan   | 500   |
+| Brad  | null  |
++-------+-------+
+</code></pre>
+<p>无论这个员工有没有奖金，这个员工都应被保留，使用左查询。</p>
+<pre><code class="language-mysql">SELECT e.name, b.bonus
+FROM Employee e
+	LEFT JOIN Bonus b ON e.empId = b.empId
+WHERE b.bonus IS NULL
+	OR b.bonus &lt; 1000
+</code></pre>
+<h3 id="608-树节点"><a href="https://leetcode-cn.com/problems/tree-node/">608. 树节点</a></h3>
+<p>给定一个表 tree，id 是树节点的编号， p_id 是它父节点的 id 。</p>
+<pre><code>+----+------+
+| id | p_id |
++----+------+
+| 1  | null |
+| 2  | 1    |
+| 3  | 1    |
+| 4  | 2    |
+| 5  | 2    |
++----+------+
+</code></pre>
+<p>树中每个节点属于以下三种类型之一：</p>
+<p>叶子：如果这个节点没有任何孩子节点。<br>
+根：如果这个节点是整棵树的根，即没有父节点。<br>
+内部节点：如果这个节点既不是叶子节点也不是根节点。</p>
+<p>写一个查询语句，输出所有节点的编号和节点的类型，并将结果按照节点编号排序。上面样例的结果为：</p>
+<pre><code>+----+------+
+| id | Type |
++----+------+
+| 1  | Root |
+| 2  | Inner|
+| 3  | Leaf |
+| 4  | Leaf |
+| 5  | Leaf |
++----+------+
+</code></pre>
+<p>解释</p>
+<p>节点 '1' 是根节点，因为它的父节点是 NULL ，同时它有孩子节点 '2' 和 '3' 。<br>
+节点 '2' 是内部节点，因为它有父节点 '1' ，也有孩子节点 '4' 和 '5' 。<br>
+节点 '3', '4' 和 '5' 都是叶子节点，因为它们都有父节点同时没有孩子节点。<br>
+样例中树的形态如下：</p>
+<pre><code>			  1
+			/   \
+	      2       3
+	                /   \
+	              4       5
+
+</code></pre>
+<p>所有的节点记录一定要留下，以左边为准，左连接。</p>
+<pre><code class="language-mysql">SELECT DISTINCT t1.id
+	, CASE 
+		WHEN t1.p_id IS NULL THEN 'Root'
+		WHEN t2.id IS NOT NULL THEN 'Inner'
+		ELSE 'Leaf'
+	END AS Type
+FROM tree t1
+	LEFT JOIN tree t2 ON t1.id = t2.p_id
+ORDER BY t1.id
+</code></pre>
+<blockquote>
+<p>left join 语意： 左边的记录一定要保留</p>
+</blockquote>
+<h3 id="580-统计各专业学生人数"><a href="https://leetcode-cn.com/problems/count-student-number-in-departments/">580. 统计各专业学生人数</a></h3>
+<p>一所大学有 2 个数据表，分别是 student 和 department ，这两个表保存着每个专业的学生数据和院系数据。</p>
+<p>写一个查询语句，查询 department 表中每个专业的学生人数 （即使没有学生的专业也需列出）。</p>
+<p>将你的查询结果按照学生人数降序排列。 如果有两个或两个以上专业有相同的学生数目，将这些部门按照部门名字的字典序从小到大排列。</p>
+<p>student 表格如下：</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>student_id</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>student_name</td>
+<td>String</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>dept_id</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<p>其中， student_id 是学生的学号， student_name 是学生的姓名， gender 是学生的性别， dept_id 是学生所属专业的专业编号。</p>
+<p>department 表格如下：</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dept_id</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>dept_name</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+<p>dept_id 是专业编号， dept_name 是专业名字。</p>
+<p>这里是一个示例输入：<br>
+student 表格：</p>
+<table>
+<thead>
+<tr>
+<th>student_id</th>
+<th>student_name</th>
+<th>gender</th>
+<th>dept_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Jack</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Jane</td>
+<td>F</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mark</td>
+<td>M</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>department 表格：</p>
+<table>
+<thead>
+<tr>
+<th>dept_id</th>
+<th>dept_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Engineering</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Science</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Law</td>
+</tr>
+</tbody>
+</table>
+<p>示例输出为：</p>
+<table>
+<thead>
+<tr>
+<th>dept_name</th>
+<th>student_number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engineering</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Science</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Law</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>就算没学生～， 专业也在啊,所以用department left join student</p>
+<pre><code class="language-mysql">SELECT d.dept_name, COUNT(s.dept_id) AS 'student_number'
+FROM department d
+	LEFT JOIN student s ON d.dept_id = s.dept_id
+GROUP BY d.dept_id
+ORDER BY student_number DESC, dept_name;
+</code></pre>
+<h3 id="181-超过经理收入的员工"><a href="https://leetcode-cn.com/problems/employees-earning-more-than-their-managers/">181. 超过经理收入的员工</a>.</h3>
+<p>Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。</p>
+<pre><code>+----+-------+--------+-----------+
+| Id | Name  | Salary | ManagerId |
++----+-------+--------+-----------+
+| 1  | Joe   | 70000  | 3         |
+| 2  | Henry | 80000  | 4         |
+| 3  | Sam   | 60000  | NULL      |
+| 4  | Max   | 90000  | NULL      |
++----+-------+--------+-----------+
+</code></pre>
+<p>给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。</p>
+<pre><code>+----------+
+| Employee |
++----------+
+| Joe      |
++----------+
+</code></pre>
+<pre><code class="language-mysql">SELECT
+	a.NAME AS Employee 
+FROM
+	Employee a
+	LEFT JOIN Employee b ON a.ManagerId = b.Id 
+WHERE
+	a.Salary &gt; b.Salary;
+</code></pre>
+<h2 id="交叉连接">交叉连接</h2>
+<p>示例：</p>
+<pre><code>+----+---------+
+| Id | Email   |
++----+---------+
+| 1  | a@b.com |
+| 2  | c@d.com |
+| 3  | a@b.com |
++----+---------+
+</code></pre>
+<h3 id="182-查找重复的电子邮箱"><a href="https://leetcode-cn.com/problems/duplicate-emails/">182. 查找重复的电子邮箱</a></h3>
+<pre><code class="language-mysql">select Email from Person group by Email having count(Email) &gt; 1;
+select Email from Person group by Email having count(1) &gt; 1;
+select Email from Person group by Email having count(*) &gt; 1;
+
+</code></pre>
+<h3 id="196-删除重复的电子邮箱"><a href="https://leetcode-cn.com/problems/delete-duplicate-emails/">196. 删除重复的电子邮箱</a></h3>
+<pre><code class="language-mysql"># 表连接 交叉连接
+SELECT p1.*
+FROM Person p1,
+    Person p2
+WHERE
+    p1.Email = p2.Email AND p1.Id &gt; p2.Id
+;
+
+DELETE p1 FROM Person p1,
+    Person p2
+WHERE
+    p1.Email = p2.Email AND p1.Id &gt; p2.Id
+
+
+# 子查询
+DELETE from Person 
+Where Id not in (
+    Select Id 
+    From(
+    Select MIN(Id) as id
+    From Person 
+    Group by Email
+   ) t
+)
+</code></pre>
+<h3 id="180-连续出现的数字"><a href="https://leetcode-cn.com/problems/consecutive-numbers/">180. 连续出现的数字</a></h3>
+<p>编写一个 SQL 查询，查找所有至少连续出现三次的数字。</p>
+<pre><code>+----+-----+
+| Id | Num |
++----+-----+
+| 1  |  1  |
+| 2  |  1  |
+| 3  |  1  |
+| 4  |  2  |
+| 5  |  1  |
+| 6  |  2  |
+| 7  |  2  |
++----+-----+
+</code></pre>
+<p>例如，给定上面的 Logs 表， 1 是唯一连续出现至少三次的数字。</p>
+<pre><code>+-----------------+
+| ConsecutiveNums |
++-----------------+
+| 1               |
++-----------------+
+</code></pre>
+<p>表连接</p>
+<p>需要添加关键字 <code>DISTINCT</code> ，因为如果一个数字连续出现超过 3 次，会返回重复元素。</p>
+<pre><code class="language-mysql">SELECT DISTINCT
+    l1.Num AS ConsecutiveNums
+FROM
+    Logs l1,
+    Logs l2,
+    Logs l3
+WHERE
+    l2.Id = l1.Id + 1
+    AND l2.Id = l3.Id - 1
+    AND l1.Num = l2.Num
+    AND l2.Num = l3.Num
+;
+</code></pre>
+<p>用户变量</p>
+<pre><code class="language-mysql">select distinct Num as ConsecutiveNums
+from (
+  select Num, 
+    case 
+      when @prev = Num then @count := @count + 1
+      when @prev := Num then @count := 1
+    end as CNT
+  from Logs, (select @prev := null,@count := null) as t
+) as temp
+where temp.CNT &gt;= 3
+</code></pre>
+<h3 id="601-体育馆的人流量"><a href="https://leetcode-cn.com/problems/human-traffic-of-stadium/">601. 体育馆的人流量</a></h3>
+<p>请编写一个查询语句，找出人流量的高峰期。高峰期时，至少连续三行记录中的人流量不少于100。</p>
+<p>例如，表 stadium：</p>
+<pre><code>+------+------------+-----------+
+| id   | visit_date | people    |
++------+------------+-----------+
+| 1    | 2017-01-01 | 10        |
+| 2    | 2017-01-02 | 109       |
+| 3    | 2017-01-03 | 150       |
+| 4    | 2017-01-04 | 99        |
+| 5    | 2017-01-05 | 145       |
+| 6    | 2017-01-06 | 1455      |
+| 7    | 2017-01-07 | 199       |
+| 8    | 2017-01-08 | 188       |
++------+------------+-----------+
+</code></pre>
+<p>对于上面的示例数据，输出为：</p>
+<pre><code>+------+------------+-----------+
+| id   | visit_date | people    |
++------+------------+-----------+
+| 5    | 2017-01-05 | 145       |
+| 6    | 2017-01-06 | 1455      |
+| 7    | 2017-01-07 | 199       |
+| 8    | 2017-01-08 | 188       |
++------+------------+-----------+
+</code></pre>
+<p>提示：<br>
+每天只有一行记录，日期随着 id 的增加而增加。</p>
+<pre><code class="language-mysql"># SELECT count(*) FROM stadium AS s1, stadium AS s2, stadium as s3  = 512
+# Write your MySQL query statement below
+SELECT s1.* FROM stadium AS s1, stadium AS s2, stadium as s3
+    WHERE 
+    ((s1.id + 1 = s2.id
+    AND s1.id + 2 = s3.id)
+    OR 
+    (s1.id - 1 = s2.id
+    AND s1.id + 1 = s3.id)
+    OR
+    (s1.id - 2 = s2.id
+    AND s1.id - 1 = s3.id)
+    )
+    AND s1.people&gt;=100 
+    AND s2.people&gt;=100
+    AND s3.people&gt;=100
+
+ GROUP BY s1.id
+
+</code></pre>
+<h2 id="子查询">子查询</h2>
+<p><strong>需要临时表完成操作</strong></p>
+<h3 id="183-从不订购的客户"><a href="https://leetcode-cn.com/problems/customers-who-never-order/">183. 从不订购的客户</a></h3>
+<p>在订单表从来没有记录</p>
+<pre><code class="language-mysql">SELECT cu.Name AS Customers
+FROM Customers cu where cu.id  not in  (select CustomerId from Orders);
+</code></pre>
+<h3 id="619-只出现一次的最大数字"><a href="https://leetcode-cn.com/problems/biggest-single-number/">619. 只出现一次的最大数字</a></h3>
+<p>表 my_numbers 的 num 字段包含很多数字，其中包括很多重复的数字。</p>
+<p>你能写一个 SQL 查询语句，找到只出现过一次的数字中，最大的一个数字吗？</p>
+<pre><code>+---+
+|num|
++---+
+| 8 |
+| 8 |
+| 3 |
+| 3 |
+| 1 |
+| 4 |
+| 5 |
+| 6 | 
+</code></pre>
+<p>对于上面给出的样例数据，你的查询语句应该返回如下结果：</p>
+<pre><code>+---+
+|num|
++---+
+| 6 |
+</code></pre>
+<p>注意：</p>
+<p>如果没有只出现一次的数字，输出 null 。</p>
+<p>最外层的select是为了输出null</p>
+<pre><code class="language-mysql">SELECT (
+		SELECT num
+		FROM (
+			SELECT num
+			FROM my_numbers
+			GROUP BY num
+			HAVING COUNT(num) = 1
+		) t
+		ORDER BY t.num DESC
+		LIMIT 1
+	) AS num
+</code></pre>
+<h3 id="585-2016年的投资"><a href="https://leetcode-cn.com/problems/investments-in-2016/">585. 2016年的投资</a></h3>
+<p>写一个查询语句，将 2016 年 (TIV_2016) 所有成功投资的金额加起来，保留 2 位小数。</p>
+<p>对于一个投保人，他在 2016 年成功投资的条件是：</p>
+<p>他在 2015 年的投保额 (TIV_2015) 至少跟一个其他投保人在 2015 年的投保额相同。<br>
+他所在的城市必须与其他投保人都不同（也就是说维度和经度不能跟其他任何一个投保人完全相同）。<br>
+输入格式:<br>
+表 insurance 格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PID</td>
+<td>INTEGER(11)</td>
+</tr>
+<tr>
+<td>TIV_2015</td>
+<td>NUMERIC(15,2)</td>
+</tr>
+<tr>
+<td>TIV_2016</td>
+<td>NUMERIC(15,2)</td>
+</tr>
+<tr>
+<td>LAT</td>
+<td>NUMERIC(5,2)</td>
+</tr>
+<tr>
+<td>LON</td>
+<td>NUMERIC(5,2)</td>
+</tr>
+</tbody>
+</table>
+<p>PID 字段是投保人的投保编号， TIV_2015 是该投保人在2015年的总投保金额， TIV_2016 是该投保人在2016年的投保金额， LAT 是投保人所在城市的维度， LON 是投保人所在城市的经度。</p>
+<p>样例输入</p>
+<table>
+<thead>
+<tr>
+<th>PID</th>
+<th>TIV_2015</th>
+<th>TIV_2016</th>
+<th>LAT</th>
+<th>LON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>5</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>10</td>
+<td>30</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>4</td>
+<td>10</td>
+<td>40</td>
+<td>40</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p>样例输出null</p>
+<table>
+<thead>
+<tr>
+<th>TIV_2016</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>45.00</td>
+</tr>
+</tbody>
+</table>
+<p>解释</p>
+<p>就如最后一个投保人，第一个投保人同时满足两个条件：</p>
+<ol>
+<li>他在 2015 年的投保金额 TIV_2015 为 '10' ，与第三个和第四个投保人在 2015 年的投保金额相同。</li>
+<li>他所在城市的经纬度是独一无二的。</li>
+</ol>
+<p>第二个投保人两个条件都不满足。他在 2015 年的投资 TIV_2015 与其他任何投保人都不相同。<br>
+且他所在城市的经纬度与第三个投保人相同。基于同样的原因，第三个投保人投资失败。</p>
+<p>所以返回的结果是第一个投保人和最后一个投保人的 TIV_2016 之和，结果是 45 。</p>
+<pre><code class="language-mysql">   select ROUND(SUM(TIV_2016),2) as  TIV_2016 
+    from insurance
+    where (LAT,LON) not IN
+    (
+        select LAT,LON from insurance
+        group by LAT,LON
+        having count(PID) &gt; 1
+    )
+    and TIV_2015 IN
+    (
+        select TIV_2015 from insurance
+        group by TIV_2015
+        having count(PID) &gt; 1
+    )
+</code></pre>
+<h3 id="178-分数排名"><a href="https://leetcode-cn.com/problems/rank-scores/">178. 分数排名</a></h3>
+<p>编写一个 SQL 查询来实现分数排名。如果两个分数相同，则两个分数排名（Rank）相同。请注意，平分后的下一个名次应该是下一个连续的整数值。换句话说，名次之间不应该有“间隔”。</p>
+<pre><code>+----+-------+
+| Id | Score |
++----+-------+
+| 1  | 3.50  |
+| 2  | 3.65  |
+| 3  | 4.00  |
+| 4  | 3.85  |
+| 5  | 4.00  |
+| 6  | 3.65  |
++----+-------+
+</code></pre>
+<p>例如，根据上述给定的 Scores 表，你的查询应该返回（按分数从高到低排列）：</p>
+<pre><code>+-------+------+
+| Score | Rank |
++-------+------+
+| 4.00  | 1    |
+| 4.00  | 1    |
+| 3.85  | 2    |
+| 3.65  | 3    |
+| 3.65  | 3    |
+| 3.50  | 4    |
++-------+------+
+</code></pre>
+<pre><code class="language-mysql">SELECT
+	Score,
+	( SELECT count( DISTINCT score ) FROM Scores WHERE score &gt;= s.score ) AS Rank 
+FROM
+	Scores s 
+ORDER BY
+	Score DESC;
+</code></pre>
+<h3 id="185-部门工资前三高的员工"><a href="https://leetcode-cn.com/problems/department-top-three-salaries/">185. 部门工资前三高的员工</a></h3>
+<p>Employee 表包含所有员工信息，每个员工有其对应的工号 Id，姓名 Name，工资 Salary 和部门编号 DepartmentId 。</p>
+<pre><code>+----+-------+--------+--------------+
+| Id | Name  | Salary | DepartmentId |
++----+-------+--------+--------------+
+| 1  | Joe   | 85000  | 1            |
+| 2  | Henry | 80000  | 2            |
+| 3  | Sam   | 60000  | 2            |
+| 4  | Max   | 90000  | 1            |
+| 5  | Janet | 69000  | 1            |
+| 6  | Randy | 85000  | 1            |
+| 7  | Will  | 70000  | 1            |
++----+-------+--------+--------------+
+</code></pre>
+<p>Department 表包含公司所有部门的信息。</p>
+<pre><code>+----+----------+
+| Id | Name     |
++----+----------+
+| 1  | IT       |
+| 2  | Sales    |
++----+----------+
+</code></pre>
+<p>编写一个 SQL 查询，找出每个部门获得前三高工资的所有员工。例如，根据上述给定的表，查询结果应返回：</p>
+<pre><code>+------------+----------+--------+
+| Department | Employee | Salary |
++------------+----------+--------+
+| IT         | Max      | 90000  |
+| IT         | Randy    | 85000  |
+| IT         | Joe      | 85000  |
+| IT         | Will     | 70000  |
+| Sales      | Henry    | 80000  |
+| Sales      | Sam      | 60000  |
++------------+----------+--------+
+</code></pre>
+<p>解释：</p>
+<p>IT 部门中，Max 获得了最高的工资，Randy 和 Joe 都拿到了第二高的工资，Will 的工资排第三。销售部门（Sales）只有两名员工，Henry 的工资最高，Sam 的工资排第二。</p>
+<p>在where中使用子查询。</p>
+<pre><code class="language-mysql">SELECT d.Name AS Department, e.Name AS Employee, e.Salary AS Salary
+FROM Employee e
+	INNER JOIN Department d on e.DepartmentId = d.Id
+WHERE (
+	SELECT COUNT( distinct Salary)
+	FROM Employee
+	WHERE Salary &gt; e.Salary
+		AND DepartmentId = e.DepartmentId
+) &lt; 3
+ORDER BY Department, Salary DESC
+</code></pre>
+<h2 id="group-by">Group by</h2>
+<p><strong>根据其他条件筛选某一列。</strong></p>
+<h3 id="586-订单最多的客户"><a href="https://leetcode-cn.com/problems/customer-placing-the-largest-number-of-orders/">586. 订单最多的客户</a></h3>
+<p>group by</p>
+<pre><code class="language-mysql">SELECT customer_number
+FROM orders
+GROUP BY customer_number
+ORDER BY COUNT(order_number) DESC
+LIMIT 1
+</code></pre>
+<h3 id="596-超过5名学生的课"><a href="https://leetcode-cn.com/problems/classes-more-than-5-students/">596. 超过5名学生的课</a></h3>
+<pre><code class="language-mysql">		SELECT class
+		FROM courses
+		GROUP BY class
+		HAVING COUNT(DISTINCT student) &gt;= 5
+</code></pre>
+<h3 id="1045-买下所有产品的客户"><a href="https://leetcode-cn.com/problems/customers-who-bought-all-products/">1045. 买下所有产品的客户</a></h3>
+<pre><code>Customer 表：
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| customer_id | innullt     |
+| product_key | int     |
++-------------+---------+
+product_key 是 Product 表的外键。
+Product 表：
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| product_key | int     |
++-------------+---------+
+product_key 是这张表的主键。
+</code></pre>
+<p>写一条 SQL 查询语句，从 Customer 表中查询购买了 Product 表中所有产品的客户的 id。</p>
+<p>示例：</p>
+<pre><code>Customer 表：
++-------------+-------------+
+| customer_id | product_key |
++-------------+-------------+
+| 1           | 5           |
+| 2           | 6           |
+| 3           | 5           |
+| 3           | 6           |
+| 1           | 6           |
++-------------+-------------+
+
+Product 表：
++-------------+
+| product_key |
++-------------+
+| 5           |
+| 6           |
++-------------+
+
+Result 表：
++-------------+
+| customer_id |
++-------------+
+| 1           |
+| 3           |
++-------------+
+</code></pre>
+<p>购买了所有产品（5 和 6）的客户的 id 是 1 和 3 。</p>
+<p>写一条 SQL 查询语句，从 <code>Customer</code> 表中查询购买了 <code>Product</code> 表中所有产品的客户的 id。</p>
+<pre><code class="language-mysql">SELECT customer_id
+FROM Customer
+GROUP BY customer_id
+HAVING COUNT(DISTINCT product_key) = (
+	SELECT COUNT(DISTINCT product_key)
+	FROM Product
+);
+</code></pre>
+<h3 id="574-当选者票数最高的人"><a href="https://leetcode-cn.com/problems/winning-candidate/">574. 当选者/票数最高的人</a></h3>
+<p>表: <code>Candidate</code></p>
+<pre><code>+-----+---------+
+| id  | Name    |
++-----+---------+
+| 1   | A       |
+| 2   | B       |
+| 3   | C       |
+| 4   | D       |
+| 5   | E       |
++-----+---------+  
+</code></pre>
+<p>表: <code>Vote</code></p>
+<pre><code>+-----+--------------+
+| id  | CandidateId  |
++-----+--------------+
+| 1   |     2        |
+| 2   |     4        |
+| 3   |     3        |
+| 4   |     2        |
+| 5   |     5        |
++-----+--------------+
+id 是自动递增的主键，
+CandidateId 是 Candidate 表中的 id.
+</code></pre>
+<p>请编写 sql 语句来找到当选者的名字，上面的例子将返回当选者 <code>B</code>.</p>
+<pre><code>+------+
+| Name |
++------+
+| B    |
++------+
+</code></pre>
+<p><strong>注意:</strong></p>
+<ol>
+<li>你可以假设<strong>没有平局</strong>，换言之，<strong>最多</strong>只有一位当选者。</li>
+</ol>
+<pre><code class="language-mysql">SELECT Name
+FROM Candidate
+WHERE id = (
+	SELECT CandidateId
+	FROM Vote
+	GROUP BY CandidateId
+	ORDER BY count(1) DESC
+	LIMIT 1
+) 
+
+</code></pre>
+<h3 id="578-查询回答率最高的问题"><a href="https://leetcode-cn.com/problems/get-highest-answer-rate-question/">578. 查询回答率最高的问题</a></h3>
+<p>从 survey_log 表中获得回答率最高的问题，<code>survey_log</code> 表包含这些列：<strong>uid, action, question_id, answer_id, q_num, timestamp</strong></p>
+<p>uid 表示用户 id；action 有以下几种值：&quot;show&quot;，&quot;answer&quot;，&quot;skip&quot;；当 action 值为 &quot;answer&quot; 时 answer_id 非空，而 action 值为 &quot;show&quot; 或者 &quot;skip&quot; 时 answer_id 为空；q_num 表示当前会话中问题的编号。</p>
+<p>请编写SQL查询来找到具有最高回答率的问题。</p>
+<p>示例:</p>
+<p>输入:</p>
+<pre><code>+------+-----------+--------------+------------+-----------+------------+
+| uid  | action    | question_id  | answer_id  | q_num     | timestamp  |
++------+-----------+--------------+------------+-----------+------------+
+| 5    | show      | 285          | null       | 1         | 123        |
+| 5    | answer    | 285          | 124124     | 1         | 124        |
+| 5    | show      | 369          | null       | 2         | 125        |
+| 5    | skip      | 369          | null       | 2         | 126        |
++------+-----------+--------------+------------+-----------+------------+
+输出:
++-------------+
+| survey_log  |
++-------------+
+|    285      |
++-------------+
+</code></pre>
+<p>解释:<br>
+问题285的回答率为 1/1，而问题369回答率为 0/1，因此输出285。</p>
+<p>解释:<br>
+问题285的回答率为 1/1，而问题369回答率为 0/1，因此输出285。</p>
+<p>注意: 回答率最高的含义是：同一问题编号中回答数占显示数的比例。</p>
+<pre><code class="language-mysql">SELECT question_id AS survey_log
+FROM survey_log
+GROUP BY question_id
+ORDER BY SUM(CASE 
+	WHEN action = 'answer' THEN 1
+	ELSE 0
+END) / SUM(CASE 
+	WHEN action = 'show' THEN 1
+	ELSE 0
+END) DESC
+LIMIT 1;
+
+# 或者count
+SELECT question_id AS survey_log
+FROM survey_log
+GROUP BY question_id
+ORDER BY COUNT(action = 'answer'
+OR NULL) / COUNT(action = 'show'
+OR NULL) DESC
+LIMIT 1;
+</code></pre>
+<h2 id="筛选至少">筛选至少</h2>
+<p>思路都是group by/子查询</p>
+<h3 id="1050-合作过至少三次的演员和导演"><a href="https://leetcode-cn.com/problems/actors-and-directors-who-cooperated-at-least-three-times/">1050. 合作过至少三次的演员和导演</a></h3>
+<p>ActorDirector 表：</p>
+<pre><code>+-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| actor_id    | int     |
+| director_id | int     |
+| timestamp   | int     |
++-------------+---------+
+</code></pre>
+<p>timestamp 是这张表的主键.</p>
+<p>写一条SQL查询语句获取合作过至少三次的演员和导演的 id 对 <code>(actor_id, director_id)</code></p>
+<p>示例：</p>
+<p>ActorDirector 表：</p>
+<pre><code>+-------------+-------------+-------------+
+| actor_id    | director_id | timestamp   |
++-------------+-------------+-------------+
+| 1           | 1           | 0           |
+| 1           | 1           | 1           |
+| 1           | 1           | 2           |
+| 1           | 2           | 3           |
+| 1           | 2           | 4           |
+| 2           | 1           | 5           |
+| 2           | 1           | 6           |
++-------------+-------------+-------------+
+</code></pre>
+<p>Result 表：</p>
+<p>唯一的 id 对是 (1, 1)，他们恰好合作了 3 次。</p>
+<pre><code>+-------------+-------------+
+| actor_id    | director_id |
++-------------+-------------+
+| 1           | 1           |
++-------------+-------------+
+</code></pre>
+<p>对where语句使用子查询</p>
+<pre><code class="language-mysql">SELECT DISTINCT actor_id AS ACTOR_ID, director_id AS DIRECTOR_ID
+FROM ActorDirector a
+WHERE (
+	SELECT COUNT(1)
+	FROM ActorDirector
+	WHERE actor_id = a.actor_id
+		AND director_id = a.director_id
+) &gt;= 3
+</code></pre>
+<blockquote>
+<p>distinct可以作用于多列</p>
+</blockquote>
+<p>group by</p>
+<pre><code class="language-mysql">SELECT DISTINCT actor_id AS ACTOR_ID, director_id AS DIRECTOR_ID
+FROM ActorDirector a
+GROUP BY a.actor_id, a.director_id
+HAVING COUNT(1) &gt;= 3
+</code></pre>
+<h3 id="570-至少有5名直接下属的经理"><a href="https://leetcode-cn.com/problems/managers-with-at-least-5-direct-reports/">570. 至少有5名直接下属的经理</a></h3>
+<p>Employee 表包含所有员工和他们的经理。每个员工都有一个 Id，并且还有一列是经理的 Id。</p>
+<pre><code>+------+----------+-----------+----------+
+|Id    |Name 	  |Department |ManagerId |
++------+----------+-----------+----------+
+|101   |John 	  |A 	      |null      |
+|102   |Dan 	  |A 	      |101       |
+|103   |James 	  |A 	      |101       |
+|104   |Amy 	  |A 	      |101       |
+|105   |Anne 	  |A 	      |101       |
+|106   |Ron 	  |B 	      |101       |
++------+----------+-----------+----------+
+</code></pre>
+<p>给定 Employee 表，请编写一个SQL查询来查找至少有5名直接下属的经理。对于上表，您的SQL查询应该返回：</p>
+<pre><code>+-------+
+| Name  |
++-------+
+| John  |
++-------+
+</code></pre>
+<p>对where语句使用子查询</p>
+<pre><code class="language-mysql">SELECT DISTINCT Name
+FROM Employee e
+WHERE (
+	SELECT COUNT(1)
+	FROM Employee
+	WHERE ManagerId = e.id
+) &gt;= 5
+</code></pre>
+<p>group by</p>
+<pre><code class="language-mysql">SELECT Name
+FROM Employee
+WHERE Id IN (
+	SELECT ManagerId
+	FROM Employee e
+	GROUP BY e.ManagerId
+	HAVING COUNT(1) &gt;= 5
+)
+</code></pre>
+<h2 id="case-when">CASE WHEN</h2>
+<p>case when() then else end</p>
+<p>可以用在任何需要的地方</p>
+<h3 id="610-判断三角形"><a href="https://leetcode-cn.com/problems/triangle-judgement/">610. 判断三角形</a></h3>
+<pre><code class="language-mysql">SELECT x, y, z
+	, CASE 
+		WHEN (x + y &gt; z
+		AND x + z &gt; y
+		AND z + y &gt; x) THEN 'Yes'
+		ELSE 'No'
+	END AS triangle
+FROM triangle
+</code></pre>
+<h3 id="627-交换工资"><a href="https://leetcode-cn.com/problems/swap-salary/">627. 交换工资</a></h3>
+<p>给定一个 salary 表，如下所示，有 m = 男性 和 f = 女性 的值。交换所有的 f 和 m 值（例如，将所有 f 值更改为 m，反之亦然）。要求只使用一个更新（Update）语句，并且没有中间的临时表。</p>
+<p>注意，您必只能写一个 Update 语句，请不要编写任何 Select 语句。</p>
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>sex</th>
+<th>salary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td>m</td>
+<td>2500</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>f</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>3</td>
+<td>C</td>
+<td>m</td>
+<td>5500</td>
+</tr>
+<tr>
+<td>4</td>
+<td>D</td>
+<td>f</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<p>运行你所编写的更新语句之后，将会得到以下表:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>sex</th>
+<th>salary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td>f</td>
+<td>2500</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>m</td>
+<td>1500</td>
+</tr>
+<tr>
+<td>3</td>
+<td>C</td>
+<td>f</td>
+<td>5500</td>
+</tr>
+<tr>
+<td>4</td>
+<td>D</td>
+<td>m</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mysql">UPDATE salary
+SET
+    sex = CASE sex
+        WHEN 'm' THEN 'f'
+        ELSE 'm'
+    END;
+
+</code></pre>
+<h3 id="626-换座位"><a href="https://leetcode-cn.com/problems/exchange-seats/">626. 换座位</a></h3>
+<p>小美是一所中学的信息科技老师，她有一张 seat 座位表，平时用来储存学生名字和与他们相对应的座位 id。</p>
+<p>其中纵列的 id 是连续递增的</p>
+<p>小美想改变相邻俩学生的座位。</p>
+<p>你能不能帮她写一个 SQL query 来输出小美想要的结果呢？</p>
+<p>示例：</p>
+<pre><code>+---------+---------+
+|    id   | student |
++---------+---------+
+|    1    | Abbot   |
+|    2    | Doris   |
+|    3    | Emerson |
+|    4    | Green   |
+|    5    | Jeames  |
++---------+---------+
+</code></pre>
+<p>假如数据输入的是上表，则输出结果如下：</p>
+<pre><code>+---------+---------+
+|    id   | student |
++---------+---------+
+|    1    | Doris   |
+|    2    | Abbot   |
+|    3    | Green   |
+|    4    | Emerson |
+|    5    | Jeames  |
++---------+---------+
+</code></pre>
+<pre><code class="language-mysql">SELECT (CASE 
+            WHEN MOD(id,2) = 1 AND id = (SELECT COUNT(*) FROM seat) THEN id
+            WHEN MOD(id,2) = 1 THEN id+1
+            ElSE id-1
+        END) AS id, student
+FROM seat
+ORDER BY id;
+</code></pre>
+<h2 id="limit-offsetcount">Limit offset，count</h2>
+<h4 id="176第二高的薪水"><a href="https://leetcode-cn.com/problems/second-highest-salary">176.第二高的薪水</a></h4>
+<p>limit offset</p>
+<pre><code class="language-mysql"># 函数
+SELECT
+    IFNULL(
+      (SELECT DISTINCT Salary
+       FROM Employee
+       ORDER BY Salary DESC
+        LIMIT 1 OFFSET 1),                       # limit 1,1 
+    NULL) AS SecondHighestSalary;
+
+
+# 子查询 注意distinct 的作用
+SELECT
+    (SELECT DISTINCT
+            Salary
+        FROM
+            Employee
+        ORDER BY Salary DESC
+        LIMIT 1 OFFSET 1) AS SecondHighestSalary
+;
+
+</code></pre>
+<h4 id="177-第n高的薪水"><a href="https://leetcode-cn.com/problems/nth-highest-salary/">177. 第N高的薪水</a></h4>
+<p>和第二高的薪水一样的，稍微麻烦一点的是，是在mysql函数中，需要Set M = N-1;</p>
+<pre><code class="language-mysql">CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+# 定义M为INT类型
+Declare M INT;
+# M为N-1，在查询语句直接写(N-1)会报语法错误
+Set M = N-1;
+  RETURN (
+      # Write your MySQL query statement below.
+         SELECT
+      ( SELECT DISTINCT
+            Salary
+        FROM
+            Employee
+        ORDER BY Salary DESC
+        LIMIT M,1) 
+  );
+END
+
+</code></pre>
+<h2 id="统计xx率">统计xx率</h2>
+<h3 id="262-行程和用户"><a href="https://leetcode-cn.com/problems/trips-and-users/">262. 行程和用户</a></h3>
+<p>Trips 表中存所有出租车的行程信息。每段行程有唯一键 Id，Client_Id 和 Driver_Id 是 Users 表中 Users_Id 的外键。Status 是枚举类型，枚举成员为 (‘completed’, ‘cancelled_by_driver’, ‘cancelled_by_client’)。</p>
+<pre><code>+----+-----------+-----------+---------+--------------------+----------+
+| Id | Client_Id | Driver_Id | City_Id |        Status      |Request_at|
++----+-----------+-----------+---------+--------------------+----------+
+| 1  |     1     |    10     |    1    |     completed      |2013-10-01|
+| 2  |     2     |    11     |    1    | cancelled_by_driver|2013-10-01|
+| 3  |     3     |    12     |    6    |     completed      |2013-10-01|
+| 4  |     4     |    13     |    6    | cancelled_by_client|2013-10-01|
+| 5  |     1     |    10     |    1    |     completed      |2013-10-02|
+| 6  |     2     |    11     |    6    |     completed      |2013-10-02|
+| 7  |     3     |    12     |    6    |     completed      |2013-10-02|
+| 8  |     2     |    12     |    12   |     completed      |2013-10-03|
+| 9  |     3     |    10     |    12   |     completed      |2013-10-03| 
+| 10 |     4     |    13     |    12   | cancelled_by_driver|2013-10-03|
++----+-----------+-----------+---------+--------------------+----------+
+</code></pre>
+<p>Users 表存所有用户。每个用户有唯一键 Users_Id。Banned 表示这个用户是否被禁止，Role 则是一个表示（‘client’, ‘driver’, ‘partner’）的枚举类型。</p>
+<pre><code>+----------+--------+--------+
+| Users_Id | Banned |  Role  |
++----------+--------+--------+
+|    1     |   No   | client |
+|    2     |   Yes  | client |
+|    3     |   No   | client |
+|    4     |   No   | client |
+|    10    |   No   | driver |
+|    11    |   No   | driver |
+|    12    |   No   | driver |
+|    13    |   No   | driver |
++----------+--------+--------+
+</code></pre>
+<p>写一段 SQL 语句查出 2013年10月1日 至 2013年10月3日 期间非禁止用户的取消率。基于上表，你的 SQL 语句应返回如下结果，取消率（Cancellation Rate）保留两位小数。</p>
+<pre><code>+------------+-------------------+
+|     Day    | Cancellation Rate |
++------------+-------------------+
+| 2013-10-01 |       0.33        |
+| 2013-10-02 |       0.00        |
+| 2013-10-03 |       0.50        |
++------------+-------------------+
+</code></pre>
+<pre><code class="language-mysql"># 子查询
+select t.request_at Day,   (
+        round(count(if(status != 'completed', status, null)) / count(status), 2)
+    ) as 'Cancellation Rate' 
+    
+    from Trips t  
+where
+    t.Request_at &gt;= '2013-10-01'
+and
+    t.Request_at &lt;= '2013-10-03'
+and (select Banned from Users where Users_Id = t.Client_Id) != 'Yes' 
+group by Request_at;
+
+
+# 表连接
+select
+    t.request_at Day, 
+    (
+        round(count(if(status != 'completed', status, null)) / count(status), 2)
+    ) as 'Cancellation Rate'
+from
+    Users u inner join Trips t
+on
+    u.Users_id = t.Client_Id
+and
+    u.banned != 'Yes'
+where
+    t.Request_at &gt;= '2013-10-01'
+and
+    t.Request_at &lt;= '2013-10-03'
+group by
+    t.Request_at;
+</code></pre>
+<h3 id="597-好友申请-i-总体通过率"><a href="https://leetcode-cn.com/problems/friend-requests-i-overall-acceptance-rate/">597. 好友申请 I ：总体通过率</a></h3>
+<p>在 Facebook 或者 Twitter 这样的社交应用中，人们经常会发好友申请也会收到其他人的好友申请。现在给如下两个表：</p>
+<p>表： friend_request</p>
+<table>
+<thead>
+<tr>
+<th>sender_id</th>
+<th>send_to_id</th>
+<th>request_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2016_06-01</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>2016_06-01</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>2016_06-01</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>2016_06-02</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>2016-06-09</td>
+</tr>
+</tbody>
+</table>
+<p>表： request_accepted</p>
+<table>
+<thead>
+<tr>
+<th>requester_id</th>
+<th>accepter_id</th>
+<th>accept_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2016_06-03</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>2016-06-08</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>2016-06-08</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>2016-06-09</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>2016-06-10</td>
+</tr>
+</tbody>
+</table>
+<p>写一个查询语句，求出好友申请的通过率，用 2 位小数表示。通过率由接受好友申请的数目除以申请总数。</p>
+<p>注意,每张表都可能有重复</p>
+<pre><code class="language-mysql">SELECT round(ifnull((
+		SELECT COUNT(DISTINCT concat(requester_id, '-', accepter_id))
+		FROM request_accepted
+	) / (
+		SELECT COUNT(DISTINCT concat(sender_id, '-', send_to_id))
+		FROM friend_request
+	), 0), 2) AS accept_rate
+</code></pre>
+<h2 id="子查询与表连接">子查询与表连接</h2>
+<p>这两个往往可以转换</p>
+<h3 id="607-销售员"><a href="https://leetcode-cn.com/problems/sales-person/">607. 销售员</a></h3>
+<p>描述</p>
+<p>给定 3 个表： salesperson， company， orders。<br>
+输出所有表 salesperson 中，没有向公司 'RED' 销售任何东西的销售员。</p>
+<p>解释输入</p>
+<p>表： salesperson</p>
+<pre><code>+----------+------+--------+-----------------+-----------+
+| sales_id | name | salary | commission_rate | hire_date |
++----------+------+--------+-----------------+-----------+
+|   1      | John | 100000 |     6           | 4/1/2006  |
+|   2      | Amy  | 120000 |     5           | 5/1/2010  |
+|   3      | Mark | 65000  |     12          | 12/25/2008|
+|   4      | Pam  | 25000  |     25          | 1/1/2005  |
+|   5      | Alex | 50000  |     10          | 2/3/2007  |
++----------+------+--------+-----------------+-----------+
+</code></pre>
+<p>表 salesperson 存储了所有销售员的信息。每个销售员都有一个销售员编号 sales_id 和他的名字 name 。</p>
+<p>表： company</p>
+<pre><code>+---------+--------+------------+
+| com_id  |  name  |    city    |
++---------+--------+------------+
+|   1     |  RED   |   Boston   |
+|   2     | ORANGE |   New York |
+|   3     | YELLOW |   Boston   |
+|   4     | GREEN  |   Austin   |
++---------+--------+------------+
+</code></pre>
+<p>表 company 存储了所有公司的信息。每个公司都有一个公司编号 com_id 和它的名字 name 。</p>
+<p>表： orders</p>
+<pre><code>+----------+------------+---------+----------+--------+
+| order_id | order_date | com_id  | sales_id | amount |
++----------+------------+---------+----------+--------+
+| 1        |   1/1/2014 |    3    |    4     | 100000 |
+| 2        |   2/1/2014 |    4    |    5     | 5000   |
+| 3        |   3/1/2014 |    1    |    1     | 50000  |
+| 4        |   4/1/2014 |    1    |    4     | 25000  |
++----------+----------+---------+----------+--------+
+</code></pre>
+<p>表 orders 存储了所有的销售数据，包括销售员编号 sales_id 和公司编号 com_id 。</p>
+<p>输出</p>
+<pre><code>+------+
+| name | 
++------+
+| Amy  | 
+| Mark | 
+| Alex |
++------+
+</code></pre>
+<p>解释</p>
+<p>根据表 orders 中的订单 '3' 和 '4' ，容易看出只有 'John' 和 'Pam' 两个销售员曾经向公司 'RED' 销售过。</p>
+<p>所以我们需要输出表 salesperson 中所有其他人的名字。</p>
+<p>表连接</p>
+<pre><code class="language-mysql">SELECT name
+FROM salesperson
+WHERE sales_id NOT IN (
+	SELECT DISTINCT sales_id
+	FROM (
+		SELECT name, sales_id
+		FROM orders o
+			LEFT JOIN company c ON o.com_id = c.com_id
+	) t
+	WHERE t.name = 'RED'
+);
+</code></pre>
+<p>子查询</p>
+<pre><code class="language-mysql">SELECT name
+FROM salesperson
+WHERE sales_id NOT IN (
+	SELECT DISTINCT sales_id
+	FROM orders
+	WHERE com_id = (
+		SELECT com_id
+		FROM company
+		WHERE name = 'RED'
+	)
+);
+</code></pre>
+<h3 id="184-部门工资最高的员工"><a href="https://leetcode-cn.com/problems/department-highest-salary/">184. 部门工资最高的员工</a></h3>
+<p>Employee 表包含所有员工信息，每个员工有其对应的 Id, salary 和 department Id。</p>
+<pre><code>+----+-------+--------+--------------+
+| Id | Name  | Salary | DepartmentId |
++----+-------+--------+--------------+
+| 1  | Joe   | 70000  | 1            |
+| 2  | Henry | 80000  | 2            |
+| 3  | Sam   | 60000  | 2            |
+| 4  | Max   | 90000  | 1            |
++----+-------+--------+--------------+
+</code></pre>
+<p>Department 表包含公司所有部门的信息。</p>
+<pre><code>+----+----------+
+| Id | Name     |
++----+----------+
+| 1  | IT       |
+| 2  | Sales    |
++----+----------+
+</code></pre>
+<p>编写一个 SQL 查询，找出每个部门工资最高的员工。例如，根据上述给定的表格，Max 在 IT 部门有最高工资，Henry 在 Sales 部门有最高工资。</p>
+<pre><code>+------------+----------+--------+
+| Department | Employee | Salary |
++------------+----------+--------+
+| IT         | Max      | 90000  |
+| Sales      | Henry    | 80000  |
++------------+----------+--------+
+</code></pre>
+<pre><code class="language-mysql">SELECT d.Name AS Department, e.Name AS Employee, e.Salary AS Salary
+FROM Employee e
+	INNER JOIN Department d on e.DepartmentId = d.Id
+WHERE (
+	SELECT COUNT( distinct Salary)
+	FROM Employee
+	WHERE Salary &gt; e.Salary
+		AND DepartmentId = e.DepartmentId
+) &lt; 1
+ORDER BY Department, Salary DESC
+
+
+# 另外的方式
+select 
+    d.Name as Department,
+    e.Name as Employee,
+    e.Salary 
+from 
+    Employee e,Department d 
+where
+    e.DepartmentId=d.id 
+    and
+    (e.Salary,e.DepartmentId) in (select max(Salary),DepartmentId from Employee group by DepartmentId);
+</code></pre>
+<h2 id="用户变量">用户变量</h2>
+<p>可以增加一个rank列。</p>
+<p>中位数其实就是<code>(totalcount + 1) / 2</code>，<code>(totalcount + 2) / 2</code>这个是通用的。</p>
+<h3 id="569-员工薪水中位数"><a href="https://leetcode-cn.com/problems/median-employee-salary/">569. 员工薪水中位数</a></h3>
+<p>Employee 表包含所有员工。Employee 表有三列：员工Id，公司名和薪水。</p>
+<pre><code>+-----+------------+--------+
+|Id   | Company    | Salary |
++-----+------------+--------+
+|1    | A          | 2341   |
+|2    | A          | 341    |
+|3    | A          | 15     |
+|4    | A          | 15314  |
+|5    | A          | 451    |
+|6    | A          | 513    |
+|7    | B          | 15     |
+|8    | B          | 13     |
+|9    | B          | 1154   |
+|10   | B          | 1345   |
+|11   | B          | 1221   |
+|12   | B          | 234    |
+|13   | C          | 2345   |
+|14   | C          | 2645   |
+|15   | C          | 2645   |
+|16   | C          | 2652   |
+|17   | C          | 65     |
++-----+------------+--------+
+</code></pre>
+<p>请编写SQL查询来查找每个公司的薪水中位数。挑战点：你是否可以在不使用任何内置的SQL函数的情况下解决此问题。</p>
+<pre><code>+-----+------------+--------+
+|Id   | Company    | Salary |
++-----+------------+--------+
+|5    | A          | 451    |
+|6    | A          | 513    |
+|12   | B          | 234    |
+|9    | B          | 1154   |
+|14   | C          | 2645   |
++-----+------------+--------+
+</code></pre>
+<pre><code class="language-mysql">SELECT Ranking.Id, Ranking.Company, Ranking.Salary
+FROM (
+	SELECT e.Id, e.Salary, e.Company
+		,@Rank:= IF(@prev = e.Company,  @Rank + 1,  1) AS rank
+		, @prev := e.Company
+	FROM Employee e, (
+			SELECT @prev := NULL, @Rank := 0
+		) temp
+	ORDER BY e.Company, e.Salary, e.Id
+) Ranking
+	INNER JOIN (
+		SELECT COUNT(1) AS totalcount, Company
+		FROM Employee
+		GROUP BY Company
+	) Companycount
+	ON Companycount.Company = Ranking.Company
+WHERE Rank = FLOOR((totalcount + 1) / 2)
+	OR Rank = FLOOR((totalcount + 2) / 2)
+</code></pre>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/Nxc6J5Kg9" rel="tag">leetcode</a>	
+				 
+				<a href="https://imatvoid.github.io//tag/FEI4krcFr" rel="tag">mysql</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/fan-xing-yu-pecs-yuan-ze" rel="prev"> 泛型与PECS原则</a></div>
+		 
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/git-zi-mo-kuai-de-pei-zhi-yu-shi-yong" rel="next"> git -- 子模块的配置与使用</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>
