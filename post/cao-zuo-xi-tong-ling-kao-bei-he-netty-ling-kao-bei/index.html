@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>操作系统零拷贝 和 netty 零拷贝 | Imatvoid </title>	
+
+<link rel="stylesheet" href="https://imatvoid.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();display="https://imatvoid.github.io//media/scripts/dark.css";display="https://imatvoid.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://imatvoid.github.io/" rel="home">Imatvoid </a></h1>
+										
+					<h2 class="site-description">未曾清贫难成人，不经打击老天真。    
+自古英雄出炼狱，从来富贵入凡尘。 </h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="https://imatvoid.github.io//post/about/"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">操作系统零拷贝 和 netty 零拷贝</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-10-06 14:52:22" itemprop="datePublished" pubdate="">2019-10-06</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<p><p><a href=""></a></p>
+<!-- more -->
+<h1 id="netty零拷贝">netty零拷贝</h1>
+<h2 id="操作系统的零拷贝">操作系统的零拷贝</h2>
+<blockquote>
+<p>“Zero-copy” describes computer operations in which the CPU does not perform the task of copying data from one memory area to another.</p>
+</blockquote>
+<p>“零拷贝”是指计算机操作的过程中，CPU不需要为数据在内存之间的拷贝消耗资源，它通常是指计算机在网络上发送文件时，不需要将文件内容拷贝到用户空间（User Space）而直接在内核空间（Kernel Space）操作。</p>
+<p>在发送数据的时候，传统的实现方式是：</p>
+<pre><code class="language-css">1.  `File.read(bytes)`
+2.  `Socket.send(bytes)`
+</code></pre>
+<p><img src="https://imatvoid.github.io//post-images/1570344849613.png" alt=""></p>
+<blockquote>
+<p>DMA： 是计算机科学中的一种内存访问技术。它允许某些计算机内部的硬件子系统（计算机外设），可以独立地直接读写系统内存，而不需中央处理器（CPU）介入处理 。在同等程度的处理器负担下，DMA是一种快速的数据传送方式。很多硬件的系统会使用DMA，包含硬盘控制器、绘图显卡、网卡和声卡。</p>
+</blockquote>
+<p>这种方式需要四次数据拷贝和四次上下文切换：</p>
+<ol>
+<li>数据从磁盘读取到内核的read buffer</li>
+<li>数据从内核缓冲区拷贝到用户缓冲区</li>
+<li>数据从用户缓冲区拷贝到内核的socket buffer</li>
+<li>数据从内核的socket buffer拷贝到网卡接口的缓冲区</li>
+</ol>
+<p>明显上面的第二步和第三步是没有必要的，通过java的FileChannel.transferTo方法，可以避免上面两次多余的拷贝（当然这需要底层操作系统支持）</p>
+<ol>
+<li>
+<p>调用transferTo,数据从文件由DMA引擎拷贝到kernel read buffer</p>
+<p>比如mmap映射，用户空间和内核空间公用内存，把数据存在kernel read buffer 。</p>
+</li>
+<li>
+<p>接着DMA从内核read buffer将数据拷贝到网卡接口buffer</p>
+<p>gather收集操作,从多个不同的缓冲区中读取数据,DMA引擎是可以直接从kernel read buffer中读取数据的,而不用先将数据从kernel read buffer拷贝到kernel socket buffer后再进行读取操作。</p>
+</li>
+</ol>
+<p>这样两次拷贝的操作都不需要CPU参与，所以就达到了零拷贝。</p>
+<p><img src="https://imatvoid.github.io//post-images/1570344886525.png" alt=""></p>
+<h2 id="零拷贝与netty">零拷贝与netty</h2>
+<blockquote>
+<p>聚合 拆分 包装  直接transfer</p>
+</blockquote>
+<p>netty的零拷贝主要是在用户态对数据操作的优化.</p>
+<p>Netty 的 <code>Zero-copy</code> 体现在如下几个个方面:</p>
+<ul>
+<li>Netty 提供了 <code>CompositeByteBuf</code> 类, 它可以将多个 ByteBuf 合并为一个逻辑上的 ByteBuf, 避免了各个 ByteBuf 之间的拷贝.</li>
+<li>通过 wrap 操作, 我们可以将 byte[] 数组、ByteBuf、ByteBuffer等包装成一个 Netty ByteBuf 对象, 进而避免了拷贝操作.</li>
+<li>ByteBuf 支持 slice 操作, 因此可以将 ByteBuf 分解为多个共享同一个存储区域的 ByteBuf, 避免了内存的拷贝.</li>
+<li>通过 <code>FileRegion</code> 包装的<code>FileChannel.tranferTo</code> 实现文件传输, 可以直接将文件缓冲区的数据发送到目标 <code>Channel</code>, 避免了传统通过循环 write 方式导致的内存拷贝问题.</li>
+</ul>
+<p><strong>复合缓冲区</strong> <strong>CompositeByteBuf</strong></p>
+<p>netty的ByteBuf支持复合缓冲区，为多个ByteBuf提供了一个聚合视图。在这个视图中，你可以根据需要添加或者删除ByteBuf实例，ByteBuf的子类CompositeByteBuf实现了该模式。</p>
+<p>一个适合使用复合缓冲区的场景是HTTP协议，通过HTTP协议传输的消息都会被分成两部分——头部和主体，如果这两部分由应用程序的不同模块产生，将在消息发送时进行组装，并且该应用程序还会为多个消息复用相同的消息主体，这样对于每个消息都将会创建一个新的头部，产生了很多不必要的内存操作。使用CompositeByteBuf是一个很好的选择，它消除了这些额外的复制，以帮助你复用这些消息。</p>
+<p>CompositeByteBuf透明的实现了zero-copy，zero-copy其实就是避免数据在两个内存区域中来回的复制。从操作系统层面上来讲，zero-copy指的是避免在内核态与用户态之间的数据缓冲区复制（通过mmap避免），而Netty中的zero-copy更偏向于在用户态中的数据操作的优化.</p>
+<p>使用CompositeByteBuf来复用多个ByteBuf以避免额外的复制，也可以使用wrap()方法来将一个字节数组包装成ByteBuf，又或者使用ByteBuf的slice()方法把它分割为多个共享同一内存区域的ByteBuf，这些都是为了优化内存的使用率。</p>
+<h2 id="通过-compositebytebuf-实现零拷贝">通过 CompositeByteBuf 实现零拷贝</h2>
+<p>假设我们有一份协议数据, 它由头部和消息体组成, 而头部和消息体是分别存放在两个 ByteBuf 中的, 即:</p>
+<pre><code class="language-java">ByteBuf header = ...
+ByteBuf body = ...
+</code></pre>
+<p>我们在代码处理中, 通常希望将 header 和 body 合并为一个 ByteBuf, 方便处理, 那么通常的做法是:</p>
+<pre><code class="language-java">ByteBuf allBuf = Unpooled.buffer(header.readableBytes() + body.readableBytes());
+allBuf.writeBytes(header);
+allBuf.writeBytes(body);
+</code></pre>
+<p>可以看到, 我们将 header 和 body 都拷贝到了新的 allBuf 中了, 这无形中增加了两次额外的数据拷贝操作了.</p>
+<p>那么有没有更加高效优雅的方式实现相同的目的呢? 我们来看一下 <code>CompositeByteBuf</code> 是如何实现这样的需求的吧.</p>
+<pre><code>ByteBuf header = ...
+ByteBuf body = ...
+
+CompositeByteBuf compositeByteBuf = Unpooled.compositeBuffer();
+compositeByteBuf.addComponents(true, header, body);
+</code></pre>
+<p>上面代码中, 我们定义了一个 <code>CompositeByteBuf</code> 对象, 然后调用</p>
+<pre><code>public CompositeByteBuf addComponents(boolean increaseWriterIndex, ByteBuf... buffers) {
+...
+}
+</code></pre>
+<p>方法将 <code>header</code> 与 <code>body</code> 合并为一个逻辑上的 ByteBuf, 即:</p>
+<p><img src="https://imatvoid.github.io//post-images/1570344905799.png" alt=""></p>
+<p>不过需要注意的是, 虽然看起来 CompositeByteBuf 是由两个 ByteBuf 组合而成的, 不过在 CompositeByteBuf 内部, 这两个 ByteBuf 都是单独存在的, CompositeByteBuf 只是逻辑上是一个整体.</p>
+<p>上面 <code>CompositeByteBuf</code> 代码还有一个地方值得注意的是, 我们调用 <code>addComponents(boolean increaseWriterIndex, ByteBuf... buffers)</code> 来添加两个 ByteBuf, 其中第一个参数是 <code>true</code>, 表示当添加新的 ByteBuf 时, 自动递增 CompositeByteBuf 的 <code>writeIndex</code>.</p>
+<p>如果我们调用的是</p>
+<pre><code>compositeByteBuf.addComponents(header, body);
+</code></pre>
+<p>那么其实 <code>compositeByteBuf</code> 的 <code>writeIndex</code> 仍然是0, 因此此时我们就不可能从 <code>compositeByteBuf</code> 中读取到数据, 这一点希望大家要特别注意.</p>
+<p>除了上面直接使用 <code>CompositeByteBuf</code> 类外, 我们还可以使用 <code>Unpooled.wrappedBuffer</code> 方法, 它底层封装了 <code>CompositeByteBuf</code> 操作, 因此使用起来更加方便:</p>
+<pre><code class="language-java">ByteBuf header = ...
+ByteBuf body = ...
+
+ByteBuf allByteBuf = Unpooled.wrappedBuffer(header, body);
+</code></pre>
+<h2 id="通过-wrap-操作实现零拷贝">通过 wrap 操作实现零拷贝</h2>
+<p>例如我们有一个 byte 数组, 我们希望将它转换为一个 ByteBuf 对象, 以便于后续的操作, 那么传统的做法是将此 byte 数组拷贝到 ByteBuf 中, 即:</p>
+<pre><code class="language-java">byte[] bytes = ...
+ByteBuf byteBuf = Unpooled.buffer();
+byteBuf.writeBytes(bytes);
+</code></pre>
+<p>显然这样的方式也是有一个额外的拷贝操作的, 我们可以使用 Unpooled 的相关方法, 包装这个 byte 数组, 生成一个新的 ByteBuf 实例, 而不需要进行拷贝操作. 上面的代码可以改为:</p>
+<pre><code class="language-java">byte[] bytes = ...
+ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
+</code></pre>
+<p>可以看到, 我们通过 <code>Unpooled.wrappedBuffer</code> 方法来将 bytes 包装成为一个 UnpooledHeapByteBuf 对象, 而在包装的过程中, 是不会有拷贝操作的. 即最后我们生成的生成的 ByteBuf 对象是和 bytes 数组共用了同一个存储空间, 对 bytes 的修改也会反映到 ByteBuf 对象中.</p>
+<p>Unpooled 工具类还提供了很多重载的 wrappedBuffer 方法:</p>
+<pre><code class="language-java">public static ByteBuf wrappedBuffer(byte[] array)
+public static ByteBuf wrappedBuffer(byte[] array, int offset, int length)
+
+public static ByteBuf wrappedBuffer(ByteBuffer buffer)
+public static ByteBuf wrappedBuffer(ByteBuf buffer)
+
+public static ByteBuf wrappedBuffer(byte[]... arrays)
+public static ByteBuf wrappedBuffer(ByteBuf... buffers)
+public static ByteBuf wrappedBuffer(ByteBuffer... buffers)
+
+public static ByteBuf wrappedBuffer(int maxNumComponents, byte[]... arrays)
+public static ByteBuf wrappedBuffer(int maxNumComponents, ByteBuf... buffers)
+public static ByteBuf wrappedBuffer(int maxNumComponents, ByteBuffer... buffers)
+</code></pre>
+<p>这些方法可以将一个或多个 buffer 包装为一个 ByteBuf 对象, 从而避免了拷贝操作.</p>
+<h2 id="通过-slice-操作实现零拷贝">通过 slice 操作实现零拷贝</h2>
+<p>slice 操作和 wrap 操作刚好相反, <code>Unpooled.wrappedBuffer</code> 可以将多个 ByteBuf 合并为一个, 而 slice 操作可以将一个 ByteBuf <code>切片</code> 为多个共享一个存储区域的 ByteBuf 对象.<br>
+ByteBuf 提供了两个 slice 操作方法:</p>
+<pre><code class="language-java">public ByteBuf slice();
+public ByteBuf slice(int index, int length);
+</code></pre>
+<p>不带参数的 <code>slice</code> 方法等同于 <code>buf.slice(buf.readerIndex(), buf.readableBytes())</code> 调用, 即返回 buf 中可读部分的切片. 而 <code>slice(int index, int length)</code> 方法相对就比较灵活了, 我们可以设置不同的参数来获取到 buf 的不同区域的切片.</p>
+<p>下面的例子展示了 <code>ByteBuf.slice</code> 方法的简单用法:</p>
+<pre><code class="language-java">ByteBuf byteBuf = ...
+ByteBuf header = byteBuf.slice(0, 5);
+ByteBuf body = byteBuf.slice(5, 10);
+</code></pre>
+<p>用 <code>slice</code> 方法产生 header 和 body 的过程是没有拷贝操作的, header 和 body 对象在内部其实是共享了 byteBuf 存储空间的不同部分而已. 即:</p>
+<p><img src="https://imatvoid.github.io//post-images/1570344938720.png" alt=""></p>
+<h2 id="通过-fileregion-实现零拷贝">通过 FileRegion 实现零拷贝</h2>
+<p>Netty 中使用 FileRegion 实现文件传输的零拷贝, 不过在底层 FileRegion 是依赖于 Java NIO <code>FileChannel.transfer</code> 的零拷贝功能.</p>
+<p>首先我们从最基础的 Java IO 开始吧. 假设我们希望实现一个文件拷贝的功能, 那么使用传统的方式, 我们有如下实现:</p>
+<pre><code class="language-java">public static void copyFile(String srcFile, String destFile) throws Exception {
+    byte[] temp = new byte[1024];
+    FileInputStream in = new FileInputStream(srcFile);
+    FileOutputStream out = new FileOutputStream(destFile);
+    int length;
+    while ((length = in.read(temp)) != -1) {
+        out.write(temp, 0, length);
+    }
+
+    in.close();
+    out.close();
+}
+</code></pre>
+<p>上面是一个典型的读写二进制文件的代码实现了. 不用我说, 大家肯定都知道, 上面的代码中不断中源文件中读取定长数据到 temp 数组中, 然后再将 temp 中的内容写入目的文件, 这样的拷贝操作对于小文件倒是没有太大的影响, 但是如果我们需要拷贝大文件时, 频繁的内存拷贝操作就消耗大量的系统资源了.<br>
+下面我们来看一下使用 Java NIO 的 <code>FileChannel</code> 是如何实现零拷贝的:</p>
+<pre><code class="language-java">public static void copyFileWithFileChannel(String srcFileName, String destFileName) throws Exception {
+    RandomAccessFile srcFile = new RandomAccessFile(srcFileName, &quot;r&quot;);
+    FileChannel srcFileChannel = srcFile.getChannel();
+
+    RandomAccessFile destFile = new RandomAccessFile(destFileName, &quot;rw&quot;);
+    FileChannel destFileChannel = destFile.getChannel();
+
+    long position = 0;
+    long count = srcFileChannel.size();
+
+    srcFileChannel.transferTo(position, count, destFileChannel);
+}
+</code></pre>
+<p>可以看到, 使用了 <code>FileChannel</code> 后, 我们就可以直接将源文件的内容直接拷贝(<code>transferTo</code>) 到目的文件中, 而不需要额外借助一个临时 buffer, 避免了不必要的内存操作.</p>
+<p>有了上面的一些理论知识, 我们来看一下在 Netty 中是怎么使用 <code>FileRegion</code> 来实现零拷贝传输一个文件的:</p>
+<pre><code class="language-java">@Override
+public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+    RandomAccessFile raf = null;
+    long length = -1;
+    try {
+        // 1. 通过 RandomAccessFile 打开一个文件.
+        raf = new RandomAccessFile(msg, &quot;r&quot;);
+        length = raf.length();
+    } catch (Exception e) {
+        ctx.writeAndFlush(&quot;ERR: &quot; + e.getClass().getSimpleName() + &quot;: &quot; + e.getMessage() + '\n');
+        return;
+    } finally {
+        if (length &lt; 0 &amp;&amp; raf != null) {
+            raf.close();
+        }
+    }
+
+    ctx.write(&quot;OK: &quot; + raf.length() + '\n');
+    if (ctx.pipeline().get(SslHandler.class) == null) {
+        // SSL not enabled - can use zero-copy file transfer.
+        // 2. 调用 raf.getChannel() 获取一个 FileChannel.
+        // 3. 将 FileChannel 封装成一个 DefaultFileRegion
+        ctx.write(new DefaultFileRegion(raf.getChannel(), 0, length));
+    } else {
+        // SSL enabled - cannot use zero-copy file transfer.
+        ctx.write(new ChunkedFile(raf));
+    }
+    ctx.writeAndFlush(&quot;\n&quot;);
+}
+</code></pre>
+<p>上面的代码是 Netty 的一个例子, 其源码在 <strong>netty/example/src/main/java/io/netty/example/file/FileServerHandler.java</strong><br>
+可以看到, 第一步是通过 <code>RandomAccessFile</code> 打开一个文件, 然后 Netty 使用了 <code>DefaultFileRegion</code> 来封装一个 <code>FileChannel</code> 即:</p>
+<pre><code class="language-java">new DefaultFileRegion(raf.getChannel(), 0, length)
+</code></pre>
+<p>当有了 FileRegion 后, 我们就可以直接通过它将文件的内容直接写入 Channel 中, 而不需要像传统的做法: 拷贝文件内容到临时 buffer, 然后再将 buffer 写入 Channel. 通过这样的零拷贝操作, 无疑对传输大文件很有帮助.</p>
+<h2 id="参考">参考</h2>
+<p>https://segmentfault.com/a/1190000007560884</p>
+<p>https://blog.csdn.net/u013256816/article/details/52589524</p>
+<p>https://juejin.im/entry/59b740fdf265da06633d02cf</p>
+</p>
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://imatvoid.github.io//tag/BG6MUCCNO" rel="tag">netty</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/leetcode-81-search-in-rotated-sorted-array-ii" rel="next"> leetcode -- 81. Search in Rotated Sorted Array II</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://imatvoid.github.io//images/avatar.png" ></div>
+ 
+
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://imatvoid.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://imatvoid.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="https://tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>
