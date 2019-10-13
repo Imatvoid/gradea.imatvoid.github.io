@@ -166,13 +166,13 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 <p>递归过程： 从当前节点开始，求左子树同值路径长度，再求右子树同值路径长度。</p>
 <p>基线条件，当前节点为空</p>
 <pre><code class="language-java">
-    private int maxVal = 0;
+    private int max = 0;
 
     public int longestUnivaluePath(TreeNode root) {
         if (root == null)
             return 0;
         this.helper(root, root.val);
-        return maxVal;
+        return max;
     }
 
     /**
@@ -191,7 +191,7 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
         int left = helper(node.left, node.val);
         int right = helper(node.right, node.val);
 
-        maxVal = Math.max(maxVal, left + right);
+        max = Math.max(max, left + right);
         //如果和父节点值不同返回0
         if (node.val == parentVal) {
             return Math.max(left, right) + 1;

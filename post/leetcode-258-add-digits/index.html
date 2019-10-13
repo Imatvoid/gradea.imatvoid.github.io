@@ -130,9 +130,11 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>原题链接<br>
-<a href="https://leetcode-cn.com/problems/add-digits/">https://leetcode-cn.com/problems/add-digits/</a><br>
-<a href="https://leetcode.com/problems/add-digits/">https://leetcode.com/problems/add-digits/</a></p>
+				<p><p><code>258. Add Digits</code></p>
+<p><a href="https://leetcode.com/problems/add-digits/">https://leetcode.com/problems/add-digits/</a></p>
+<p><code>258. 各位相加</code></p>
+<p><a href="https://leetcode-cn.com/problems/add-digits/">https://leetcode-cn.com/problems/add-digits/</a><br>
+<a href=""></a></p>
 <!-- more -->
 <h2 id="描述">描述</h2>
 <p>给定一个非负整数 num，反复将各个位上的数字相加，直到结果为一位数。</p>
@@ -170,14 +172,14 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 <p>所有大于9的数的树根都是对9取余，等于9的数对9取余就是0了，为了得到其本身，而且同样也要对大于9的数适用，</p>
 <p>我们就用(n-1)%9+1这个表达式来包括所有的情况。</p>
 <p>还有个特殊情况需要考虑一下，当num为0的时候，那么就会出现 -1 % 9 的情况</p>
-<pre><code class="language-java">/**
- * @Author: yangxu
- */
-public class AddDigits {
-    public int addDigits(int num) {
-        return num==0 ?  0 :(num-1)%9+1;
+<pre><code class="language-java"> public int addDigits(int num) {
+        return num == 0 ? 0 : (num - 1) % 9 + 1;
     }
-}
+
+    public int addDigits2(int num) {
+        if (num == 0) return 0;
+        return num % 9 == 0 ? 9 : num % 9;
+    }
 </code></pre>
 </p>
 							</div>
@@ -192,7 +194,7 @@ public class AddDigits {
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/she-ji-mo-shi-wai-guan-mo-shi" rel="prev"> 设计模式 -- 外观模式</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://imatvoid.github.io//post/java-bu-ke-bian-lei" rel="prev"> java不可变类</a></div>
 		 
 		 
 		<div class="wow bounceInRight nav-next3"><a href="https://imatvoid.github.io//post/shell-zhong-de-shi-yong" rel="next"> Shell中() 、(())、[]、[[]]、{}的使用</a></div>

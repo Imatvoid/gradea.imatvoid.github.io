@@ -155,6 +155,9 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
      请注意，你的答案必须是 子串 的长度，&quot;pwke&quot; 是一个子序列，不是子串。</p>
 <h3 id="思路">思路</h3>
 <p>经典的滑动窗口法.</p>
+<p>维护一个窗口和一个set集合。</p>
+<p>set无重复.end++</p>
+<p>set开始重复.start++</p>
 <pre><code class="language-java">public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) return 0;
         if (s.length() == 1) return 1;
